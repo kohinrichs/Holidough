@@ -12,7 +12,15 @@ namespace Holidough.Models
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        [MaxLength(14)]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [MaxLength(255)]
