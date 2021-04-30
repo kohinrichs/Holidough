@@ -24,5 +24,7 @@ namespace Holidough.Models
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        public Category Category { get; set; }
     }
 }

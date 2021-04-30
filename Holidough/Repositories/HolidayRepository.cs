@@ -109,6 +109,5 @@ namespace Holidough.Repositories
                 IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
             };
         }
-
     }
 }
