@@ -1,6 +1,6 @@
 ﻿using Holidough.Models;
 
-namespace Holidough
+namespace Holidough.Repositories
 {
     public interface IUserProfileRepository
     {

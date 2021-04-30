@@ -20,8 +20,8 @@ namespace Holidough.Repositories
                     using (var cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.Name AS UserProfileName, up.Email, up.UserTypeId,
-                               ut.Name AS UserTypeName
+                        SELECT up.Id, Up.FirebaseUserId, up.FirstName AS UserProfileFirstName, up.LastName AS UserProfileLastName, up.PhoneNumber, up.Email, up.UserTypeId,
+                               ut.Role AS UserTypeRole
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
                          WHERE FirebaseUserId = @FirebaseuserId";
@@ -37,13 +37,15 @@ namespace Holidough.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                Name = DbUtils.GetString(reader, "UserProfileName"),
+                                FirstName = DbUtils.GetString(reader, "UserProfileFirstName"),
+                                LastName = DbUtils.GetString(reader, "UserProfileLastName"),
+                                PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                                 UserType = new UserType()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserTypeId"),
-                                    Name = DbUtils.GetString(reader, "UserTypeName"),
+                                    Role = DbUtils.GetString(reader, "UserTypeRole"),
                                 }
                             };
                         }
@@ -61,11 +63,13 @@ namespace Holidough.Repositories
                     conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, Name, Email, UserTypeId)
+                        cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, PhoneNumber, Email, UserTypeId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirebaseUserId, @Name, @Email, @UserTypeId)";
+                                        VALUES (@FirebaseUserId, @FirstName, @LastName, @PhoneNumber, @Email, @UserTypeId)";
                         DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
-                        DbUtils.AddParameter(cmd, "@Name", userProfile.Name);
+                        DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                        DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                        DbUtils.AddParameter(cmd, "@PhoneNumber", userProfile.PhoneNumber);
                         DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                         DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
 
@@ -74,8 +78,4 @@ namespace Holidough.Repositories
                 }
             }
         }
-
-    internal interface IUserProfileRepository
-    {
-    }
 }
