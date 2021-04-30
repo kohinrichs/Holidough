@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Holidough.Repositories;
+using Microsoft.Extensions.Configuration;
 
 namespace Holidough
 {
@@ -30,6 +30,11 @@ namespace Holidough
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IPickUpDayRepository, PickUpDayRepository>();
+            services.AddTransient<IPickUpTimeRepository, PickUpTimeRepository>();
+            services.AddTransient<IHolidayRepository, HolidayRepository>();
+            services.AddTransient<IHolidayPickUpDayRepository, HolidayPickUpDayRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

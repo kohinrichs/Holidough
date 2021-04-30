@@ -30,7 +30,7 @@ namespace Holidough.Controllers
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {
-            // All newly registered users start out as a "user" user type (i.e. they are not admins)
+            // All newly registered users start out as a "customer" user type (i.e. they are not admins)
             userProfile.UserTypeId = UserType.USER_TYPE_ID;
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction(

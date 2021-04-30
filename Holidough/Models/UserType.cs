@@ -9,7 +9,7 @@ namespace Holidough.Models
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string Role { get; set; }
 
         // These read-only static properties correspond to the ID values in the database
         //  for the "Admin" and "User" user types.
