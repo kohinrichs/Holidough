@@ -47,7 +47,6 @@ namespace Holidough.Repositories
                         }
 
                         if (DbUtils.IsNotDbNull(reader, "PickUpDayId"))
-                        // if (!reader.IsDBNull(reader.GetOrdinal("PickUpDayId")))
                         {
                             holidayPickUpDays.PickUpDayNames.Add(new PickUpDay()
                             { 
@@ -62,6 +61,5 @@ namespace Holidough.Repositories
                 }
             }
         }
-
     }
 }
