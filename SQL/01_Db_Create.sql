@@ -73,7 +73,7 @@ CREATE TABLE [Holiday] (
   [Id] int PRIMARY KEY IDENTITY,
   [Name] nvarchar(255) NOT NULL,
   [Date] datetime NOT NULL,
-  [IsAvavilble] bit NOT NULL DEFAULT 1
+  [IsAvailable] bit NOT NULL DEFAULT 1
 )
 GO
 

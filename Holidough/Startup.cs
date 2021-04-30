@@ -30,6 +30,11 @@ namespace Holidough
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IPickUpDayRepository, PickUpDayRepository>();
+            services.AddTransient<IPickUpTimeRepository, PickUpTimeRepository>();
+            services.AddTransient<IHolidayRepository, HolidayRepository>();
+            services.AddTransient<IHolidayPickUpDayRepository, HolidayPickUpDayRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

@@ -13,6 +13,6 @@ namespace Holidough.Models
         public int HolidayId { get; set; }
         [Required]
         public int PickUpDayId { get; set; }
-        public List <PickUpDay> PickUpDays { get; set; }
+        public List <PickUpDay> PickUpDayNames { get; set; }
     }
 }
