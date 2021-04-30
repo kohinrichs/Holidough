@@ -25,5 +25,11 @@ namespace Holidough.Controllers
         {
             return Ok(_itemRepository.GetAllItems());
         }
+
+        [HttpGet("getbyid/{id}")]
+        public IActionResult GetItemById(int id)
+        {
+            return Ok(_itemRepository.GetItemById(id));
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Holidough.Repositories
     public interface IItemRepository
     {
         List<Item> GetAllItems();
+        Item GetItemById(int id);
     }
 }

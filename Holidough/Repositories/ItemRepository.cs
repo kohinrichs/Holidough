@@ -22,7 +22,7 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT i.Id, i.[Name], i.CategoryId, i.Description, i.Price, i.IsDeleted,
+                        SELECT i.Id, i.[Name], i.CategoryId, i.Description, i.Price, i.IsDeleted,
                         c.[Name] as CategoryName
                         FROM Item i
                         Left Join Category c on i.CategoryId = c.id 
@@ -38,6 +38,38 @@ namespace Holidough.Repositories
                     reader.Close();
 
                     return items;
+                }
+            }
+        }
+
+        // Get A Item By Id
+        public Item GetItemById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT i.Id, i.[Name], i.CategoryId, i.Description, i.Price, i.IsDeleted,
+                        c.[Name] as CategoryName
+                        FROM Item i
+                        Left Join Category c on i.CategoryId = c.id 
+                        WHERE i.Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    Item item = null;
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        item = NewItemFromDb(reader);
+                    }
+                    reader.Close();
+
+                    return item;
                 }
             }
         }
