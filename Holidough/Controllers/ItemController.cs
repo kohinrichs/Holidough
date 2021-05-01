@@ -31,5 +31,11 @@ namespace Holidough.Controllers
         {
             return Ok(_itemRepository.GetItemById(id));
         }
+
+        [HttpGet("getbycategoryid/{categoryId}")]
+        public IActionResult GetItemsByCategoryId(int categoryId)
+        {
+            return Ok(_itemRepository.GetItemsByCategoryId(categoryId));
+        }
     }
 }
