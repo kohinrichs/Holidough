@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Holidough.Repositories
 {
-    public interface IItemRepository
+    public interface IHolidayItemRepository
     {
-        List<Item> GetAllItems();
-        Item GetItemById(int id);
-        List<Item> GetItemsByCategoryId(int categoryId);
+        List<HolidayItem> GetHolidayItemsByHolidayId(int holidayId);
     }
 }

@@ -22,7 +22,7 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT i.Id, i.[Name], i.CategoryId, i.Description, i.Price, i.IsDeleted,
+                        SELECT i.Id, i.[Name], i.CategoryId, i.[Description], i.Price, i.IsDeleted,
                         c.[Name] as CategoryName
                         FROM Item i
                         Left Join Category c on i.CategoryId = c.id 
@@ -51,7 +51,7 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT i.Id, i.[Name], i.CategoryId, i.Description, i.Price, i.IsDeleted,
+                        SELECT i.Id, i.[Name], i.CategoryId, i.[Description], i.Price, i.IsDeleted,
                         c.[Name] as CategoryName
                         FROM Item i
                         Left Join Category c on i.CategoryId = c.id 
@@ -70,6 +70,39 @@ namespace Holidough.Repositories
                     reader.Close();
 
                     return item;
+                }
+            }
+        }
+
+        // Get Item By CategoryId 
+        public List<Item> GetItemsByCategoryId(int categoryId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT i.Id, i.[Name], i.CategoryId, i.[Description], i.Price, i.IsDeleted,
+                        c.[Name] as CategoryName
+                        FROM Item i
+                        Left Join Category c on i.CategoryId = c.id 
+                        WHERE i.CategoryId = @Id
+                        ORDER By i.[Name]";
+
+                    DbUtils.AddParameter(cmd, "@Id", categoryId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var items = new List<Item>();
+
+                    while (reader.Read())
+                    {
+                            items.Add(NewItemFromDb(reader));
+                    }
+                    reader.Close();
+
+                    return items;
                 }
             }
         }

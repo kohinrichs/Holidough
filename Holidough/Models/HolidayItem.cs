@@ -16,6 +16,7 @@ namespace Holidough.Models
         public int HolidayId { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
+        public Item Item { get; set; }
 
     }
 }
