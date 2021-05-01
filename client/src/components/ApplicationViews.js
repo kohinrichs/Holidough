@@ -17,8 +17,7 @@ export default function ApplicationViews() {
                     {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
                 </Route>
 
-                {/* Need to add holidayId to route */}
-                <Route path="/orderform" exact>
+                <Route path="/orderform/:id" exact>
                     {isLoggedIn ? <HolidayOrderForm /> : <Redirect to="/login" />}
                 </Route>
 
