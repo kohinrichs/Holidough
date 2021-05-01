@@ -14,7 +14,7 @@ namespace Holidough.Repositories
         public HolidayPickUpDayRepository(IConfiguration configuration) : base(configuration) { }
 
         // Get PickUp Days By Holiday Id
-        public HolidayPickUpDay GetHolidayPickUpDaysByHolidayId(int holidayId)
+        public List <HolidayPickUpDay> GetHolidayPickUpDaysByHolidayId(int holidayId)
         {
             using (var conn = Connection)
             {
@@ -32,34 +32,32 @@ namespace Holidough.Repositories
 
                     var reader = cmd.ExecuteReader();
 
-                    HolidayPickUpDay holidayPickUpDays = null;
+                    var holidayPickUpDays = new List<HolidayPickUpDay>();
 
                     while (reader.Read())
                     {
-                        if (holidayPickUpDays == null)
-                        {
-                            holidayPickUpDays = new HolidayPickUpDay()
-                            {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                HolidayId = DbUtils.GetInt(reader, "HolidayId"),
-                                PickUpDayNames = new List<PickUpDay>()
-                            };
-                        }
-
-                        if (DbUtils.IsNotDbNull(reader, "PickUpDayId"))
-                        {
-                            holidayPickUpDays.PickUpDayNames.Add(new PickUpDay()
-                            { 
-                                Id = DbUtils.GetInt(reader, "PickUpDayId"),
-                                Day = DbUtils.GetString(reader, "Day"),
-                            });
-                        }
+                        holidayPickUpDays.Add(NewHolidayPickUpDayFromDb(reader));
                     }
                     reader.Close();
 
                     return holidayPickUpDays;
                 }
             }
+        }
+
+        private HolidayPickUpDay NewHolidayPickUpDayFromDb(SqlDataReader reader)
+        {
+            return new HolidayPickUpDay()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                HolidayId = DbUtils.GetInt(reader, "HolidayId"),
+                PickUpDayId = DbUtils.GetInt(reader, "PickUpDayId"),
+                PickUpDayName = new PickUpDay()
+                {
+                    Id = DbUtils.GetInt(reader, "PickUpDayId"),
+                    Day = DbUtils.GetString(reader, "Day"),
+                }
+            };
         }
     }
 }

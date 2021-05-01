@@ -32,7 +32,7 @@ namespace Holidough.Controllers
             return Ok(_holidayRepository.GetAllAvailableHolidays());
         }
 
-        [HttpGet("getbyid/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetHolidayById(int id)
         {
             return Ok(_holidayRepository.GetHolidayById(id));

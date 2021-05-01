@@ -20,7 +20,7 @@ namespace Holidough.Controllers
             _holidayPickUpDayRepository = holidayPickUpDayRepository;
         }
 
-        [HttpGet("getbyholidayid/{holidayId}")]
+        [HttpGet("{holidayId}")]
         public IActionResult GetHolidayPickUpDaysByHolidayId(int holidayId)
         {
             return Ok(_holidayPickUpDayRepository.GetHolidayPickUpDaysByHolidayId(holidayId));

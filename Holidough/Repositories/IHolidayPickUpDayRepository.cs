@@ -8,6 +8,6 @@ namespace Holidough.Repositories
 {
     public interface IHolidayPickUpDayRepository
     {
-        HolidayPickUpDay GetHolidayPickUpDaysByHolidayId(int holidayId);
+        List <HolidayPickUpDay> GetHolidayPickUpDaysByHolidayId(int holidayId);
     }
 }

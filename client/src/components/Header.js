@@ -19,15 +19,12 @@ export default function Header() {
     return (
         <div>
             <Navbar color="dark" dark expand="md">
-                <NavbarBrand tag={RRNavLink} to="/">Grace Hopper Wisdom</NavbarBrand>
+                <NavbarBrand tag={RRNavLink} to="/">Holidough</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         {isLoggedIn &&
                             <>
-                                <NavItem>
-                                    <NavLink tag={RRNavLink} to="/add">Add Quote</NavLink>
-                                </NavItem>
                                 <NavItem>
                                     <a aria-current="page" className="nav-link"
                                         style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
@@ -45,13 +42,13 @@ export default function Header() {
                             </>
                         }
                     </Nav>
-                    <Nav navbar>
+                    {/* <Nav navbar>
                         <NavItem>
                             <a aria-current="page" className="nav-link"
                                 href="https://www.youtube.com/watch?v=3N_ywhx6_K0"
                                 target="_new">Grace Hopper on Letterman</a>
                         </NavItem>
-                    </Nav>
+                    </Nav> */}
                 </Collapse>
             </Navbar>
         </div>
