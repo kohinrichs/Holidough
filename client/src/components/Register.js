@@ -8,8 +8,8 @@ export default function Register() {
     const { register } = useContext(UserProfileContext);
 
     const [firstName, setFirstName] = useState();
-    const [lastName], setLastName = userState();
-    const [phoneNumber], setPhoneNumber = useState();
+    const [lastName, setLastName] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -30,15 +30,15 @@ export default function Register() {
             <fieldset>
                 <FormGroup>
                     <Label htmlFor="name">First Name</Label>
-                    <Input id="name" type="text" onChange={e => setFirstName(e.target.value)} />
+                    <Input id="firstName" type="text" onChange={e => setFirstName(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="name">Last Name</Label>
-                    <Input id="name" type="text" onChange={e => setLastName(e.target.value)} />
+                    <Input id="lastName" type="text" onChange={e => setLastName(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label htmlFor="name">Last Name</Label>
-                    <Input id="name" type="text" onChange={e => setPhoneNumber(e.target.value)} />
+                    <Input id="phoneNumber" type="text" onChange={e => setPhoneNumber(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label for="email">Email</Label>
