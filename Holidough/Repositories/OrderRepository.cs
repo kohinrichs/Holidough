@@ -77,6 +77,32 @@ namespace Holidough.Repositories
             }
         }
 
+        public void AddOrder(Order order)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO [ORDER] (ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime, IsPickedUp, IsCanceled)
+                        OUTPUT INSERTED.ID
+                        VALUES (@ConfirmationNumber, @DatePlaced, @UserProfileId, @HolidayId, @PickUpDateTime, @IsPickedUp, @IsCanceled)";
+
+                    DbUtils.AddParameter(cmd, "@ConfirmationNumber", order.ConfirmationNumber);
+                    DbUtils.AddParameter(cmd, "@DatePlaced", order.DatePlaced);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", order.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@HolidayId", order.HolidayId);
+                    DbUtils.AddParameter(cmd, "@PickUpDateTime", order.PickUpDateTime);
+                    DbUtils.AddParameter(cmd, "@IsPickedUp", order.IsPickedUp);
+                    DbUtils.AddParameter(cmd, "@IsCanceled", order.IsCanceled);
+
+                    order.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+
         // New Order Object From DB
         private Order NewOrderFromDb(SqlDataReader reader)
         {

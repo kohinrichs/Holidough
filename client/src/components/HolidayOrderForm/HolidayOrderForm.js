@@ -6,23 +6,26 @@ import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvide
 import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { HolidayItemCard } from "./HolidayItemCard";
+import { OrderContext } from '../../providers/OrderProvider';
 
 
 const HolidayOrderForm = () => {
+
     const { id } = useParams();
 
     const { getHolidayById } = useContext(HolidayContext);
     const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
+    const { addOrder } = useContext(OrderContext);
 
     const [holiday, setHoliday] = useState();
     const [holidayItem, setHolidayItem] = useState([]);
     const [holidayPickUpDay, setHolidayPickUpDay] = useState([]);
     const [holidayPickUpTime, setHolidayPickUpTime] = useState([]);
 
-    const [holidayPickUpDayId, setHolidayPickUpDayId] = useState();
-    const [holidayPickUpTimeId, setHolidayPickUpTimeId] = useState();
+    const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
+    const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
 
     const history = useHistory();
 
@@ -56,7 +59,16 @@ const HolidayOrderForm = () => {
         history.push('/');
     };
 
-    const handleClickSaveButton = (evt) => { }
+    const handleClickSaveButton = (evt) => {
+        const order = {
+            holidayId: parseInt(id),
+            pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
+        };
+
+        addOrder(order).then(() => {
+            history.push('/');
+        })
+    }
 
     return holiday ? (
         <Form className="container col-md-8">
@@ -65,17 +77,17 @@ const HolidayOrderForm = () => {
                 <Label for="holidayPickUpDayId">PickUp Day</Label>
                 <Input
                     type="select"
-                    name="holidayPickUpDayId"
-                    id="holidayPickUpDayId"
-                    value={holidayPickUpDayId}
+                    name="holidayPickUpDayDay"
+                    id="holidayPickUpDayDay"
+                    value={holidayPickUpDayDay}
                     onChange={(e) => {
-                        setHolidayPickUpDayId(e.target.value);
+                        setHolidayPickUpDayDay(e.target.value);
                     }}
                 >
                     <option>Select A PickUp Day</option>
                     {holidayPickUpDay.map((hpd) => {
                         return (
-                            <option key={hpd.id} value={hpd.id}>
+                            <option key={hpd.id} value={hpd.pickUpDayName.day}>
                                 {hpd.pickUpDayName.day}
                             </option>
                         );
@@ -86,17 +98,17 @@ const HolidayOrderForm = () => {
                 <Label for="holidayPickUpTimeId">PickUp Time</Label>
                 <Input
                     type="select"
-                    name="holidayPickUpTimeId"
-                    id="holidayPickUpTimeId"
-                    value={holidayPickUpTimeId}
+                    name="holidayPickUpTimeTime"
+                    id="holidayPickUpTimeTime"
+                    value={holidayPickUpTimeTime}
                     onChange={(e) => {
-                        setHolidayPickUpTimeId(e.target.value);
+                        setHolidayPickUpTimeTime(e.target.value);
                     }}
                 >
                     <option>Select A PickUp Time</option>
                     {holidayPickUpTime.map((hpt) => {
                         return (
-                            <option key={hpt.id} value={hpt.id}>
+                            <option key={hpt.id} value={hpt.pickUpTimeTime.time}>
                                 {hpt.pickUpTimeTime.time}
                             </option>
                         );

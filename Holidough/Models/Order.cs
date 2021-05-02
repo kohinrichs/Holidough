@@ -10,13 +10,10 @@ namespace Holidough.Models
     {
         public int Id { get; set; }
         
-        [Required]
         public string ConfirmationNumber { get; set; }
         
-        [Required]
         public DateTime DatePlaced { get; set; }
-        
-        [Required]
+
         public int UserProfileId { get; set; }
         
         [Required]
@@ -25,7 +22,6 @@ namespace Holidough.Models
         [Required]
         public string PickUpDateTime { get; set; }
 
-        [Required]
         public bool IsPickedUp { get; set; }
         public bool IsCanceled { get; set; }
         public UserProfile UserProfile { get; set; }
