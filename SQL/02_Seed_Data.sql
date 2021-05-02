@@ -70,3 +70,9 @@ set identity_insert [HolidayItem] off
 set identity_insert [Order] on
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (1, 'koh112012', '2021-11-01', 2, 1, 'Tuesday 7am-10pm');
 set identity_insert [Order] off
+
+set identity_insert [OrderItem] on
+insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (1, 1, 1, 3);
+insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (2, 1, 5, 2);
+insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (3, 1, 6, 1);
+set identity_insert [OrderItem] off

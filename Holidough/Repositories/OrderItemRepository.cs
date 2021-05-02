@@ -22,13 +22,13 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                      SELECT oi.Id, oi.HolidayId, oi.ItemId, oi.Quantity, oi.IsCanceled,
+                      SELECT oi.Id, oi.OrderId, oi.ItemId, oi.Quantity, oi.IsCanceled,
                         i.Id as ItemId, i.[Name] as ItemName, i.CategoryId as ItemCategoryId, i.Description as ItemDescription, i.Price as ItemPrice, i.IsDeleted as ItemIsDeleted,
                         c.Id as CategoryId, c.[Name] as CategoryName
                         FROM OrderItem oi
                         LEFT JOIN Item i on oi.ItemId = i.id
                         Left Join Category c on i.CategoryId = c.id 
-                        WHERE hi.OrderId = @Id
+                        WHERE oi.OrderId = @Id
                         ORDER BY CategoryName ASC, i.[Name]";
 
                     DbUtils.AddParameter(cmd, "@Id", orderId);
