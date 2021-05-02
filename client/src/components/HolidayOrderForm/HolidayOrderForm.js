@@ -27,6 +27,8 @@ const HolidayOrderForm = () => {
     const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
     const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
 
+    const [orderItem, setOrderItem] = useState();
+
     const history = useHistory();
 
     useEffect(() => {
@@ -59,20 +61,30 @@ const HolidayOrderForm = () => {
         history.push('/');
     };
 
-    const [arrayOfHolidayItems, setArrayOfHolidayItems] = useState([])
+    const [arrayOfOrderItems, setArrayOfOrderItems] = useState([])
 
-    let newArrayOfHolidayItems = [...arrayOfHolidayItems]
+    let newArrayOfOrderItems = [...arrayOfOrderItems]
 
-    const quantityForItem = (itemId, quantity) => {
-        debugger
-        newHolidayItem = [...holidayItem]
+    const quantityForOrderItem = (itemId, quantity) => {
 
-        newHolidayItem.holidayId = parseInt(id);
-        newHolidayItem.itemId = itemId;
-        newHolidayItem.quantity = quantity;
+        let itemToEdit = newArrayOfOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
 
-        newArrayOfHolidayItems.push(newHolidayItem);
-        setArrayOfHolidayItems(newArrayOfHolidayItems);
+        if (itemToEdit) {
+            let itemIndex = newArrayOfOrderItems.findIndex((i => i.itemId === itemId));
+
+            newArrayOfOrderItems[itemIndex].quantity = quantity
+
+            setArrayOfOrderItems(newArrayOfOrderItems);
+        } else {
+            let newOrderItem = { ...orderItem }
+
+            newOrderItem.itemId = itemId;
+            newOrderItem.quantity = quantity;
+
+            newArrayOfOrderItems.push(newOrderItem);
+
+            setArrayOfOrderItems(newArrayOfOrderItems);
+        }
     }
 
     const handleClickSaveButton = (evt) => {
@@ -134,7 +146,7 @@ const HolidayOrderForm = () => {
             <div>
                 {
                     holidayItem.map((hi) => {
-                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForItem} />;
+                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
                     })
                 }
             </div>

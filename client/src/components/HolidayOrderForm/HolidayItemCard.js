@@ -25,7 +25,6 @@ export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
                         type="select"
                         name="holidayItemQuantity"
                         id={holidayItem.id}
-                        value={value}
                         onChange={(e) => {
                             handleSelect(`${holidayItem.id}`, e.target.value);
                         }}
