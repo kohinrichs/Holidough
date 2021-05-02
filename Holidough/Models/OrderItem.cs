@@ -12,9 +12,13 @@ namespace Holidough.Models
 
         [Required]
         public int ItemId { get; set; }
+        
         [Required]
         public int OrderId { get; set; }
+        
         [Required]
         public int Quantity { get; set; }
+        public bool IsCanceled { get; set; }
+        public Item Item { get; set; }
     }
 }

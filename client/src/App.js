@@ -6,7 +6,8 @@ import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { HolidayProvider } from './providers/HolidayProvider';
 import { HolidayPickUpDayProvider } from './providers/HolidayPickUpDayProvider';
-// import { HolidayPickUpTimeProvider } from './providers/HolidayPickUpTimeProvider';
+import { HolidayPickUpTimeProvider } from './providers/HolidayPickUpTimeProvider';
+import { HolidayItemProvider } from './providers/HolidayItemProvider';
 
 function App() {
   return (
@@ -14,8 +15,12 @@ function App() {
       <UserProfileProvider>
         <HolidayProvider>
           <HolidayPickUpDayProvider>
-            <Header />
-            <ApplicationViews />
+            <HolidayPickUpTimeProvider>
+              <HolidayItemProvider>
+                <Header />
+                <ApplicationViews />
+              </HolidayItemProvider>
+            </HolidayPickUpTimeProvider>
           </HolidayPickUpDayProvider>
         </HolidayProvider>
       </UserProfileProvider>
