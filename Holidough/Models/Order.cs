@@ -17,17 +17,18 @@ namespace Holidough.Models
         public DateTime DatePlaced { get; set; }
         
         [Required]
-        public int UserId { get; set; }
+        public int UserProfileId { get; set; }
         
         [Required]
         public int HolidayId { get; set; }
        
         [Required]
-        public DateTime PickUpDateTime { get; set; }
+        public string PickUpDateTime { get; set; }
 
         [Required]
         public bool IsPickedUp { get; set; }
         public bool IsCanceled { get; set; }
+        public UserProfile UserProfile { get; set; }
         public Holiday Holiday { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }

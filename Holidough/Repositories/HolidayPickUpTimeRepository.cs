@@ -14,7 +14,7 @@ namespace Holidough.Repositories
         public HolidayPickUpTimeRepository(IConfiguration configuration) : base(configuration) { }
 
         // Get PickUp Times By Holiday Id
-        public HolidayPickUpTime GetHolidayPickUpTimesByHolidayId(int holidayId)
+        public List <HolidayPickUpTime> GetHolidayPickUpTimesByHolidayId(int holidayId)
         {
             using (var conn = Connection)
             {
@@ -23,7 +23,7 @@ namespace Holidough.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT hpt.Id, hpt.PickUpTimeId, hpt.HolidayId,
-                        pt.[Time]
+                        pt.id as PickUpTimeId, pt.[Time]
                         FROM HolidayPickUpTime hpt
                         LEFT JOIN PickUpTime pt on pt.id = hpt.PickUpTimeId
                         WHERE hpt.HolidayId = @Id";
@@ -32,28 +32,11 @@ namespace Holidough.Repositories
 
                     var reader = cmd.ExecuteReader();
 
-                    HolidayPickUpTime holidayPickUpTimes = null;
+                    var holidayPickUpTimes = new List<HolidayPickUpTime>();
 
                     while (reader.Read())
                     {
-                        if (holidayPickUpTimes == null)
-                        {
-                            holidayPickUpTimes = new HolidayPickUpTime()
-                            {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                HolidayId = DbUtils.GetInt(reader, "HolidayId"),
-                                PickUpTimeTimes = new List<PickUpTime>()
-                            };
-                        }
-
-                        if (DbUtils.IsNotDbNull(reader, "PickUpTimeId"))
-                        {
-                            holidayPickUpTimes.PickUpTimeTimes.Add(new PickUpTime()
-                            {
-                                Id = DbUtils.GetInt(reader, "PickUpTimeId"),
-                                Time = DbUtils.GetString(reader, "Time"),
-                            });
-                        }
+                        holidayPickUpTimes.Add(NewHolidayPickUpTimeFromDb(reader));
                     }
                     reader.Close();
 
@@ -61,7 +44,20 @@ namespace Holidough.Repositories
                 }
             }
         }
-
+        private HolidayPickUpTime NewHolidayPickUpTimeFromDb(SqlDataReader reader)
+        {
+            return new HolidayPickUpTime()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                HolidayId = DbUtils.GetInt(reader, "HolidayId"),
+                PickUpTimeId = DbUtils.GetInt(reader, "PickUpTimeId"),
+                PickUpTimeTime = new PickUpTime()
+                {
+                    Id = DbUtils.GetInt(reader, "PickUpTimeId"),
+                    Time = DbUtils.GetString(reader, "Time"),
+                }
+            };
+        }
     }
 }
 

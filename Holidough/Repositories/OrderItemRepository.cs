@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Holidough.Repositories
 {
-        public class HolidayItemRepository : BaseRepository, IHolidayItemRepository
-        {
-            public HolidayItemRepository(IConfiguration configuration) : base(configuration) { }
+    public class OrderItemRepository : BaseRepository, IOrderItemRepository
+    {
+        public OrderItemRepository(IConfiguration configuration) : base(configuration) { }
 
-        // Get HolidayItems By Holiday Id
-        public List <HolidayItem> GetHolidayItemsByHolidayId(int holidayId)
+        // Get OrderItems By OrderId
+        public List<OrderItem> GetOrderItemsByOrderId(int orderId)
         {
             using (var conn = Connection)
             {
@@ -22,41 +22,42 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT hi.Id, hi.HolidayId, hi.ItemId, hi.IsDeleted as HolidayItemIsDeleted,
+                      SELECT oi.Id, oi.HolidayId, oi.ItemId, oi.Quantity, oi.IsCanceled,
                         i.Id as ItemId, i.[Name] as ItemName, i.CategoryId as ItemCategoryId, i.Description as ItemDescription, i.Price as ItemPrice, i.IsDeleted as ItemIsDeleted,
                         c.Id as CategoryId, c.[Name] as CategoryName
-                        FROM HolidayItem hi
-                        LEFT JOIN Item i on hi.ItemId = i.id
+                        FROM OrderItem oi
+                        LEFT JOIN Item i on oi.ItemId = i.id
                         Left Join Category c on i.CategoryId = c.id 
-                        WHERE hi.HolidayId = @Id AND hi.IsDeleted = 0
+                        WHERE hi.OrderId = @Id
                         ORDER BY CategoryName ASC, i.[Name]";
 
-                    DbUtils.AddParameter(cmd, "@Id", holidayId);
+                    DbUtils.AddParameter(cmd, "@Id", orderId);
 
                     var reader = cmd.ExecuteReader();
 
-                    var holidayItems = new List<HolidayItem>();
+                    var orderItems = new List<OrderItem>();
 
                     while (reader.Read())
                     {
-                        holidayItems.Add(NewHolidayItemFromDb(reader));
+                        orderItems.Add(NewOrderItemFromDb(reader));
                     }
                     reader.Close();
 
-                    return holidayItems;
+                    return orderItems;
                 }
             }
         }
 
-        // To Make A HolidayItem
-        private HolidayItem NewHolidayItemFromDb(SqlDataReader reader)
+        // To Make An OrderItem
+        private OrderItem NewOrderItemFromDb(SqlDataReader reader)
         {
-            return new HolidayItem()
+            return new OrderItem()
             {
                 Id = DbUtils.GetInt(reader, "Id"),
-                HolidayId = DbUtils.GetInt(reader, "HolidayId"),
+                OrderId = DbUtils.GetInt(reader, "OrderId"),
                 ItemId = DbUtils.GetInt(reader, "ItemId"),
-                IsDeleted = reader.GetBoolean(reader.GetOrdinal("HolidayItemIsDeleted")),
+                Quantity = DbUtils.GetInt(reader, "Quantity"),
+                IsCanceled = reader.GetBoolean(reader.GetOrdinal("IsCanceled")),
                 Item = new Item()
                 {
                     Id = DbUtils.GetInt(reader, "ItemId"),

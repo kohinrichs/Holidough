@@ -38,6 +38,8 @@ namespace Holidough
             services.AddTransient<IHolidayPickUpTimeRepository, HolidayPickUpTimeRepository>();
             services.AddTransient<IItemRepository, ItemRepository>();
             services.AddTransient<IHolidayItemRepository, HolidayItemRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");

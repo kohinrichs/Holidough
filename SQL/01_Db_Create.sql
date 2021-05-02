@@ -61,9 +61,9 @@ CREATE TABLE [Order] (
   [Id] int PRIMARY KEY IDENTITY,
   [ConfirmationNumber] nvarchar(255) NOT NULL,
   [DatePlaced] datetime NOT NULL,
-  [UserId] int NOT NULL,
+  [UserProfileId] int NOT NULL,
   [HolidayId] int NOT NULL,
-  [PickUpDateTime] datetime NOT NULL,
+  [PickUpDateTime] nvarchar(255) NOT NULL,
   [IsPickedUp] bit NOT NULL DEFAULT 0,
   [IsCanceled] bit NOT NULL DEFAULT 0
 )
@@ -115,7 +115,8 @@ CREATE TABLE [OrderItem] (
   [Id] int PRIMARY KEY IDENTITY,
   [OrderId] int NOT NULL,
   [ItemId] int NOT NULL,
-  [Quantity] int NOT NULL
+  [Quantity] int NOT NULL,
+  [IsCanceled] bit NOT NULL DEFAULT 0
 )
 GO
 

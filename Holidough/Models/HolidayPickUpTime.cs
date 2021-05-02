@@ -13,6 +13,6 @@ namespace Holidough.Models
         public int HolidayId { get; set; }
         [Required]
         public int PickUpTimeId { get; set; }
-        public List<PickUpTime> PickUpTimeTimes { get; set; }
+        public PickUpTime PickUpTimeTime { get; set; }
     }
 }

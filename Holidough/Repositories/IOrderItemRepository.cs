@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Holidough.Repositories
 {
-    public interface IHolidayPickUpTimeRepository
+    public interface IOrderItemRepository
     {
-        List <HolidayPickUpTime> GetHolidayPickUpTimesByHolidayId(int holidayId);
+        List<OrderItem> GetOrderItemsByOrderId(int orderId);
     }
 }
