@@ -59,6 +59,22 @@ const HolidayOrderForm = () => {
         history.push('/');
     };
 
+    const [arrayOfHolidayItems, setArrayOfHolidayItems] = useState([])
+
+    let newArrayOfHolidayItems = [...arrayOfHolidayItems]
+
+    const quantityForItem = (itemId, quantity) => {
+        debugger
+        newHolidayItem = [...holidayItem]
+
+        newHolidayItem.holidayId = parseInt(id);
+        newHolidayItem.itemId = itemId;
+        newHolidayItem.quantity = quantity;
+
+        newArrayOfHolidayItems.push(newHolidayItem);
+        setArrayOfHolidayItems(newArrayOfHolidayItems);
+    }
+
     const handleClickSaveButton = (evt) => {
         const order = {
             holidayId: parseInt(id),
@@ -118,7 +134,7 @@ const HolidayOrderForm = () => {
             <div>
                 {
                     holidayItem.map((hi) => {
-                        return <HolidayItemCard key={hi.id} holidayItem={hi} />;
+                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForItem} />;
                     })
                 }
             </div>

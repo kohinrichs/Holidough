@@ -3,7 +3,7 @@ import { useHistory, } from 'react-router-dom';
 import { Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
 
 
-export const HolidayItemCard = ({ holidayItem }) => {
+export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
 
     // Need to turn the things in the selects into stateObjects that will be saved as order items
     // on save, need to send array of itemIds along with the orderId to the DB to be saved
@@ -12,7 +12,7 @@ export const HolidayItemCard = ({ holidayItem }) => {
     // onchange needs to send item Id and quantity to state in HolidayOrderForm
     const history = useHistory();
 
-    // Need to add the rest of the card info and a select for number 
+    // On change, need to call function with object that contains the item Id and the quantity
     return (
         <Card>
             <CardBody>
@@ -24,11 +24,11 @@ export const HolidayItemCard = ({ holidayItem }) => {
                     <Input
                         type="select"
                         name="holidayItemQuantity"
-                    // id={holidayItem.id}
-                    // value={value}
-                    // onChange={(e) => {
-                    //     setOrderItemQuantity(e.target.value);
-                    // }}
+                        id={holidayItem.id}
+                        value={value}
+                        onChange={(e) => {
+                            handleSelect(`${holidayItem.id}`, e.target.value);
+                        }}
                     >
                         <option value="0">Select A Quantity</option>
                         <option value="1" >1</option>
