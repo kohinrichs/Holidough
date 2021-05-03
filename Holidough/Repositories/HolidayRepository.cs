@@ -28,6 +28,7 @@ namespace Holidough.Repositories
 
                     var reader = cmd.ExecuteReader();
                     var holidays = new List<Holiday>();
+                    
                     while (reader.Read())
                     {
                         holidays.Add(NewHolidayFromDb(reader));
