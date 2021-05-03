@@ -36,6 +36,19 @@ export const OrderProvider = (props) => {
             .then((res) => res.json());
     };
 
+    const getOrdersByUserProfileId = () => {
+        return getToken()
+            .then((token) =>
+                fetch(`/api/order/userProfileId`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
+            .then((res) => res.json());
+    };
+
     const addOrder = (order, orderItems) => {
         return getToken().then((token) =>
             fetch('/api/order', {
@@ -55,6 +68,7 @@ export const OrderProvider = (props) => {
                 order,
                 getAllOrdersByHolidayId,
                 getOrderById,
+                getOrdersByUserProfileId,
                 addOrder
             }}
         >

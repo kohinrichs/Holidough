@@ -39,6 +39,20 @@ namespace Holidough.Controllers
             return Ok(_orderRepository.GetOrderById(id));
         }
 
+        [HttpGet("userProfileId")]
+        public IActionResult GetPostByUserProfileId()
+        {
+            var currentUser = GetCurrentUserProfile();
+            var userProfileId = currentUser.Id;
+
+            var orders = _orderRepository.GetOrdersByUserProfileId(userProfileId);
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            return Ok(orders);
+        }
+
         [HttpPost]
         // NEED TO Update CONFIRMATION NUMBER IN HERE
         public IActionResult AddOrder([FromBody] TotalOrder totalOrder)

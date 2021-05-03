@@ -77,6 +77,37 @@ namespace Holidough.Repositories
             }
         }
 
+        public List<Order> GetOrdersByUserProfileId(int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                     SELECT o.Id, o.ConfirmationNumber, o.DatePlaced, o.UserProfileId, o.HolidayId, o.PickUpDateTime, o.IsPickedUp, o.IsCanceled,
+                        up.Id as UpId, up.FirstName, up.LastName, up.PhoneNumber, up.Email
+                        FROM [Order] o
+                        LEFT JOIN UserProfile up on o.UserProfileId = up.Id
+                        WHERE o.UserProfileId = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", userProfileId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var orders = new List<Order>();
+                    while (reader.Read())
+                    {
+                        orders.Add(NewOrderFromDb(reader));
+                    }
+
+                    reader.Close();
+
+                    return orders;
+                }
+            }
+        }
+
         public void AddOrder(Order order)
         {
             using (var conn = Connection)
