@@ -1,18 +1,9 @@
 import React from 'react';
-import { useHistory, } from 'react-router-dom';
 import { Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
 
 
 export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
 
-    // Need to turn the things in the selects into stateObjects that will be saved as order items
-    // on save, need to send array of itemIds along with the orderId to the DB to be saved
-    // Need to save Order, and then use orderId to save the OrderItems
-    // Need call back function to send ItemId and Quantity to HolidayOrderForm 
-    // onchange needs to send item Id and quantity to state in HolidayOrderForm
-    const history = useHistory();
-
-    // On change, need to call function with object that contains the item Id and the quantity
     return (
         <Card>
             <CardBody>

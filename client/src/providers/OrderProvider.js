@@ -36,7 +36,7 @@ export const OrderProvider = (props) => {
             .then((res) => res.json());
     };
 
-    const addOrder = (order) => {
+    const addOrder = (order, orderItems) => {
         return getToken().then((token) =>
             fetch('/api/order', {
                 method: 'POST',
@@ -44,7 +44,7 @@ export const OrderProvider = (props) => {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(order),
+                body: JSON.stringify({ order, orderItems }),
             })
         );
     };

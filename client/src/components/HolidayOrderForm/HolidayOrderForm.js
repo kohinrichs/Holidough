@@ -29,6 +29,8 @@ const HolidayOrderForm = () => {
 
     const [orderItem, setOrderItem] = useState();
 
+    const [orderItems, setOrderItems] = useState([]);
+
     const history = useHistory();
 
     useEffect(() => {
@@ -61,41 +63,57 @@ const HolidayOrderForm = () => {
         history.push('/');
     };
 
-    const [arrayOfOrderItems, setArrayOfOrderItems] = useState([])
-
-    let newArrayOfOrderItems = [...arrayOfOrderItems]
+    let newUnfilteredOrderItems = [...orderItems]
 
     const quantityForOrderItem = (itemId, quantity) => {
 
-        let itemToEdit = newArrayOfOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
+        let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
 
         if (itemToEdit) {
-            let itemIndex = newArrayOfOrderItems.findIndex((i => i.itemId === itemId));
+            let itemIndex = newUnfilteredOrderItems.findIndex((i => i.itemId === itemId));
 
-            newArrayOfOrderItems[itemIndex].quantity = quantity
+            newUnfilteredOrderItems[itemIndex].quantity = quantity
 
-            setArrayOfOrderItems(newArrayOfOrderItems);
+            setOrderItems(newUnfilteredOrderItems);
+
+            console.log(newUnfilteredOrderItems)
+
         } else {
             let newOrderItem = { ...orderItem }
 
             newOrderItem.itemId = itemId;
             newOrderItem.quantity = quantity;
 
-            newArrayOfOrderItems.push(newOrderItem);
+            newUnfilteredOrderItems.push(newOrderItem);
 
-            setArrayOfOrderItems(newArrayOfOrderItems);
+            setOrderItems(newUnfilteredOrderItems);
+
+            console.log(newUnfilteredOrderItems)
         }
     }
 
     const handleClickSaveButton = (evt) => {
-        const order = {
-            holidayId: parseInt(id),
-            pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
-        };
 
-        addOrder(order).then(() => {
-            history.push('/');
-        })
+        evt.preventDefault()
+
+        debugger
+
+        if (holidayPickUpDayDay === undefined || holidayPickUpTimeTime === undefined) {
+            window.alert("Please select a pickup day and time.")
+        } else if (newUnfilteredOrderItems.length === 0) {
+            window.alert("Please add an item to your order.")
+        } else {
+            const order = {
+                holidayId: parseInt(id),
+                pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
+            };
+
+            let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
+
+            addOrder(order, orderItems).then(() => {
+                history.push('/');
+            })
+        }
     }
 
     return holiday ? (
@@ -112,7 +130,7 @@ const HolidayOrderForm = () => {
                         setHolidayPickUpDayDay(e.target.value);
                     }}
                 >
-                    <option>Select A PickUp Day</option>
+                    <option value="0">Select A PickUp Day</option>
                     {holidayPickUpDay.map((hpd) => {
                         return (
                             <option key={hpd.id} value={hpd.pickUpDayName.day}>
@@ -133,7 +151,7 @@ const HolidayOrderForm = () => {
                         setHolidayPickUpTimeTime(e.target.value);
                     }}
                 >
-                    <option>Select A PickUp Time</option>
+                    <option value="0">Select A PickUp Time</option>
                     {holidayPickUpTime.map((hpt) => {
                         return (
                             <option key={hpt.id} value={hpt.pickUpTimeTime.time}>

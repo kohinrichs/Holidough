@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Holidough.Repositories;
 using Holidough.Models;
 using System.Security.Claims;
+using static Holidough.Models.Order;
 
 namespace Holidough.Controllers
 {
@@ -18,10 +19,12 @@ namespace Holidough.Controllers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUserProfileRepository _userProfileRepository;
-        public OrderController(IOrderRepository orderRepository, IUserProfileRepository userProfileRepository)
+        private readonly IOrderItemRepository _orderItemRepository;
+        public OrderController(IOrderRepository orderRepository, IUserProfileRepository userProfileRepository, IOrderItemRepository orderItemRepository)
         {
             _orderRepository = orderRepository;
             _userProfileRepository = userProfileRepository;
+            _orderItemRepository = orderItemRepository;
         }
 
         [HttpGet("holiday/{holidayId}")]
@@ -38,8 +41,11 @@ namespace Holidough.Controllers
 
         [HttpPost]
         // NEED TO Update CONFIRMATION NUMBER IN HERE
-        public IActionResult AddOrder(Order order)
+        public IActionResult AddOrder([FromBody] TotalOrder totalOrder)
         {
+            var order = totalOrder.Order;
+            var orderItems = totalOrder.OrderItems;
+
             var currentUser = GetCurrentUserProfile();
             order.UserProfileId = currentUser.Id;
             DateTime dateOrderPlaced = DateTime.Now;
@@ -50,7 +56,16 @@ namespace Holidough.Controllers
             order.IsCanceled = false;
          
             _orderRepository.AddOrder(order);
-            return CreatedAtAction("Get", new { id = order.Id }, order);
+
+            foreach (var orderItem in orderItems)
+                {
+                orderItem.OrderId = order.Id;
+                orderItem.IsCanceled = false;
+
+                    _orderItemRepository.AddOrderItem(orderItem);
+                }
+
+                return CreatedAtAction("Get", new { id = order.Id }, order);
         }
 
         private UserProfile GetCurrentUserProfile()

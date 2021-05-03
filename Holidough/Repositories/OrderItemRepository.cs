@@ -48,6 +48,28 @@ namespace Holidough.Repositories
             }
         }
 
+        public void AddOrderItem(OrderItem orderItem)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO OrderItem (ItemId, OrderId, Quantity, IsCanceled)
+                        OUTPUT INSERTED.ID
+                        VALUES (@ItemId, @OrderId, @Quantity, @IsCanceled)";
+
+                    DbUtils.AddParameter(cmd, "@ItemId", orderItem.ItemId);
+                    DbUtils.AddParameter(cmd, "@OrderId", orderItem.OrderId);
+                    DbUtils.AddParameter(cmd, "@Quantity", orderItem.Quantity);
+                    DbUtils.AddParameter(cmd, "@IsCanceled", orderItem.IsCanceled);
+
+                    orderItem.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         // To Make An OrderItem
         private OrderItem NewOrderItemFromDb(SqlDataReader reader)
         {
