@@ -16,6 +16,12 @@ namespace Holidough.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
+        [HttpGet]
+        public IActionResult GetAllUserProfiles()
+        {
+            return Ok(_userProfileRepository.GetAllUserProfiles());
+        }
+
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {

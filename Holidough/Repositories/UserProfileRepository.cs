@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Holidough.Models;
 using Holidough.Utils;
+using Microsoft.Data.SqlClient;
 
 namespace Holidough.Repositories
 {
@@ -56,7 +57,36 @@ namespace Holidough.Repositories
                 }
             }
 
-            public void Add(UserProfile userProfile)
+        public List <UserProfile> GetAllUserProfiles()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT up.Id, Up.FirebaseUserId, up.FirstName AS UserProfileFirstName, up.LastName AS UserProfileLastName, up.PhoneNumber, up.Email, up.UserTypeId,
+                               ut.Role AS UserTypeRole
+                          FROM UserProfile up
+                               LEFT JOIN UserType ut on up.UserTypeId = ut.Id
+                         ORDER BY up.LastName ASC";
+                    
+                    var reader = cmd.ExecuteReader();
+
+                    var userProfiles = new List<UserProfile>();
+
+                    while (reader.Read())
+                    {
+                        userProfiles.Add(NewUserProfileFromDb(reader));
+                    }
+                    reader.Close();
+
+                    return userProfiles;
+                }
+            }
+        }
+
+        public void Add(UserProfile userProfile)
             {
                 using (var conn = Connection)
                 {
@@ -77,5 +107,24 @@ namespace Holidough.Repositories
                     }
                 }
             }
+
+        private UserProfile NewUserProfileFromDb(SqlDataReader reader)
+        {
+            return new UserProfile()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                FirstName = DbUtils.GetString(reader, "UserProfileFirstName"),
+                LastName = DbUtils.GetString(reader, "UserProfileLastName"),
+                PhoneNumber = DbUtils.GetString(reader, "PhoneNumber"),
+                Email = DbUtils.GetString(reader, "Email"),
+                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                UserType = new UserType()
+                      {
+                          Id = DbUtils.GetInt(reader, "UserTypeId"),
+                          Role = DbUtils.GetString(reader, "UserTypeRole"),
+                      }
+            };
         }
+    }
 }
