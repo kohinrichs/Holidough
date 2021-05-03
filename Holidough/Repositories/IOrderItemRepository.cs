@@ -8,6 +8,7 @@ namespace Holidough.Repositories
 {
     public interface IOrderItemRepository
     {
+        void AddOrderItem(OrderItem orderItem);
         List<OrderItem> GetOrderItemsByOrderId(int orderId);
     }
 }

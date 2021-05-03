@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Holidough.Repositories;
+using Holidough.Models;
 
 namespace Holidough.Controllers
 {
