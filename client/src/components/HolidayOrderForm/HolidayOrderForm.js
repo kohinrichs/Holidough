@@ -96,8 +96,6 @@ const HolidayOrderForm = () => {
 
         evt.preventDefault()
 
-        debugger
-
         if (holidayPickUpDayDay === undefined || holidayPickUpTimeTime === undefined) {
             window.alert("Please select a pickup day and time.")
         } else if (newUnfilteredOrderItems.length === 0) {
@@ -111,7 +109,7 @@ const HolidayOrderForm = () => {
             let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
 
             addOrder(order, orderItems).then(() => {
-                history.push('/');
+                history.push('/vieworders');
             })
         }
     }

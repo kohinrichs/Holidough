@@ -11,5 +11,6 @@ namespace Holidough.Repositories
         void AddOrder(Order order);
         List<Order> GetAllOrdersByHolidayId(int holidayId);
         Order GetOrderById(int id);
+        List<Order> GetOrdersByUserProfileId(int userProfileId);
     }
 }
