@@ -7,6 +7,8 @@ import Hello from "./Hello/Hello";
 import HolidayOrderForm from "./HolidayOrderForm/HolidayOrderForm";
 import { UserProfileList } from "./UserProfiles/UserProfileList";
 import { ItemsList } from "./Items/ItemsList";
+import { ViewAllOrders } from "./OrderManagement/ViewAllOrders";
+import { OrderDetails } from "./OrderManagement/OrderDetails";
 
 
 export default function ApplicationViews() {
@@ -25,7 +27,12 @@ export default function ApplicationViews() {
 
                 {/* Need to add is logged in as Admin */}
                 <Route path="/orders" exact>
-                    {isLoggedIn ? <HolidayOrderForm /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <ViewAllOrders /> : <Redirect to="/login" />}
+                </Route>
+
+                {/* Need to add is logged in as Admin */}
+                <Route path="/order/details/:id" exact>
+                    {isLoggedIn ? <OrderDetails /> : <Redirect to="/login" />}
                 </Route>
 
                 {/* Need to add is logged in as Admin */}
