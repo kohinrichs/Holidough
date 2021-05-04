@@ -9,6 +9,7 @@ import { UserProfileList } from "./UserProfiles/UserProfileList";
 import { ItemsList } from "./Items/ItemsList";
 import { ViewAllOrders } from "./OrderManagement/ViewAllOrders";
 import { OrderDetails } from "./OrderManagement/OrderDetails";
+import OrderEditForm from "./OrderManagement/OrderEditForm";
 
 
 export default function ApplicationViews() {
@@ -33,6 +34,11 @@ export default function ApplicationViews() {
                 {/* Need to add is logged in as Admin */}
                 <Route path="/order/details/:id" exact>
                     {isLoggedIn ? <OrderDetails /> : <Redirect to="/login" />}
+                </Route>
+
+                {/* Need to add is logged in as Admin */}
+                <Route path="/order/edit/:id/:holidayId" exact>
+                    {isLoggedIn ? <OrderEditForm /> : <Redirect to="/login" />}
                 </Route>
 
                 {/* Need to add is logged in as Admin */}

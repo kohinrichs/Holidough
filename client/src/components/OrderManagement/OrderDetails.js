@@ -5,10 +5,13 @@ import { OrderContext } from '../../providers/OrderProvider';
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
 
+// To Do: Make it so the back button doesn't reset the select for the order view
+
 export const OrderDetails = () => {
 
     // This is the orderId
     const { id } = useParams();
+    const history = useHistory();
 
     const { getOrderById } = useContext(OrderContext);
     const { getOrderItemsByOrderId } = useContext(OrderItemContext);
@@ -43,11 +46,23 @@ export const OrderDetails = () => {
                 <List type="unstyled">
                     {
                         orderItems.map((oi) => {
-                            return <li key={oi.id}>{oi.item.name}</li>
+                            return <li key={oi.id}>x{oi.quantity} {oi.item.name} - ${oi.item.price} (each)</li>
                         })
                     }
                 </List>
             </div>
+            <Button
+                onClick={() => {
+
+                }}>Cancel Order</Button>
+            <Button
+                onClick={() => {
+                    history.push(`/orders`)
+                }}>Go Back</Button>
+            <Button
+                onClick={() => {
+                    history.push(`/order/edit/${order.id}/${currentHoliday.id}`)
+                }}>Edit Order</Button>
         </>
     ) : null
 }

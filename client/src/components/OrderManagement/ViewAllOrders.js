@@ -12,13 +12,9 @@ export const ViewAllOrders = () => {
 
     const { holiday, getAllHolidays } = useContext(HolidayContext);
     const { getAllOrdersByHolidayId } = useContext(OrderContext);
-    // const { getOrderItemsByOrderId } = useContext(OrderItemContext);
 
     const [orders, setOrders] = useState([]);
     const [holidayId, setHolidayId] = useState();
-
-    // let holidayId = parseInt(order.holidayId)
-    // let orderId = parseInt(order.id)
 
     useEffect(() => {
         getAllHolidays()
