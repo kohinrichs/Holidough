@@ -7,6 +7,7 @@ import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvi
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
+import { CategoryContext } from '../../providers/CategoryProvider'
 
 
 const HolidayOrderForm = () => {
@@ -16,10 +17,13 @@ const HolidayOrderForm = () => {
     const { getHolidayById } = useContext(HolidayContext);
     const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
+    const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
     const { addOrder } = useContext(OrderContext);
 
+
     const [holiday, setHoliday] = useState();
+    const [categories, setCategories] = useState([]);
     const [holidayItem, setHolidayItem] = useState([]);
     const [holidayPickUpDay, setHolidayPickUpDay] = useState([]);
     const [holidayPickUpTime, setHolidayPickUpTime] = useState([]);
@@ -46,6 +50,11 @@ const HolidayOrderForm = () => {
     useEffect(() => {
         getHolidayPickUpTimeByHolidayId(parseInt(id))
             .then(setHolidayPickUpTime)
+    }, []);
+
+    useEffect(() => {
+        getAllCategories()
+            .then(setCategories)
     }, []);
 
     useEffect(() => {
@@ -161,8 +170,17 @@ const HolidayOrderForm = () => {
             </FormGroup>
             <div>
                 {
-                    holidayItem.map((hi) => {
-                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
+                    categories.map((c) => {
+                        return <div key={c.id}>
+                            <h4>{c.name}</h4>
+                            <div>
+                                {
+                                    holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
+                                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
+                                    })
+                                }
+                            </div>
+                        </div>
                     })
                 }
             </div>

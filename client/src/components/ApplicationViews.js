@@ -6,6 +6,7 @@ import Register from "./Register";
 import Hello from "./Hello/Hello";
 import HolidayOrderForm from "./HolidayOrderForm/HolidayOrderForm";
 import { UserProfileList } from "./UserProfiles/UserProfileList";
+import { ItemsList } from "./Items/ItemsList";
 
 
 export default function ApplicationViews() {
@@ -32,10 +33,10 @@ export default function ApplicationViews() {
                     {isLoggedIn ? <UserProfileList /> : <Redirect to="/login" />}
                 </Route>
 
-                {/* Need to add is logged in as Admin
+                {/* Need to add is logged in as Admin */}
                 <Route path="/items" exact>
-                    {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
-                </Route> */}
+                    {isLoggedIn ? <ItemsList /> : <Redirect to="/login" />}
+                </Route>
 
                 <Route path="/login">
                     <Login />

@@ -31,9 +31,6 @@ const Hello = () => {
        return o
 })
 
-    console.log(placedOrders)
-    console.log(order)
-
     return (
            placedOrders.length > 0 ? 
            <>
