@@ -16,6 +16,13 @@ export const ViewAllHolidays = () => {
 
     return (
         <>
+            <Button
+                onClick={() =>
+                    history.push(
+                        `/holiday/holidayform`
+                    )
+                }
+            >Add A New Holiday</Button>
             <Table hover bordered>
                 <thead>
                     <tr>
