@@ -71,8 +71,15 @@ const OrderEditForm = () => {
             .then(setHolidayPickUpTime)
     }, []);
 
-    // setHolidayPickUpDayDay(OrderDateTimeArray[0])
-    // setHolidayPickUpTimeTime(OrderDateTimeArray[1])
+    useEffect(() => {
+        let DTPieces = order ? order.pickUpDateTime.split(" ") : " "
+
+        let tPiece = order ? DTPieces[1] + " " + (DTPieces[2] + " " + DTPieces[3]) : " "
+
+        setHolidayPickUpDayDay(DTPieces[0])
+        setHolidayPickUpTimeTime(tPiece)
+
+    })
 
     useEffect(() => {
         getAllCategories()
@@ -101,11 +108,11 @@ const OrderEditForm = () => {
 
     const quantityForOrderItem = (itemId, quantity) => {
 
-        let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
+        let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === parseInt(itemId))
 
         if (itemToEdit) {
-            debugger
-            let itemIndex = newUnfilteredOrderItems.findIndex((i => i.itemId === parseInt(itemId)));
+
+            let itemIndex = newUnfilteredOrderItems.findIndex(i => parseInt(i.itemId) === parseInt(itemId));
 
             newUnfilteredOrderItems[itemIndex].quantity = quantity
 
@@ -148,13 +155,6 @@ const OrderEditForm = () => {
             })
         }
     }
-
-    console.log(orderItem)
-
-    // Need to compare holidayItems to orderItems to set the quantity of the holiday items on render 
-    // update state of the HolidayItems with the  
-
-    // pass in orderITem that matches so you can use the orderItem quantity to set the default value of the select
 
     return holiday && order ? (
         <Form className="container col-md-8">
@@ -217,15 +217,15 @@ const OrderEditForm = () => {
                     })
                 }
             </div>
-            <Button onClick={handleClickSaveButton} color="success">
-                Submit
-            </Button>
             <Button
                 onClick={clearForm}
                 color="danger"
                 style={{ marginLeft: '10px' }}
             >
                 Cancel
+            </Button>
+            <Button onClick={handleClickSaveButton} color="success">
+                Submit
             </Button>
         </Form >
     ) : null;
