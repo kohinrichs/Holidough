@@ -16,11 +16,11 @@ export const OrderItemCard = ({ holidayItem, orderItems, handleSelect }) => {
                     {/* <Label for="holidayItemQuantity"></Label> */}
                     <Input
                         type="select"
-                        name="holidayItemQuantity"
-                        id={holidayItem.id}
+                        name="orderItemQuantity"
+                        id={holidayItem.item.id}
                         defaultValue={orderItemQuantity?.quantity}
                         onChange={(e) => {
-                            handleSelect(`${holidayItem.id}`, e.target.value);
+                            handleSelect(`${holidayItem.item.id}`, e.target.value);
                         }}
                     >
                         <option value="0">Select A Quantity</option>

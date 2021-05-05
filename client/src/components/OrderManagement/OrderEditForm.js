@@ -21,7 +21,7 @@ const OrderEditForm = () => {
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
-    const { getOrderById, addOrder } = useContext(OrderContext);
+    const { getOrderById, updateOrder } = useContext(OrderContext);
     const { getOrderItemsByOrderId } = useContext(OrderItemContext)
 
 
@@ -78,8 +78,7 @@ const OrderEditForm = () => {
 
         setHolidayPickUpDayDay(DTPieces[0])
         setHolidayPickUpTimeTime(tPiece)
-
-    })
+    }, [order]);
 
     useEffect(() => {
         getAllCategories()
@@ -144,14 +143,14 @@ const OrderEditForm = () => {
             window.alert("Please add an item to your order.")
         } else {
             const order = {
-                holidayId: parseInt(holidayId),
+                id: parseInt(id),
                 pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
             };
 
             let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
 
-            addOrder(order, orderItems).then(() => {
-                history.push('/vieworders');
+            updateOrder(order, orderItems).then(() => {
+                history.push(`/order/details/${id}`);
             })
         }
     }

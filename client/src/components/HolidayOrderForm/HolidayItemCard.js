@@ -14,10 +14,10 @@ export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
                     {/* <Label for="holidayItemQuantity"></Label> */}
                     <Input
                         type="select"
-                        name="holidayItemQuantity"
-                        id={holidayItem.id}
+                        name="orderItemQuantity"
+                        id={holidayItem.item.id}
                         onChange={(e) => {
-                            handleSelect(`${holidayItem.id}`, e.target.value);
+                            handleSelect(`${holidayItem.item.id}`, e.target.value);
                         }}
                     >
                         <option value="0">Select A Quantity</option>

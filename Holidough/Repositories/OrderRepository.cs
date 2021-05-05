@@ -133,6 +133,26 @@ namespace Holidough.Repositories
             }
         }
 
+        public void UpdateOrder(Order order)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [ORDER] 
+                            SET PickUpDateTime = @PickUpDateTime
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@PickUpDateTime", order.PickUpDateTime);
+                    DbUtils.AddParameter(cmd, "@Id", order.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         // New Order Object From DB
         private Order NewOrderFromDb(SqlDataReader reader)
