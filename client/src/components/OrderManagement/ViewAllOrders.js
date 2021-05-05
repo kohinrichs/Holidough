@@ -20,18 +20,6 @@ export const ViewAllOrders = () => {
         getAllHolidays()
     }, []);
 
-    // get all orders on page load 
-
-    // useEffect(() => {
-    //     getAllOrdersByHolidayId(1)
-    //         .then(setOrders)
-    // }, []);
-
-    // useEffect(() => {
-    //     getOrderItemsByOrderId(orderId)
-    //         .then(setOrderItems)
-    // }, []);
-
     // select should default to get the orders for the next upcoming holiday
 
     return (
