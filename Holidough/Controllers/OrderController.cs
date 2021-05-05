@@ -82,6 +82,27 @@ namespace Holidough.Controllers
                 return CreatedAtAction("Get", new { id = order.Id }, order);
         }
 
+        [HttpPut]
+        public IActionResult UpdateOrder([FromBody] TotalOrder totalOrder)
+        {
+            var order = totalOrder.Order;
+            var orderItems = totalOrder.OrderItems;
+
+            _orderRepository.UpdateOrder(order);
+            
+            _orderItemRepository.DeleteOrderItem(order.Id);
+
+            foreach (var orderItem in orderItems)
+            {
+                orderItem.OrderId = order.Id;
+                orderItem.IsCanceled = false;
+
+                _orderItemRepository.AddOrderItem(orderItem);
+            }
+
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

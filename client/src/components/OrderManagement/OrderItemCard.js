@@ -2,11 +2,13 @@ import React from 'react';
 import { Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
 
 
-export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
+export const OrderItemCard = ({ holidayItem, orderItems, handleSelect }) => {
+
+    let orderItemQuantity = orderItems.find(item => item.itemId === holidayItem.item.id)
 
     return (
         <Card>
-            <CardBody>
+            < CardBody >
                 <strong>{holidayItem.item.name}</strong>
                 <p>{holidayItem.item.description}</p>
                 <p>${holidayItem.item.price}</p>
@@ -16,6 +18,7 @@ export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
                         type="select"
                         name="orderItemQuantity"
                         id={holidayItem.item.id}
+                        defaultValue={orderItemQuantity?.quantity}
                         onChange={(e) => {
                             handleSelect(`${holidayItem.item.id}`, e.target.value);
                         }}
@@ -30,6 +33,6 @@ export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
                     </Input>
                 </FormGroup>
             </CardBody>
-        </Card>
+        </Card >
     );
-};
+}

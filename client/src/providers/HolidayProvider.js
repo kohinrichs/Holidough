@@ -10,6 +10,20 @@ export const HolidayProvider = (props) => {
 
     const history = useHistory();
 
+    const getAllHolidays = () => {
+        return getToken()
+            .then((token) =>
+                fetch('/api/holiday', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
+            .then((res) => res.json())
+            .then(setHoliday);
+    };
+
     const getAllAvailableHolidays = () => {
         return getToken()
             .then((token) =>
@@ -41,6 +55,7 @@ export const HolidayProvider = (props) => {
         <HolidayContext.Provider
             value={{
                 holiday,
+                getAllHolidays,
                 getAllAvailableHolidays,
                 getHolidayById
             }}

@@ -6,6 +6,10 @@ import Register from "./Register";
 import Hello from "./Hello/Hello";
 import HolidayOrderForm from "./HolidayOrderForm/HolidayOrderForm";
 import { UserProfileList } from "./UserProfiles/UserProfileList";
+import { ItemsList } from "./Items/ItemsList";
+import { ViewAllOrders } from "./OrderManagement/ViewAllOrders";
+import { OrderDetails } from "./OrderManagement/OrderDetails";
+import OrderEditForm from "./OrderManagement/OrderEditForm";
 
 
 export default function ApplicationViews() {
@@ -24,7 +28,17 @@ export default function ApplicationViews() {
 
                 {/* Need to add is logged in as Admin */}
                 <Route path="/orders" exact>
-                    {isLoggedIn ? <HolidayOrderForm /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <ViewAllOrders /> : <Redirect to="/login" />}
+                </Route>
+
+                {/* Need to add is logged in as Admin */}
+                <Route path="/order/details/:id" exact>
+                    {isLoggedIn ? <OrderDetails /> : <Redirect to="/login" />}
+                </Route>
+
+                {/* Need to add is logged in as Admin */}
+                <Route path="/order/edit/:id/:holidayId" exact>
+                    {isLoggedIn ? <OrderEditForm /> : <Redirect to="/login" />}
                 </Route>
 
                 {/* Need to add is logged in as Admin */}
@@ -32,10 +46,10 @@ export default function ApplicationViews() {
                     {isLoggedIn ? <UserProfileList /> : <Redirect to="/login" />}
                 </Route>
 
-                {/* Need to add is logged in as Admin
+                {/* Need to add is logged in as Admin */}
                 <Route path="/items" exact>
-                    {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
-                </Route> */}
+                    {isLoggedIn ? <ItemsList /> : <Redirect to="/login" />}
+                </Route>
 
                 <Route path="/login">
                     <Login />

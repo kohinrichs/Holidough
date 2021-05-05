@@ -9,6 +9,7 @@ namespace Holidough.Repositories
     public interface IOrderItemRepository
     {
         void AddOrderItem(OrderItem orderItem);
+        void DeleteOrderItem(int orderId);
         List<OrderItem> GetOrderItemsByOrderId(int orderId);
     }
 }

@@ -70,6 +70,21 @@ namespace Holidough.Repositories
             }
         }
 
+        public void DeleteOrderItem(int orderId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM OrderItem WHERE OrderId = @OrderId";
+
+                    DbUtils.AddParameter(cmd, "@OrderId", orderId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         // To Make An OrderItem
         private OrderItem NewOrderItemFromDb(SqlDataReader reader)
         {

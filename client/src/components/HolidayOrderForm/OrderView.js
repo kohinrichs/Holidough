@@ -41,5 +41,4 @@ export const OrderView = ({ order }) => {
             </div> */}
         </div>
     );
-
 }

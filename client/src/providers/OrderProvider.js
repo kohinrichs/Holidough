@@ -62,6 +62,19 @@ export const OrderProvider = (props) => {
         );
     };
 
+    const updateOrder = (order, orderItems) => {
+        return getToken().then((token) =>
+            fetch('/api/order', {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ order, orderItems }),
+            })
+        );
+    };
+
     return (
         <OrderContext.Provider
             value={{
@@ -69,7 +82,8 @@ export const OrderProvider = (props) => {
                 getAllOrdersByHolidayId,
                 getOrderById,
                 getOrdersByUserProfileId,
-                addOrder
+                addOrder,
+                updateOrder
             }}
         >
             {props.children}

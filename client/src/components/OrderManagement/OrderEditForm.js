@@ -5,26 +5,31 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvider';
 import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
-import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
 import { CategoryContext } from '../../providers/CategoryProvider'
+import { OrderItemCard } from "./OrderItemCard";
+import { OrderItemContext } from '../../providers/OrderItemProvider';
 
+// Need to set values of the form to the current order and orderItems
+const OrderEditForm = () => {
 
-const HolidayOrderForm = () => {
-
-    const { id } = useParams();
+    // OrderId
+    const { id, holidayId } = useParams();
 
     const { getHolidayById } = useContext(HolidayContext);
     const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
-    const { addOrder } = useContext(OrderContext);
+    const { getOrderById, updateOrder } = useContext(OrderContext);
+    const { getOrderItemsByOrderId } = useContext(OrderItemContext)
 
 
     const [holiday, setHoliday] = useState();
     const [categories, setCategories] = useState([]);
+
     const [holidayItem, setHolidayItem] = useState([]);
+
     const [holidayPickUpDay, setHolidayPickUpDay] = useState([]);
     const [holidayPickUpTime, setHolidayPickUpTime] = useState([]);
 
@@ -32,25 +37,48 @@ const HolidayOrderForm = () => {
     const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
 
     const [orderItem, setOrderItem] = useState();
-
     const [orderItems, setOrderItems] = useState([]);
+
+    const [order, setOrder] = useState();
+
+    const [currentOrder, setCurrentOrder] = useState();
+    const [currentOrderItems, setCurrentOrderItems] = useState();
 
     const history = useHistory();
 
     useEffect(() => {
-        getHolidayById(id)
+        getOrderById(id)
+            .then(setOrder)
+    }, []);
+
+    useEffect(() => {
+        getOrderItemsByOrderId(id)
+            .then(setOrderItems)
+    }, []);
+
+    useEffect(() => {
+        getHolidayById(parseInt(holidayId))
             .then(setHoliday)
     }, []);
 
     useEffect(() => {
-        getHolidayPickUpDayByHolidayId(parseInt(id))
+        getHolidayPickUpDayByHolidayId(parseInt(holidayId))
             .then(setHolidayPickUpDay)
     }, []);
 
     useEffect(() => {
-        getHolidayPickUpTimeByHolidayId(parseInt(id))
+        getHolidayPickUpTimeByHolidayId(parseInt(holidayId))
             .then(setHolidayPickUpTime)
     }, []);
+
+    useEffect(() => {
+        let DTPieces = order ? order.pickUpDateTime.split(" ") : " "
+
+        let tPiece = order ? DTPieces[1] + " " + (DTPieces[2] + " " + DTPieces[3]) : " "
+
+        setHolidayPickUpDayDay(DTPieces[0])
+        setHolidayPickUpTimeTime(tPiece)
+    }, [order]);
 
     useEffect(() => {
         getAllCategories()
@@ -58,7 +86,7 @@ const HolidayOrderForm = () => {
     }, []);
 
     useEffect(() => {
-        getHolidayItemsByHolidayId(parseInt(id))
+        getHolidayItemsByHolidayId(parseInt(holidayId))
             .then(setHolidayItem)
     }, []);
 
@@ -69,17 +97,21 @@ const HolidayOrderForm = () => {
         // setCategoryId(1);
         // setPublishDateTime(dateFormatter(new Date().toISOString()));
         // setCurrentPost();
-        history.push('/');
+        history.push(`/order/details/${id}`);
     };
+
+    console.log(orderItems);
+    console.log(holidayItem)
 
     let newUnfilteredOrderItems = [...orderItems]
 
     const quantityForOrderItem = (itemId, quantity) => {
 
-        let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
+        let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === parseInt(itemId))
 
         if (itemToEdit) {
-            let itemIndex = newUnfilteredOrderItems.findIndex((i => i.itemId === itemId));
+
+            let itemIndex = newUnfilteredOrderItems.findIndex(i => parseInt(i.itemId) === parseInt(itemId));
 
             newUnfilteredOrderItems[itemIndex].quantity = quantity
 
@@ -111,19 +143,19 @@ const HolidayOrderForm = () => {
             window.alert("Please add an item to your order.")
         } else {
             const order = {
-                holidayId: parseInt(id),
+                id: parseInt(id),
                 pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
             };
 
             let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
 
-            addOrder(order, orderItems).then(() => {
-                history.push('/vieworders');
+            updateOrder(order, orderItems).then(() => {
+                history.push(`/order/details/${id}`);
             })
         }
     }
 
-    return holiday ? (
+    return holiday && order ? (
         <Form className="container col-md-8">
             <h2>Order For: {holiday.name} {holiday.date}</h2>
             <FormGroup>
@@ -176,7 +208,7 @@ const HolidayOrderForm = () => {
                             <div>
                                 {
                                     holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
-                                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
+                                        return <OrderItemCard key={hi.id} holidayItem={hi} orderItems={orderItems} handleSelect={quantityForOrderItem} />;
                                     })
                                 }
                             </div>
@@ -184,9 +216,6 @@ const HolidayOrderForm = () => {
                     })
                 }
             </div>
-            <Button onClick={handleClickSaveButton} color="success">
-                Submit
-            </Button>
             <Button
                 onClick={clearForm}
                 color="danger"
@@ -194,9 +223,12 @@ const HolidayOrderForm = () => {
             >
                 Cancel
             </Button>
+            <Button onClick={handleClickSaveButton} color="success">
+                Submit
+            </Button>
         </Form >
     ) : null;
 
 };
 
-export default HolidayOrderForm;
+export default OrderEditForm;
