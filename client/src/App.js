@@ -12,6 +12,8 @@ import { OrderProvider } from './providers/OrderProvider';
 import { OrderItemProvider } from './providers/OrderItemProvider';
 import { ItemProvider } from './providers/ItemProvider';
 import { CategoryProvider } from './providers/CategoryProvider';
+import { PickUpDayProvider } from './providers/PickUpDayProvider';
+import { PickUpTimeProvider } from './providers/PickUpTimeProvider';
 
 function App() {
   return (
@@ -21,16 +23,20 @@ function App() {
           <HolidayPickUpDayProvider>
             <HolidayPickUpTimeProvider>
               <CategoryProvider>
-                <HolidayItemProvider>
-                  <OrderProvider>
-                    <ItemProvider>
-                      <OrderItemProvider>
-                        <Header />
-                        <ApplicationViews />
-                      </OrderItemProvider>
-                    </ItemProvider>
-                  </OrderProvider>
-                </HolidayItemProvider>
+                <PickUpDayProvider>
+                  <PickUpTimeProvider>
+                    <HolidayItemProvider>
+                      <OrderProvider>
+                        <ItemProvider>
+                          <OrderItemProvider>
+                            <Header />
+                            <ApplicationViews />
+                          </OrderItemProvider>
+                        </ItemProvider>
+                      </OrderProvider>
+                    </HolidayItemProvider>
+                  </PickUpTimeProvider>
+                </PickUpDayProvider>
               </CategoryProvider>
             </HolidayPickUpTimeProvider>
           </HolidayPickUpDayProvider>

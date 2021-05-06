@@ -8,6 +8,7 @@ namespace Holidough.Repositories
 {
     public interface IHolidayItemRepository
     {
+        void AddHolidayItem(int itemId, int holidayId, bool isDeleted);
         List<HolidayItem> GetHolidayItemsByHolidayId(int holidayId);
     }
 }

@@ -12,6 +12,8 @@ import { OrderDetails } from "./OrderManagement/OrderDetails";
 import OrderEditForm from "./OrderManagement/OrderEditForm";
 import { ViewAllHolidays } from "./Holidays/ViewAllHolidays";
 import { HolidayDetails } from "./Holidays/HolidayDetails";
+import HolidayForm from "./Holidays/HolidayForm";
+
 
 
 export default function ApplicationViews() {
@@ -62,6 +64,16 @@ export default function ApplicationViews() {
                 <Route path="/holiday/details/:id" exact>
                     {isLoggedIn ? <HolidayDetails /> : <Redirect to="/login" />}
                 </Route>
+
+                {/* Need to add is logged in as Admin */}
+                <Route path="/holiday/holidayform" exact>
+                    {isLoggedIn ? <HolidayForm /> : <Redirect to="/login" />}
+                </Route>
+
+                {/* Need to add is logged in as Admin
+                <Route path="/holiday/edit/:id" exact>
+                    {isLoggedIn ? <HolidayEditForm /> : <Redirect to="/login" />}
+                </Route> */}
 
                 <Route path="/login">
                     <Login />
