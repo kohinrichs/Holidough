@@ -48,6 +48,26 @@ namespace Holidough.Repositories
             }
         }
 
+        public void AddHolidayItem(int itemId, int holidayId, bool isDeleted)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO [HolidayItem] (ItemId, HolidayId, IsDeleted)
+                        VALUES (@ItemId, @HolidayId, @IsDeleted)";
+
+                    DbUtils.AddParameter(cmd, "@ItemId", itemId);
+                    DbUtils.AddParameter(cmd, "@HolidayId", holidayId);
+                    DbUtils.AddParameter(cmd, "@isDeleted", isDeleted);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         // To Make A HolidayItem
         private HolidayItem NewHolidayItemFromDb(SqlDataReader reader)
         {

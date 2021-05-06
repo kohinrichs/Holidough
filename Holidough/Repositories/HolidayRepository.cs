@@ -99,6 +99,27 @@ namespace Holidough.Repositories
             }
         }
 
+        public void AddHoliday(Holiday holiday)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO [Holiday] (Name, Date, IsAvailable)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name, @Date, @IsAvailable)";
+
+                    DbUtils.AddParameter(cmd, "@Name", holiday.Name);
+                    DbUtils.AddParameter(cmd, "@Date", holiday.Date);
+                    DbUtils.AddParameter(cmd, "@IsAvailable", holiday.IsAvailable);
+
+                    holiday.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         // Need to get Holiday details as well as list of PickUpDays from the Holiday PickUpDays?
         private Holiday NewHolidayFromDb(SqlDataReader reader)
         {

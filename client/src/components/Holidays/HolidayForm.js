@@ -8,7 +8,7 @@ import { CategoryContext } from '../../providers/CategoryProvider'
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { PickUpDayContext } from '../../providers/PickUpDayProvider';
 import { PickUpTimeContext } from '../../providers/PickUpTimeProvider';
-
+import { ItemContext } from '../../providers/ItemProvider';
 const HolidayForm = () => {
 
     const { addHoliday } = useContext(HolidayContext);
@@ -17,17 +17,26 @@ const HolidayForm = () => {
     const { getAllCategories } = useContext(CategoryContext);
     const { getAllPickUpDays } = useContext(PickUpDayContext);
     const { getAllPickUpTimes } = useContext(PickUpTimeContext);
+    const { getAllItems } = useContext(ItemContext);
     // const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
 
 
     const [holiday, setHoliday] = useState();
     const [categories, setCategories] = useState([]);
+    const [items, setItems] = useState([]);
     const [pickUpDays, setPickUpDays] = useState([]);
     const [pickUpTimes, setPickUpTimes] = useState([]);
 
-    const [holidayItem, setHolidayItem] = useState([]);
+    const [holidayItems, setHolidayItems] = useState([]);
     const [holidayPickUpDays, setHolidayPickUpDays] = useState([]);
     const [holidayPickUpTimes, setHolidayPickUpTimes] = useState([]);
+
+    const [allHolidayItems, setAllHolidayItems] = useState([]);
+
+    const [bread, setBread] = useState([]);
+    const [other, setOther] = useState([]);
+    const [pastry, setPastry] = useState([]);
+    const [savory, setSavory] = useState([]);
 
     const dateFormatter = (date) => {
         const [yyyymmdd, time] = date.split('T');
@@ -58,73 +67,57 @@ const HolidayForm = () => {
             .then(setPickUpTimes)
     }, []);
 
-    const clearForm = () => {
-        // setTitle('');
-        // setImageLocation('');
-        // setContent('');
-        // setCategoryId(1);
-        // setPublishDateTime(dateFormatter(new Date().toISOString()));
-        // setCurrentPost();
-        history.push('/holidays');
-    };
+    useEffect(() => {
+        getAllItems()
+            .then(setItems)
+    }, []);
 
-    // let newUnfilteredOrderItems = [...orderItems]
+    const breadHolidayItems = (e) => {
+        let breadList = Array.from(e.target.selectedOptions, option => option.value);
+        setBread(breadList);
+    }
 
-    // const quantityForOrderItem = (itemId, quantity) => {
+    const otherHolidayItems = (e) => {
+        let otherList = Array.from(e.target.selectedOptions, option => option.value);
+        setOther(otherList);
+    }
 
-    //     let itemToEdit = newUnfilteredOrderItems.find(o => parseInt(o.itemId) === (parseInt(itemId)))
+    const pastryHolidayItems = (e) => {
+        let pastryList = Array.from(e.target.selectedOptions, option => option.value);
+        setPastry(pastryList);
+    }
 
-    //     if (itemToEdit) {
-    //         let itemIndex = newUnfilteredOrderItems.findIndex((i => i.itemId === itemId));
-
-    //         newUnfilteredOrderItems[itemIndex].quantity = quantity
-
-    //         setOrderItems(newUnfilteredOrderItems);
-
-    //         console.log(newUnfilteredOrderItems)
-
-    //     } else {
-    //         let newOrderItem = { ...orderItem }
-
-    //         newOrderItem.itemId = itemId;
-    //         newOrderItem.quantity = quantity;
-
-    //         newUnfilteredOrderItems.push(newOrderItem);
-
-    //         setOrderItems(newUnfilteredOrderItems);
-
-    //         console.log(newUnfilteredOrderItems)
-    //     }
-    // }
+    const savoryHolidayItems = (e) => {
+        let savoryList = Array.from(e.target.selectedOptions, option => option.value);
+        setSavory(savoryList);
+    }
 
     const handleClickSaveButton = (evt) => {
 
         evt.preventDefault()
 
-        // if (holidayPickUpDayDay === undefined || holidayPickUpTimeTime === undefined) {
-        //     window.alert("Please select a pickup day and time.")
-        // } else if (newUnfilteredOrderItems.length === 0) {
-        //     window.alert("Please add an item to your order.")
-        // } else {
-        //     const order = {
-        //         holidayId: parseInt(id),
-        //         pickUpDateTime: `${holidayPickUpDayDay} ${holidayPickUpTimeTime}`
-        //     };
+        let holidayItems = [...bread, ...other, ...pastry, ...savory]
 
-        //     let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
+        // need to prevent submission if no days / times are selected
+        if (name === "" || date === "" || holidayPickUpDays === [], holidayPickUpDays === []) {
+            window.alert("Please name the holiday and select a date, pickUp Day(s), and pickUp Time(s)")
+        } else if (holidayItems.length === 0) {
+            window.alert("Please add an item to your order.")
+        } else {
+            const holiday = {
+                name,
+                date
+            };
 
-        //     addOrder(order, orderItems).then(() => {
-        //         history.push('/vieworders');
-        //     })
-        // }
+            addHoliday(holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems).then(() => {
+                history.push('/holidays');
+            })
+        }
     }
 
     // For Select - https://stackoverflow.com/questions/28624763/retrieving-value-from-select-with-multiple-option-in-react
 
-    // need array of Ids from the multi-select > add or remove ids > worth just getting a library
-    console.log(holidayPickUpDays)
-
-    return categories && pickUpDays && pickUpTimes ? (
+    return categories && pickUpDays && pickUpTimes && items ? (
         <Form className="container col-md-8">
             <h2>Add A New Holiday</h2>
             <FormGroup>
@@ -161,13 +154,13 @@ const HolidayForm = () => {
                     name="holidayPickUpDays"
                     id="holidayPickUpDays"
                     onChange={(e) => {
-                        let holidayPickUpDaysArray = Array.from(e.target.selectedOptions, option => option.value);
-                        setHolidayPickUpDays(holidayPickUpDaysArray);
+                        let holidayPickUpDays = Array.from(e.target.selectedOptions, o => o.value);
+                        setHolidayPickUpDays(holidayPickUpDays);
                     }}
                 >
                     {pickUpDays.map((pd) => {
                         return (
-                            <option key={pd.id} value={pd.id} selected={false}>
+                            <option key={pd.id} value={pd.id}>
                                 {pd.day}
                             </option>
                         );
@@ -182,8 +175,8 @@ const HolidayForm = () => {
                     name="holidayPickUpTimes"
                     id="holidayPickUpTimes"
                     onChange={(e) => {
-                        let holidayPickUpTimesArray = Array.from(e.target.selectedOptions, option => option.value);
-                        setHolidayPickUpTimes(holidayPickUpTimesArray);
+                        let holidayPickUpTimes = Array.from(e.target.selectedOptions, o => o.value);
+                        setHolidayPickUpTimes(holidayPickUpTimes);
                     }}
                 >
                     {pickUpTimes.map((pt) => {
@@ -195,35 +188,154 @@ const HolidayForm = () => {
                     })}
                 </Input>
             </FormGroup>
-            {/* <div>
-                {
-                    categories.map((c) => {
-                        return <div key={c.id}>
-                            <h4>{c.name}</h4>
-                            <div>
-                                {
-                                    holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
-                                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
-                                    })
-                                }
-                            </div>
-                        </div>
-                    })
-                }
-            </div> */}
+            <div>
+                <h4>Bread</h4>
+                <div>
+                    {
+                        <FormGroup>
+                            <Input
+                                type="select"
+                                multiple
+                                name="holidayItemsBread"
+                                id="holidayItemsBread"
+                                onChange={breadHolidayItems}
+                            >
+                                {items.filter(item => item.categoryId === 1).map(i => {
+                                    return (
+                                        <option key={i.id} value={i.id}>
+                                            {i.name}
+                                        </option>
+                                    );
+                                })}
+                            </Input>
+                        </FormGroup>
+                    }
+                </div>
+            </div>
+            <div>
+                <h4>Other</h4>
+                <div>
+                    {
+                        <FormGroup>
+                            <Input
+                                type="select"
+                                multiple
+                                name="holidayItemsOther"
+                                id="holidayItemsOther"
+                                onChange={otherHolidayItems}
+                            >
+                                {items.filter(item => item.categoryId === 4).map(i => {
+                                    return (
+                                        <option key={i.id} value={i.id}>
+                                            {i.name}
+                                        </option>
+                                    );
+                                })}
+                            </Input>
+                        </FormGroup>
+                    }
+                </div>
+            </div>
+            <div>
+                <h4>Pastry</h4>
+                <div>
+                    {
+                        <FormGroup>
+                            <Input
+                                type="select"
+                                multiple
+                                name="holidayItemsPastry"
+                                id="holidayItemsPastry"
+                                onChange={pastryHolidayItems}
+                            >
+                                {items.filter(item => item.categoryId === 2).map(i => {
+                                    return (
+                                        <option key={i.id} value={i.id}>
+                                            {i.name}
+                                        </option>
+                                    );
+                                })}
+                            </Input>
+                        </FormGroup>
+                    }
+                </div>
+            </div>
+            <div>
+                <h4>Savory</h4>
+                <div>
+                    {
+                        <FormGroup>
+                            <Input
+                                type="select"
+                                multiple
+                                name="holidayItemsSavory"
+                                id="holidayItemsSavory"
+                                onChange={savoryHolidayItems}
+                            >
+
+                                {items.filter(item => item.categoryId === 3).map(i => {
+                                    return (
+                                        <option key={i.id} value={i.id}>
+                                            {i.name}
+                                        </option>
+                                    );
+                                })}
+                            </Input>
+                        </FormGroup>
+                    }
+                </div>
+            </div>
             <Button onClick={handleClickSaveButton} color="success">
                 Submit
             </Button>
             <Button
-                onClick={clearForm}
                 color="danger"
                 style={{ marginLeft: '10px' }}
-            >
-                Cancel
-            </Button>
+                onClick={(e) => {
+                    e.preventDefault();
+
+                    history.push(`/holidays`)
+
+                }}>Go Back</Button>
         </Form >
     ) : null;
 
 };
 
 export default HolidayForm;
+
+// This is to dynamically render the categories, but I can't get the selects to work properly - Come back to at some point.
+{/* <div>
+{
+    categories.map((c) => {
+        return <div key={c.id}>
+            <h4>{c.name}</h4>
+            <div>
+                {
+                    <FormGroup>
+                        <Input
+                            type="select"
+                            multiple
+                            name="holidayItems"
+                            id="holidayItems"
+                            selectedOptions={holidayItems}
+                            onChange={makeHolidayItemsList}
+                        >
+
+                            {items.filter(item => item.categoryId === c.id).map(i => {
+                                return (
+                                    <option key={i.id} value={i.id}>
+                                        {i.name}
+                                    </option>
+                                );
+                            })}
+                        </Input>
+                    </FormGroup>
+                }
+            </div>
+        </div>
+    })
+}
+</div> */}
+
+

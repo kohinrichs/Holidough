@@ -44,6 +44,26 @@ namespace Holidough.Repositories
                 }
             }
         }
+
+        public void AddHolidayPickUpTime(int pickUpTimeId, int holidayId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO [HolidayPickUpTime] (PickUpTimeId, HolidayId)
+                        VALUES (@PickUpTimeId, @HolidayId)";
+
+                    DbUtils.AddParameter(cmd, "@PickUpTimeId", pickUpTimeId);
+                    DbUtils.AddParameter(cmd, "@HolidayId", holidayId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private HolidayPickUpTime NewHolidayPickUpTimeFromDb(SqlDataReader reader)
         {
             return new HolidayPickUpTime()
