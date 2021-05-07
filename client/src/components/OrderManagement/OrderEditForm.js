@@ -72,11 +72,11 @@ const OrderEditForm = () => {
     }, []);
 
     useEffect(() => {
-        let DTPieces = order ? order.pickUpDateTime.split(" ") : " "
+        let dTPieces = order ? order.pickUpDateTime.split(" ") : " "
 
-        let tPiece = order ? DTPieces[1] + " " + (DTPieces[2] + " " + DTPieces[3]) : " "
+        let tPiece = order ? dTPieces[1] + " " + (dTPieces[2] + " " + dTPieces[3]) : " "
 
-        setHolidayPickUpDayDay(DTPieces[0])
+        setHolidayPickUpDayDay(dTPieces[0])
         setHolidayPickUpTimeTime(tPiece)
     }, [order]);
 

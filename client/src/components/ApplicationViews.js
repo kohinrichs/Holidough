@@ -13,6 +13,7 @@ import OrderEditForm from "./OrderManagement/OrderEditForm";
 import { ViewAllHolidays } from "./Holidays/ViewAllHolidays";
 import { HolidayDetails } from "./Holidays/HolidayDetails";
 import HolidayForm from "./Holidays/HolidayForm";
+import HolidayEditForm from "./Holidays/HolidayEditForm";
 
 
 
@@ -70,10 +71,10 @@ export default function ApplicationViews() {
                     {isLoggedIn ? <HolidayForm /> : <Redirect to="/login" />}
                 </Route>
 
-                {/* Need to add is logged in as Admin
+                {/* Need to add is logged in as Admin */}
                 <Route path="/holiday/edit/:id" exact>
                     {isLoggedIn ? <HolidayEditForm /> : <Redirect to="/login" />}
-                </Route> */}
+                </Route>
 
                 <Route path="/login">
                     <Login />
