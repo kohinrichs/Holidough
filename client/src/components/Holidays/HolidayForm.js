@@ -99,10 +99,10 @@ const HolidayForm = () => {
         let holidayItems = [...bread, ...other, ...pastry, ...savory]
 
         // need to prevent submission if no days / times are selected
-        if (name === "" || date === "" || holidayPickUpDays === [], holidayPickUpDays === []) {
+        if (name === "" || date === "" || holidayPickUpDays === [], holidayPickUpTimes === []) {
             window.alert("Please name the holiday and select a date, pickUp Day(s), and pickUp Time(s)")
         } else if (holidayItems.length === 0) {
-            window.alert("Please add an item to your order.")
+            window.alert("Please add items to the holiday list.")
         } else {
             const holiday = {
                 name,

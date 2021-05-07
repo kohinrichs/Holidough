@@ -12,5 +12,6 @@ namespace Holidough.Repositories
         List<Holiday> GetAllAvailableHolidays();
         List<Holiday> GetAllHolidays();
         Holiday GetHolidayById(int id);
+        void UpdateHoliday(Holiday holiday);
     }
 }

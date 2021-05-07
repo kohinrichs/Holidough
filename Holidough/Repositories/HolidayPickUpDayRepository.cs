@@ -64,6 +64,21 @@ namespace Holidough.Repositories
             }
         }
 
+        public void DeleteHolidayPickUpDay(int holidayId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM HolidayPickUpDay WHERE HolidayId = @HolidayId";
+
+                    DbUtils.AddParameter(cmd, "@HolidayId", holidayId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private HolidayPickUpDay NewHolidayPickUpDayFromDb(SqlDataReader reader)
         {
             return new HolidayPickUpDay()

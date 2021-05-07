@@ -10,5 +10,6 @@ namespace Holidough.Repositories
     {
         void AddHolidayItem(int itemId, int holidayId, bool isDeleted);
         List<HolidayItem> GetHolidayItemsByHolidayId(int holidayId);
+        void SoftDeleteHolidayItem(int holidayId);
     }
 }

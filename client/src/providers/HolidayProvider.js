@@ -64,6 +64,20 @@ export const HolidayProvider = (props) => {
         );
     };
 
+    const updateHoliday = (holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems) => {
+        debugger
+        return getToken().then((token) =>
+            fetch('/api/holiday', {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems }),
+            })
+        );
+    };
+
     return (
         <HolidayContext.Provider
             value={{
@@ -71,7 +85,8 @@ export const HolidayProvider = (props) => {
                 getAllHolidays,
                 getAllAvailableHolidays,
                 getHolidayById,
-                addHoliday
+                addHoliday,
+                updateHoliday
             }}
         >
             {props.children}

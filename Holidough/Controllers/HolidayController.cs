@@ -80,5 +80,46 @@ namespace Holidough.Controllers
 
             return CreatedAtAction("GetHolidayById", new { id = holiday.Id }, holiday);
         }
+
+        [HttpPut]
+        public IActionResult UpdateOrder([FromBody] TotalHoliday totalHoliday)
+        {
+            var holiday = totalHoliday.Holiday;
+            var holidayPickUpDays = totalHoliday.HolidayPickUpDays;
+            var holidayPickUpTimes = totalHoliday.HolidayPickUpTimes;
+            var items = totalHoliday.HolidayItems;
+
+            _holidayRepository.UpdateHoliday(holiday);
+
+            var holidayId = holiday.Id;
+
+            _holidayPickUpDayRepository.DeleteHolidayPickUpDay(holidayId);
+
+            foreach (int pickUpDayId in holidayPickUpDays)
+            {
+                _holidayPickUpDayRepository.AddHolidayPickUpDay(pickUpDayId, holidayId);
+            }
+
+            _holidayPickUpTimeRepository.DeleteHolidayPickUpTime(holidayId);
+
+            foreach (int pickUpTimeId in holidayPickUpTimes)
+            {
+                _holidayPickUpTimeRepository.AddHolidayPickUpTime(pickUpTimeId, holidayId);
+            }
+
+            //updateIsDeletedForOtherItems > change is deleted to true if not in the new array, add if not in the array
+            // get currentHolidayItemsByHolidayId > check to see if the item Id already exists,
+            // if the item is on the new list, but not in the database, the isDeleted needs to be changed to true
+            _holidayItemRepository.SoftDeleteHolidayItem(holidayId);
+
+            foreach (var itemId in items)
+            {
+                var isDeleted = false;
+
+                _holidayItemRepository.AddHolidayItem(itemId, holidayId, isDeleted);
+            }
+
+            return NoContent();
+        }
     }
 }

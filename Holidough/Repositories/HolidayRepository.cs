@@ -120,6 +120,29 @@ namespace Holidough.Repositories
             }
         }
 
+        public void UpdateHoliday(Holiday holiday)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [Holiday] 
+                            SET Name = @Name,
+                                Date = @Date
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Name", holiday.Name);
+                    DbUtils.AddParameter(cmd, "@Date", holiday.Date);
+                    DbUtils.AddParameter(cmd, "@Id", holiday.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         // Need to get Holiday details as well as list of PickUpDays from the Holiday PickUpDays?
         private Holiday NewHolidayFromDb(SqlDataReader reader)
         {
