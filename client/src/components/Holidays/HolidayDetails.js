@@ -6,6 +6,7 @@ import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { CategoryContext } from '../../providers/CategoryProvider';
 import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvider';
 import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
+import { OrderContext } from '../../providers/OrderProvider';
 
 export const HolidayDetails = () => {
 
@@ -13,17 +14,19 @@ export const HolidayDetails = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    const { getHolidayById } = useContext(HolidayContext);
+    const { getHolidayById, deleteHoliday } = useContext(HolidayContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
+    const { getAllOrdersByHolidayId } = useContext(OrderContext);
 
     const [categories, setCategories] = useState([]);
     const [holidayPickUpDays, setHolidayPickUpDays] = useState([]);
     const [holidayPickUpTimes, setHolidayPickUpTimes] = useState([]);
     const [holiday, setHoliday] = useState();
     const [holidayItems, setHolidayItems] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     // going to need HolidayPickUpDays, HolidayPickUpTimes, PickUpDays, and PickUpTimes
 
@@ -51,6 +54,22 @@ export const HolidayDetails = () => {
         getHolidayItemsByHolidayId(id)
             .then(setHolidayItems)
     }, []);
+
+    useEffect(() => {
+        getAllOrdersByHolidayId(id)
+            .then(setOrders)
+    }, []);
+
+    const handleDelete = () => {
+        if (orders.find(o => o.holidayId === parseInt(id))) {
+            window.alert("Oh no! This holiday has orders associated with it. You can't delete it.")
+        } else if (window.confirm('Are you sure?')) {
+            deleteHoliday(id)
+                .then(() => {
+                    history.push("/holidays")
+                })
+        }
+    }
 
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
@@ -98,6 +117,10 @@ export const HolidayDetails = () => {
                 onClick={() => {
                     history.push(`/holidays`)
                 }}>Go Back</Button>
+
+            <Button
+                onClick={handleDelete}>Delete Holiday</Button>
+
             <Button
                 onClick={() => {
                     history.push(`/holiday/edit/${id}`)

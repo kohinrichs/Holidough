@@ -142,6 +142,24 @@ namespace Holidough.Repositories
             }
         }
 
+        public void DeleteHoliday(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE HolidayPickUpDay WHERE HolidayId = @Id;
+                                        DELETE HolidayPickUpTime WHERE HolidayId = @Id;
+                                        DELETE HolidayItem WHERE HolidayId = @Id;
+                                        DELETE FROM Holiday WHERE Id = @Id;";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         // Need to get Holiday details as well as list of PickUpDays from the Holiday PickUpDays?
         private Holiday NewHolidayFromDb(SqlDataReader reader)

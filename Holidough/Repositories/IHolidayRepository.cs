@@ -9,6 +9,7 @@ namespace Holidough.Repositories
     public interface IHolidayRepository
     {
         void AddHoliday(Holiday holiday);
+        void DeleteHoliday(int id);
         List<Holiday> GetAllAvailableHolidays();
         List<Holiday> GetAllHolidays();
         Holiday GetHolidayById(int id);

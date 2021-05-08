@@ -26,22 +26,25 @@ export const ViewAllHolidays = () => {
             <Table hover bordered>
                 <thead>
                     <tr>
+                        <th>Available</th>
                         <th>Holidays</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         holiday.map(h => {
                             return <tr key={h.id}>
-                                <td>{h.name} {h.date}
-                                    <Button
-                                        value={h.id}
-                                        onClick={() =>
-                                            history.push(
-                                                `/holiday/details/${h.id}`
-                                            )
-                                        }
-                                    >Details</Button>
+                                <td>Checkbox</td>
+                                <td>{h.name} {h.date}</td>
+                                <td><Button
+                                    value={h.id}
+                                    onClick={() =>
+                                        history.push(
+                                            `/holiday/details/${h.id}`
+                                        )
+                                    }
+                                >Details</Button>
                                 </td>
                             </tr>
                         })

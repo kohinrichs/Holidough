@@ -103,6 +103,14 @@ namespace Holidough.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult CancelOrder(int id)
+        {
+            _orderRepository.CancelOrder(id);
+
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

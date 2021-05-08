@@ -6,9 +6,12 @@ import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
 
 
-export const ViewAllOrders = () => {
+export const ViewAllOrders = ({ selectHolidayName, selectHolidayDate }) => {
 
     const history = useHistory();
+
+    // holidayId
+    const { id } = useParams();
 
     const { holiday, getAllHolidays } = useContext(HolidayContext);
     const { getAllOrdersByHolidayId } = useContext(OrderContext);
@@ -16,11 +19,26 @@ export const ViewAllOrders = () => {
     const [orders, setOrders] = useState([]);
     const [holidayId, setHolidayId] = useState();
 
+    const [holidayName, setHolidayName] = useState();
+    const [holidayDate, setHolidayDate] = useState();
+
     useEffect(() => {
         getAllHolidays()
     }, []);
 
-    // select should default to get the orders for the next upcoming holiday
+    // need to pass holiday name from 
+    // useEffect(() => {
+    //     let name = holiday.find(h => h.id === id)
+    //     setHolidayName(name)
+
+    //     console.log(name)
+    // }, [id]);
+
+    const setSelect = (selectHolidayName, selectHolidayDate) => {
+        setHolidayName(selectHolidayName);
+        setHolidayDate(selectHolidayDate);
+    }
+
 
     return (
         <>
@@ -40,44 +58,48 @@ export const ViewAllOrders = () => {
                     {holiday.map((h) => {
                         return (
                             <option key={h.id} value={h.id}>
-                                {h.name}
+                                {h.name} {h.date}
                             </option>
                         );
                     })}
                 </Input>
             </FormGroup>
 
-            <Table hover bordered>
-                <thead>
-                    <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>PickUp Day + Time</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        orders.map(o => {
-                            return <tr key={o.id}>
-                                <td>{o.userProfile.lastName}</td>
-                                <td>{o.userProfile.firstName}</td>
-                                <td>{o.pickUpDateTime}</td>
-                                <td>
-                                    <Button
-                                        value={o.id}
-                                        onClick={() =>
-                                            history.push(
-                                                `/order/details/${o.id}`
-                                            )
-                                        }
-                                    >Details</Button>
-                                </td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </Table>
+            {
+                orders.length > 0 ? <Table hover bordered>
+                    <thead>
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>PickUp Day + Time</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            orders.map(o => {
+                                return <tr key={o.id}>
+                                    {
+                                        o.isCanceled === false ? <td>{o.userProfile.lastName}</td> : < td >CANCELED {o.userProfile.lastName}</td>
+                                    }
+                                    <td>{o.userProfile.firstName}</td>
+                                    <td>{o.pickUpDateTime}</td>
+                                    <td>
+                                        <Button
+                                            value={o.id}
+                                            onClick={() =>
+                                                history.push(
+                                                    `/order/details/${o.id}`
+                                                )
+                                            }
+                                        >Details</Button>
+                                    </td>
+                                </tr>
+                            })
+                        }
+                    </tbody>
+                </Table> : "There are no orders for this holiday."
+            }
         </>
     );
 }

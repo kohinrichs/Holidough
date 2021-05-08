@@ -65,7 +65,6 @@ export const HolidayProvider = (props) => {
     };
 
     const updateHoliday = (holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems) => {
-        debugger
         return getToken().then((token) =>
             fetch('/api/holiday', {
                 method: 'PUT',
@@ -78,6 +77,17 @@ export const HolidayProvider = (props) => {
         );
     };
 
+    const deleteHoliday = (id) => {
+        return getToken().then((token) =>
+            fetch(`/api/holiday/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
     return (
         <HolidayContext.Provider
             value={{
@@ -86,7 +96,8 @@ export const HolidayProvider = (props) => {
                 getAllAvailableHolidays,
                 getHolidayById,
                 addHoliday,
-                updateHoliday
+                updateHoliday,
+                deleteHoliday
             }}
         >
             {props.children}
