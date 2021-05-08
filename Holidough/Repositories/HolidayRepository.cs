@@ -142,6 +142,25 @@ namespace Holidough.Repositories
             }
         }
 
+        public void UpdateCheckBox(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [Holiday] 
+                            SET IsAvailable = ~IsAvailable
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void DeleteHoliday(int id)
         {
             using (var conn = Connection)

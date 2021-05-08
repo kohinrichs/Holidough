@@ -122,6 +122,13 @@ namespace Holidough.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateCheckBox(int id)
+        {
+            _holidayRepository.UpdateCheckBox(id);
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

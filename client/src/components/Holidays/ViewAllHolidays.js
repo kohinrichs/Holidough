@@ -8,11 +8,15 @@ export const ViewAllHolidays = () => {
 
     const history = useHistory();
 
-    const { holiday, getAllHolidays } = useContext(HolidayContext);
+    const { holiday, getAllHolidays, updateCheckBox } = useContext(HolidayContext);
 
     useEffect(() => {
         getAllHolidays()
     }, []);
+
+    const checkBoxChange = (e) => {
+        updateCheckBox(e.target.id)
+    }
 
     return (
         <>
@@ -26,7 +30,7 @@ export const ViewAllHolidays = () => {
             <Table hover bordered>
                 <thead>
                     <tr>
-                        <th>Available</th>
+                        <th>Taking Orders</th>
                         <th>Holidays</th>
                         <th>Details</th>
                     </tr>
@@ -35,7 +39,17 @@ export const ViewAllHolidays = () => {
                     {
                         holiday.map(h => {
                             return <tr key={h.id}>
-                                <td>Checkbox</td>
+                                {
+                                    h.isAvailable === false ? <td>
+                                        <FormGroup check>
+                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange} />{' '}
+                                        </FormGroup>
+                                    </td> : <td>
+                                        <FormGroup check>
+                                            <Input type="checkbox" id={h.id} value={h.id} defaultChecked onChange={checkBoxChange} />{' '}
+                                        </FormGroup>
+                                    </td>
+                                }
                                 <td>{h.name} {h.date}</td>
                                 <td><Button
                                     value={h.id}

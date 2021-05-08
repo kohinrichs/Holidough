@@ -88,6 +88,17 @@ export const HolidayProvider = (props) => {
         );
     };
 
+    const updateCheckBox = (id) => {
+        return getToken().then((token) =>
+            fetch(`/api/holiday/${id}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
     return (
         <HolidayContext.Provider
             value={{
@@ -97,7 +108,8 @@ export const HolidayProvider = (props) => {
                 getHolidayById,
                 addHoliday,
                 updateHoliday,
-                deleteHoliday
+                deleteHoliday,
+                updateCheckBox
             }}
         >
             {props.children}
