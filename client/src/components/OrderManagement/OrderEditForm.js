@@ -46,6 +46,11 @@ const OrderEditForm = () => {
 
     const history = useHistory();
 
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
     useEffect(() => {
         getOrderById(id)
             .then(setOrder)
@@ -157,7 +162,7 @@ const OrderEditForm = () => {
 
     return holiday && order ? (
         <Form className="container col-md-8">
-            <h2>Order For: {holiday.name} {holiday.date}</h2>
+            <h2>Order For: {holiday.name} {dateFormatter(holiday.date)}</h2>
             <FormGroup>
                 <Label for="holidayPickUpDayId">PickUp Day</Label>
                 <Input

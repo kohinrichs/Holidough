@@ -9,23 +9,36 @@ export function UserProfileProvider(props) {
     const apiUrl = "/api/userprofile";
 
     const userProfile = sessionStorage.getItem("userProfile");
+
     const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
+
+    const [isAdmin, setIsAdmin] = useState();
+
+    console.log(isAdmin)
 
     const [userProfiles, setUserProfiles] = useState([]);
 
     const [isFirebaseReady, setIsFirebaseReady] = useState(false);
+
     useEffect(() => {
         firebase.auth().onAuthStateChanged((u) => {
             setIsFirebaseReady(true);
         });
     }, []);
 
+
     const login = (email, pw) => {
         return firebase.auth().signInWithEmailAndPassword(email, pw)
             .then((signInResponse) => getUserProfile(signInResponse.user.uid))
             .then((userProfile) => {
                 sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
-                setIsLoggedIn(true);
+                setIsLoggedIn(true)
+
+                if (userProfile.userTypeId === 1) {
+                    setIsAdmin(true)
+                } else {
+                    setIsAdmin(false)
+                }
             });
     };
 
@@ -42,7 +55,13 @@ export function UserProfileProvider(props) {
             .then((createResponse) => saveUser({ ...userProfile, firebaseUserId: createResponse.user.uid }))
             .then((savedUserProfile) => {
                 sessionStorage.setItem("userProfile", JSON.stringify(savedUserProfile))
-                setIsLoggedIn(true);
+                setIsLoggedIn(true)
+
+                if (userProfile.userTypeId === 1) {
+                    setIsAdmin(true)
+                } else {
+                    setIsAdmin(false)
+                }
             });
     };
 
@@ -84,7 +103,7 @@ export function UserProfileProvider(props) {
     };
 
     return (
-        <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register, getToken, userProfiles, getAllUserProfiles }}>
+        <UserProfileContext.Provider value={{ isLoggedIn, isAdmin, login, logout, register, getToken, userProfiles, getAllUserProfiles }}>
             {isFirebaseReady
                 ? props.children
                 : <Spinner className="app-spinner dark" />}

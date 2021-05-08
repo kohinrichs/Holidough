@@ -30,6 +30,11 @@ export const HolidayDetails = () => {
 
     // going to need HolidayPickUpDays, HolidayPickUpTimes, PickUpDays, and PickUpTimes
 
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
     useEffect(() => {
         getAllCategories()
             .then(setCategories)
@@ -74,7 +79,7 @@ export const HolidayDetails = () => {
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
             <div>
-                <h2>{holiday.name} {holiday.date}</h2>
+                <h2>{holiday.name} {dateFormatter(holiday.date)}</h2>
                 <h4>Holiday PickUp Days</h4>
                 <List type="unstyled">
                     {

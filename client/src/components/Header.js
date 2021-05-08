@@ -12,9 +12,10 @@ import {
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function Header() {
-    const { isLoggedIn, logout } = useContext(UserProfileContext);
+    const { isLoggedIn, isAdmin, logout } = useContext(UserProfileContext);
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
+
 
     return (
         <div>
@@ -23,23 +24,53 @@ export default function Header() {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
-                        {/* {isLoggedIn &&
-                            <>
+                        {isLoggedIn && isAdmin &&
+                            (<>
+                                <NavItem style={{ margin: '0 2em' }}>
+                                    <NavLink tag={RRNavLink} to="/orders">
+                                        Orders
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem style={{ margin: '0 2em' }}>
+                                    <NavLink tag={RRNavLink} to="/productionnumbers">
+                                        Production Numbers
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem style={{ margin: '0 2em' }}>
+                                    <NavLink tag={RRNavLink} to="/customers">
+                                        Customers
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem style={{ margin: '0 2em' }}>
+                                    <NavLink tag={RRNavLink} to="/items">
+                                        Items
+                                    </NavLink>
+                                </NavItem>
+
+                                <NavItem style={{ margin: '0 2em' }}>
+                                    <NavLink tag={RRNavLink} to="/holidays">
+                                        Holidays
+                                    </NavLink>
+                                </NavItem>
+
                                 <NavItem>
                                     <a aria-current="page" className="nav-link"
                                         style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
                                 </NavItem>
-                            </>
-                        } */}
-                        {isLoggedIn &&
-                            <>
-                                <NavItem>
-                                    <a aria-current="page" className="nav-link"
-                                        style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
-                                </NavItem>
-                            </>
+                            </>)
                         }
-                        {!isLoggedIn &&
+                        {isLoggedIn && !isAdmin &&
+                            (<>
+                                <NavItem>
+                                    <a aria-current="page" className="nav-link"
+                                        style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
+                                </NavItem>
+                            </>)
+                        }
+                        {!isLoggedIn && (
                             <>
                                 <NavItem>
                                     <NavLink tag={RRNavLink} to="/login">Login</NavLink>
@@ -48,7 +79,7 @@ export default function Header() {
                                     <NavLink tag={RRNavLink} to="/register">Register</NavLink>
                                 </NavItem>
                             </>
-                        }
+                        )}
                     </Nav>
                     {/* <Nav navbar>
                         <NavItem>
@@ -59,6 +90,6 @@ export default function Header() {
                     </Nav> */}
                 </Collapse>
             </Navbar>
-        </div>
+        </div >
     );
 }

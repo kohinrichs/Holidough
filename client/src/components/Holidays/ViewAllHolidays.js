@@ -8,6 +8,11 @@ export const ViewAllHolidays = () => {
 
     const history = useHistory();
 
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
     const { holiday, getAllHolidays, updateCheckBox } = useContext(HolidayContext);
 
     useEffect(() => {
@@ -50,7 +55,7 @@ export const ViewAllHolidays = () => {
                                         </FormGroup>
                                     </td>
                                 }
-                                <td>{h.name} {h.date}</td>
+                                <td>{h.name} {dateFormatter(h.date)}</td>
                                 <td><Button
                                     value={h.id}
                                     onClick={() =>

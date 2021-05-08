@@ -205,7 +205,7 @@ const HolidayEditForm = () => {
 
     return holiday && categories && pickUpDays && pickUpTimes && items ? (
         <Form className="container col-md-8">
-            <h2>Edit {holiday.name} {holiday.date}</h2>
+            <h2>Edit {holiday.name} {dateFormatter(holiday.date)}</h2>
             <FormGroup>
                 <Label for="name">Holiday Name</Label>
                 <Input

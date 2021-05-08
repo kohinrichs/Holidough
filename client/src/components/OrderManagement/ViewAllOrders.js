@@ -26,6 +26,11 @@ export const ViewAllOrders = ({ selectHolidayName, selectHolidayDate }) => {
         getAllHolidays()
     }, []);
 
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
     // need to pass holiday name from 
     // useEffect(() => {
     //     let name = holiday.find(h => h.id === id)
@@ -58,7 +63,7 @@ export const ViewAllOrders = ({ selectHolidayName, selectHolidayDate }) => {
                     {holiday.map((h) => {
                         return (
                             <option key={h.id} value={h.id}>
-                                {h.name} {h.date}
+                                {h.name} - {dateFormatter(h.date)}
                             </option>
                         );
                     })}

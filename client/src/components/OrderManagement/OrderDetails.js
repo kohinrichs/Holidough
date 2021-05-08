@@ -23,6 +23,11 @@ export const OrderDetails = ({ setSelect }) => {
     const [holidayName, setHolidayName] = useState();
     const [holidayDate, setHolidayDate] = useState();
 
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
     useEffect(() => {
         getOrderById(id)
             .then(setOrder)
@@ -48,7 +53,6 @@ export const OrderDetails = ({ setSelect }) => {
     }, [currentHoliday]);
 
 
-    // ARE YOU SURE YOUR WANT TO CANCEL THIS ORDER? (IT'LL STILL BE VISIBLE IN SEARCH RESULTS BUT WON'T APPEAR IN UPCOMING ORDERS OR PRODUCTION NUMBERS)
     const handleCancel = () => {
         if (window.confirm('Are you sure you want to cancel this order? It will still be visible on your order list, but will not appear in production numbers.')) {
             cancelOrder(id)
@@ -61,7 +65,7 @@ export const OrderDetails = ({ setSelect }) => {
     return order && currentHoliday ? (
         <>
             <div>
-                <h2>Order for {currentHoliday.name} {currentHoliday.date}</h2>
+                <h2>Order for {currentHoliday.name} {dateFormatter(currentHoliday.date)}</h2>
                 {
                     order.isCanceled === false ? <h2>Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2> : <h2>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2>
                 }
