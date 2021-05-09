@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
-import { List } from 'reactstrap';
+import { Table, List } from 'reactstrap';
 
 export const OrderView = ({ order }) => {
 
@@ -40,14 +40,40 @@ export const OrderView = ({ order }) => {
                 <h4>PickUp Details: {order.pickUpDateTime}</h4>
             </div>
             <div>
-                <List type="unstyled">
+                <Table bordered>
+                    <thead>
+                        <tr>
+                            <th>Quantity</th>
+                            <th>Item Name</th>
+                            <th>Item Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            orderItems.map((oi) => {
+                                return <tr key={oi.id}>
+                                    <td>x {oi.quantity}</td>
+                                    <td>{oi.item.name}</td>
+                                    <td>{oi.item.price}</td>
+                                    <td>{oi.quantity * oi.item.price}</td>
+                                </tr>
+                            })
+                        }
+                    </tbody>
+                </Table>
+                <h7>Order Subtotal: $
+
                     {
                         orderItems.map((oi) => {
-                            return <li key={oi.id}>x{oi.quantity} {oi.item.name} - ${oi.item.price} (each)</li>
-                        })
+                            let orderTotal = (oi.quantity * oi.item.price)
+                            return orderTotal
+                        }).reduce((a, b) => a + b, 0)
                     }
-                </List>
+
+                     + tax </h7>
             </div>
         </>
     ) : null
 }
+

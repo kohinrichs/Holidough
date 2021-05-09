@@ -8,9 +8,6 @@ import { OrderContext } from '../../providers/OrderProvider';
 
 const Hello = () => {
 
-    // To conditionally render > render one way if the user doesn't have orders for the available holidays. render
-    // another way if the user has an order for the available holiday.
-
     const { holiday, getAllAvailableHolidays } = useContext(HolidayContext);
     const { getOrdersByUserProfileId } = useContext(OrderContext);
 
@@ -32,6 +29,7 @@ const Hello = () => {
 
     let availableHolidays = availableHolidayArray[0]
 
+    console.log(availableHolidayArray)
     console.log(availableHolidays)
 
 
