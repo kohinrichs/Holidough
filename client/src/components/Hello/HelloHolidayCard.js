@@ -12,12 +12,11 @@ export const HelloHolidayCard = ({ holiday }) => {
         return yyyymmdd;
     };
 
-    let holidayDate = dateFormatter(holiday.date)
-
     return (
+
         <Card>
             <CardBody>
-                <strong>{holiday.name} {holidayDate}</strong>
+                <strong>{holiday.name} {dateFormatter(holiday.date)}</strong>
 
                 <Button
                     onClick={
@@ -27,5 +26,6 @@ export const HelloHolidayCard = ({ holiday }) => {
                         }}>Place Order</Button>
             </CardBody>
         </Card>
+
     );
 };
