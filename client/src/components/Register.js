@@ -37,7 +37,7 @@ export default function Register() {
                     <Input id="lastName" type="text" onChange={e => setLastName(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="name">Last Name</Label>
+                    <Label htmlFor="name">Phone Number</Label>
                     <Input id="phoneNumber" type="text" onChange={e => setPhoneNumber(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
