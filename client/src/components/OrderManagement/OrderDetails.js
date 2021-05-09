@@ -7,10 +7,10 @@ import { HolidayContext } from '../../providers/HolidayProvider';
 
 // To Do: Make it so the back button doesn't reset the select for the order view
 
-export const OrderDetails = ({ setSelect }) => {
+export const OrderDetails = () => {
 
     // This is the orderId
-    const { id } = useParams();
+    const { id, holidayId } = useParams();
     const history = useHistory();
 
     const { getOrderById, cancelOrder } = useContext(OrderContext);
@@ -110,10 +110,9 @@ export const OrderDetails = ({ setSelect }) => {
 
             <Button
                 onClick={
-                    // setSelect(holidayName, holidayDate)
                     () => {
 
-                        history.push(`/orders`)
+                        history.push(`/orders/${currentHoliday.id}`)
                     }
                 }>Go Back</Button>
 

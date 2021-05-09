@@ -8,6 +8,7 @@ import HolidayOrderForm from "./HolidayOrderForm/HolidayOrderForm";
 import { UserProfileList } from "./UserProfiles/UserProfileList";
 import { ItemsList } from "./Items/ItemsList";
 import { ViewAllOrders } from "./OrderManagement/ViewAllOrders";
+import { ViewAllOrdersWithParam } from "./OrderManagement/ViewAllOrdersWithParam";
 import { OrderDetails } from "./OrderManagement/OrderDetails";
 import OrderEditForm from "./OrderManagement/OrderEditForm";
 import { ViewAllHolidays } from "./Holidays/ViewAllHolidays";
@@ -25,6 +26,10 @@ export default function ApplicationViews() {
             <Switch>
                 <Route path="/orders" exact>
                     {isLoggedIn && isAdmin ? <ViewAllOrders /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/orders/:holidayId" exact>
+                    {isLoggedIn && isAdmin ? <ViewAllOrdersWithParam /> : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/order/details/:id" exact>
