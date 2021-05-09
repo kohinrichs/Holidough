@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Form, FormGroup, Label, Input, Table, Button } from 'reactstrap';
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { FormGroup, Input, Table, Button } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
-
 
 export const ViewAllHolidays = () => {
 
     const history = useHistory();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 

@@ -9,7 +9,6 @@ import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
 import { CategoryContext } from '../../providers/CategoryProvider'
 
-
 const HolidayOrderForm = () => {
 
     const { id } = useParams();
@@ -19,7 +18,7 @@ const HolidayOrderForm = () => {
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
-    const { addOrder } = useContext(OrderContext);
+    const { getOrdersByUserProfileId, addOrder } = useContext(OrderContext);
 
 
     const [holiday, setHoliday] = useState();
@@ -31,9 +30,11 @@ const HolidayOrderForm = () => {
     const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
     const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
 
-    const [orderItem, setOrderItem] = useState();
+    const [orderItem] = useState();
 
     const [orderItems, setOrderItems] = useState([]);
+
+    const [customerOrders, setCustomerOrders] = useState([]);
 
     const history = useHistory();
 
@@ -62,20 +63,15 @@ const HolidayOrderForm = () => {
             .then(setHolidayItem)
     }, []);
 
+    useEffect(() => {
+        getOrdersByUserProfileId()
+            .then(setCustomerOrders)
+    }, []);
+
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
-    };
-
-    const clearForm = () => {
-        // setTitle('');
-        // setImageLocation('');
-        // setContent('');
-        // setCategoryId(1);
-        // setPublishDateTime(dateFormatter(new Date().toISOString()));
-        // setCurrentPost();
-        history.push('/');
     };
 
     let newUnfilteredOrderItems = [...orderItems]
@@ -115,6 +111,8 @@ const HolidayOrderForm = () => {
             window.alert("Please select a pickup day and time.")
         } else if (newUnfilteredOrderItems.length === 0) {
             window.alert("Please add an item to your order.")
+        } else if (customerOrders.find(co => co.holidayId === parseInt(id))) {
+            window.alert("It looks like you already have an order for this holiday. If you'd like to make a change to your order, please give us a call or send an email to holidays@holidays.com. Thank you!")
         } else {
             const order = {
                 holidayId: parseInt(id),
@@ -194,7 +192,9 @@ const HolidayOrderForm = () => {
                 Submit
             </Button>
             <Button
-                onClick={clearForm}
+                onClick={(() => {
+                    history.push('/')
+                })}
                 color="danger"
                 style={{ marginLeft: '10px' }}
             >

@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FormGroup, Label, Input, Table, Button } from 'reactstrap';
 import { OrderContext } from "../../providers/OrderProvider";
 import { HolidayContext } from '../../providers/HolidayProvider';
-
 
 export const ViewAllOrders = () => {
 
     const history = useHistory();
 
-    const { holiday, getAllHolidays, getHolidayById } = useContext(HolidayContext);
+    const { holiday, getAllHolidays } = useContext(HolidayContext);
     const { getAllOrdersByHolidayId } = useContext(OrderContext);
 
     const [orders, setOrders] = useState([]);
@@ -19,7 +18,7 @@ export const ViewAllOrders = () => {
     }, []);
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 

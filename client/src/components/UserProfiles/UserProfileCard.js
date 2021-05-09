@@ -1,6 +1,5 @@
 import React from 'react';
-import { useHistory, } from 'react-router-dom';
-import { Card, CardBody, Button } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 
 export const UserProfileCard = ({ userProfile }) => {
     return (

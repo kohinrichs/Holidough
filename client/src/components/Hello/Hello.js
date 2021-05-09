@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
 import { Jumbotron, Container } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
 import { HelloHolidayCard } from './HelloHolidayCard';

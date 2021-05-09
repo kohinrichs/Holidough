@@ -35,17 +35,13 @@ const HolidayEditForm = () => {
     const [holidayPickUpDays, setHolidayPickUpDays] = useState([]);
 
     const [initialHolidayPickUpDays, setInitialHolidayPickUpDays] = useState([]);
-    const [holidayPickUpDayIds, setHolidayPickUpDayIds] = useState([]);
 
     // <---------------------------------------------------------------------------->
     const [holidayPickUpTimes, setHolidayPickUpTimes] = useState([]);
 
     const [initialHolidayPickUpTimes, setInitialHolidayPickUpTimes] = useState([]);
-    const [holidayPickUpTimeIds, setHolidayPickUpTimeIds] = useState([]);
 
     // <---------------------------------------------------------------------------->
-    const [holidayItems, setHolidayItems] = useState([]);
-
     const [initialHolidayItems, setInitialHolidayItems] = useState([]);
 
     const [bread, setBread] = useState([]);
@@ -54,7 +50,7 @@ const HolidayEditForm = () => {
     const [savory, setSavory] = useState([]);
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 

@@ -1,37 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
-import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvider';
-import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
-import { CategoryContext } from '../../providers/CategoryProvider'
-import { HolidayItemContext } from '../../providers/HolidayItemProvider';
+import { CategoryContext } from '../../providers/CategoryProvider';
 import { PickUpDayContext } from '../../providers/PickUpDayProvider';
 import { PickUpTimeContext } from '../../providers/PickUpTimeProvider';
 import { ItemContext } from '../../providers/ItemProvider';
+
 const HolidayForm = () => {
 
-    const { addHoliday } = useContext(HolidayContext);
-    // const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
-    // const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
+    const history = useHistory();
+
+    const { holiday, getAllHolidays, addHoliday } = useContext(HolidayContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getAllPickUpDays } = useContext(PickUpDayContext);
     const { getAllPickUpTimes } = useContext(PickUpTimeContext);
     const { getAllItems } = useContext(ItemContext);
-    // const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
 
-
-    const [holiday, setHoliday] = useState();
     const [categories, setCategories] = useState([]);
     const [items, setItems] = useState([]);
     const [pickUpDays, setPickUpDays] = useState([]);
     const [pickUpTimes, setPickUpTimes] = useState([]);
 
-    const [holidayItems, setHolidayItems] = useState([]);
     const [holidayPickUpDays, setHolidayPickUpDays] = useState([]);
     const [holidayPickUpTimes, setHolidayPickUpTimes] = useState([]);
-
-    const [allHolidayItems, setAllHolidayItems] = useState([]);
 
     const [bread, setBread] = useState([]);
     const [other, setOther] = useState([]);
@@ -39,18 +31,13 @@ const HolidayForm = () => {
     const [savory, setSavory] = useState([]);
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
     const [name, setName] = useState('');
     const [date, setDate] = useState(
         dateFormatter(new Date().toISOString()));
-
-    // const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
-    // const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
-
-    const history = useHistory();
 
     useEffect(() => {
         getAllCategories()
@@ -70,6 +57,10 @@ const HolidayForm = () => {
     useEffect(() => {
         getAllItems()
             .then(setItems)
+    }, []);
+
+    useEffect(() => {
+        getAllHolidays()
     }, []);
 
     const breadHolidayItems = (e) => {
@@ -103,6 +94,8 @@ const HolidayForm = () => {
             window.alert("Please name the holiday and select a date, pickUp Day(s), and pickUp Time(s)")
         } else if (holidayItems.length === 0) {
             window.alert("Please add items to the holiday list.")
+        } else if (holiday.find(h => dateFormatter(h.date) === date)) {
+            window.alert("It looks like you already have a holiday for this date. Please select another date.")
         } else {
             const holiday = {
                 name,

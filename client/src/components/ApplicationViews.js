@@ -16,8 +16,6 @@ import { HolidayDetails } from "./Holidays/HolidayDetails";
 import HolidayForm from "./Holidays/HolidayForm";
 import HolidayEditForm from "./Holidays/HolidayEditForm";
 
-
-
 export default function ApplicationViews() {
     const { isLoggedIn, isAdmin } = useContext(UserProfileContext);
 

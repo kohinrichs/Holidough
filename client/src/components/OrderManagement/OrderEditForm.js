@@ -10,7 +10,6 @@ import { CategoryContext } from '../../providers/CategoryProvider'
 import { OrderItemCard } from "./OrderItemCard";
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 
-// Need to set values of the form to the current order and orderItems
 const OrderEditForm = () => {
 
     // OrderId
@@ -41,13 +40,10 @@ const OrderEditForm = () => {
 
     const [order, setOrder] = useState();
 
-    const [currentOrder, setCurrentOrder] = useState();
-    const [currentOrderItems, setCurrentOrderItems] = useState();
-
     const history = useHistory();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
@@ -94,19 +90,6 @@ const OrderEditForm = () => {
         getHolidayItemsByHolidayId(parseInt(holidayId))
             .then(setHolidayItem)
     }, []);
-
-    const clearForm = () => {
-        // setTitle('');
-        // setImageLocation('');
-        // setContent('');
-        // setCategoryId(1);
-        // setPublishDateTime(dateFormatter(new Date().toISOString()));
-        // setCurrentPost();
-        history.push(`/order/details/${id}`);
-    };
-
-    console.log(orderItems);
-    console.log(holidayItem)
 
     let newUnfilteredOrderItems = [...orderItems]
 
@@ -222,7 +205,9 @@ const OrderEditForm = () => {
                 }
             </div>
             <Button
-                onClick={clearForm}
+                onClick={(() => {
+                    history.push(`/order/details/${id}`)
+                })}
                 color="danger"
                 style={{ marginLeft: '10px' }}
             >

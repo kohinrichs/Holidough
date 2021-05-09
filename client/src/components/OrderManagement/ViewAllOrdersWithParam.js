@@ -4,7 +4,6 @@ import { FormGroup, Label, Input, Table, Button } from 'reactstrap';
 import { OrderContext } from "../../providers/OrderProvider";
 import { HolidayContext } from '../../providers/HolidayProvider';
 
-
 export const ViewAllOrdersWithParam = () => {
 
     const history = useHistory();
@@ -23,7 +22,7 @@ export const ViewAllOrdersWithParam = () => {
     }, []);
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 

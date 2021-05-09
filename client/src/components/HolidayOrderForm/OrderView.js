@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
-import { Table, List } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 export const OrderView = ({ order }) => {
 
@@ -12,7 +12,7 @@ export const OrderView = ({ order }) => {
     const [holiday, setHoliday] = useState();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
@@ -28,7 +28,6 @@ export const OrderView = ({ order }) => {
         getOrderItemsByOrderId(orderId)
             .then(setOrderItems)
     }, []);
-
 
     return holiday ? (
         <>
