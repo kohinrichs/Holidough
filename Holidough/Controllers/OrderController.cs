@@ -79,7 +79,7 @@ namespace Holidough.Controllers
                     _orderItemRepository.AddOrderItem(orderItem);
                 }
 
-                return CreatedAtAction("Get", new { id = order.Id }, order);
+                return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
         }
 
         [HttpPut]

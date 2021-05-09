@@ -22,16 +22,10 @@ const Hello = () => {
             .then(setOrder)
     }, []);
 
-    let availableHolidayArray = order.map((o) => {
-        return holiday.filter(h => h.id !== o.holidayId)
-    })
+    // https://javascript.plainenglish.io/7-methods-for-comparing-arrays-in-javascript-88f10c071897
+    // let ab = b.filter(o => !a.find(o2 => o.id === o2.id));
 
-    let availableHolidays = availableHolidayArray[0]
-
-    console.log("Holidays", holiday)
-    console.log("Current orders", order)
-    console.log("array", availableHolidayArray)
-    console.log("This should be the buttons", availableHolidays)
+    let availableHolidays = holiday.filter(h => !order.find(h2 => h.id === h2.holidayId));
 
     return availableHolidays ? (
         <>
@@ -43,6 +37,7 @@ const Hello = () => {
             </Jumbotron>
             <div>
                 {
+
                     availableHolidays.map(h => {
                         return <HelloHolidayCard key={h.id} holiday={h} />;
                     })
