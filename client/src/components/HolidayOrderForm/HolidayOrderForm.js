@@ -118,7 +118,7 @@ const HolidayOrderForm = () => {
             let orderItems = newUnfilteredOrderItems.filter((i) => i.quantity !== "0")
 
             addOrder(order, orderItems).then(() => {
-                history.push('/vieworders');
+                history.push('/');
             })
         }
     }

@@ -62,7 +62,7 @@ export const OrderView = ({ order }) => {
                         }
                     </tbody>
                 </Table>
-                <h7>Order Subtotal: $
+                <h6>Order Subtotal: $
 
                     {
                         orderItems.map((oi) => {
@@ -71,7 +71,7 @@ export const OrderView = ({ order }) => {
                         }).reduce((a, b) => a + b, 0)
                     }
 
-                     + tax </h7>
+                     + tax </h6>
             </div>
         </>
     ) : null

@@ -60,11 +60,11 @@ export default function ApplicationViews() {
                 </Route>
 
                 <Route path="/" exact>
-                    {isLoggedIn && !isAdmin ? <Hello /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/orderform/:id" exact>
-                    {isLoggedIn && !isAdmin ? <HolidayOrderForm /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <HolidayOrderForm /> : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/login">

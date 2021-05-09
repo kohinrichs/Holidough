@@ -23,24 +23,17 @@ const Hello = () => {
     }, []);
 
     let availableHolidayArray = order.map((o) => {
-        return holiday.filter(h => h.id !== o.holidayId);
-
+        return holiday.filter(h => h.id !== o.holidayId)
     })
 
     let availableHolidays = availableHolidayArray[0]
 
-    console.log(availableHolidayArray)
-    console.log(availableHolidays)
+    console.log("Holidays", holiday)
+    console.log("Current orders", order)
+    console.log("array", availableHolidayArray)
+    console.log("This should be the buttons", availableHolidays)
 
-
-    // need to render a button if there's an available holiday and they don't have an order or a list of what their
-    // order is if they do have an order
-
-    // filter through available holidays and either display a button or and order. 
-
-    // show all past orders
     return availableHolidays ? (
-        //    placedOrders.length > 0 ? 
         <>
             <Jumbotron fluid>
                 <Container fluid>
