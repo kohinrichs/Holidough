@@ -9,29 +9,44 @@ import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { PickUpDayContext } from '../../providers/PickUpDayProvider';
 import { PickUpTimeContext } from '../../providers/PickUpTimeProvider';
 import { ItemContext } from '../../providers/ItemProvider';
-const HolidayForm = () => {
 
-    const { addHoliday } = useContext(HolidayContext);
-    // const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
-    // const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
+const HolidayEditForm = () => {
+
+    const { id } = useParams();
+    const history = useHistory();
+
+    const { getHolidayById, updateHoliday } = useContext(HolidayContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getAllPickUpDays } = useContext(PickUpDayContext);
     const { getAllPickUpTimes } = useContext(PickUpTimeContext);
     const { getAllItems } = useContext(ItemContext);
-    // const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
 
+    const { getHolidayPickUpDayByHolidayId } = useContext(HolidayPickUpDayContext);
+    const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
+    const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
 
     const [holiday, setHoliday] = useState();
     const [categories, setCategories] = useState([]);
-    const [items, setItems] = useState([]);
     const [pickUpDays, setPickUpDays] = useState([]);
     const [pickUpTimes, setPickUpTimes] = useState([]);
+    const [items, setItems] = useState([]);
 
-    const [holidayItems, setHolidayItems] = useState([]);
+    // <---------------------------------------------------------------------------->
     const [holidayPickUpDays, setHolidayPickUpDays] = useState([]);
+
+    const [initialHolidayPickUpDays, setInitialHolidayPickUpDays] = useState([]);
+    const [holidayPickUpDayIds, setHolidayPickUpDayIds] = useState([]);
+
+    // <---------------------------------------------------------------------------->
     const [holidayPickUpTimes, setHolidayPickUpTimes] = useState([]);
 
-    const [allHolidayItems, setAllHolidayItems] = useState([]);
+    const [initialHolidayPickUpTimes, setInitialHolidayPickUpTimes] = useState([]);
+    const [holidayPickUpTimeIds, setHolidayPickUpTimeIds] = useState([]);
+
+    // <---------------------------------------------------------------------------->
+    const [holidayItems, setHolidayItems] = useState([]);
+
+    const [initialHolidayItems, setInitialHolidayItems] = useState([]);
 
     const [bread, setBread] = useState([]);
     const [other, setOther] = useState([]);
@@ -47,10 +62,18 @@ const HolidayForm = () => {
     const [date, setDate] = useState(
         dateFormatter(new Date().toISOString()));
 
-    // const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
-    // const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
+    useEffect(() => {
+        getHolidayById(id)
+            .then(setHoliday)
+    }, []);
 
-    const history = useHistory();
+    let holidayName = holiday ? holiday.name : "";
+    let holidayDate = holiday ? holiday.date : " ";
+
+    useEffect(() => {
+        setName(holidayName)
+        setDate(holidayDate)
+    }, [holiday]);
 
     useEffect(() => {
         getAllCategories()
@@ -62,15 +85,77 @@ const HolidayForm = () => {
             .then(setPickUpDays)
     }, []);
 
+    // <---------------------------------------------------------------------------->
+    useEffect(() => {
+        getHolidayPickUpDayByHolidayId(id)
+            .then(setInitialHolidayPickUpDays)
+    }, []);
+
+    useEffect(() => {
+        let holidayPickUpDayIds = []
+
+        initialHolidayPickUpDays.forEach(h => holidayPickUpDayIds.push(h.pickUpDayId))
+
+        setHolidayPickUpDays(holidayPickUpDayIds)
+    }, [initialHolidayPickUpDays]);
+
+    // <---------------------------------------------------------------------------->
     useEffect(() => {
         getAllPickUpTimes()
             .then(setPickUpTimes)
     }, []);
 
     useEffect(() => {
+        getHolidayPickUpTimeByHolidayId(id)
+            .then(setInitialHolidayPickUpTimes)
+    }, []);
+
+    useEffect(() => {
+        let holidayPickUpTimeIds = []
+
+        initialHolidayPickUpTimes.forEach(h => holidayPickUpTimeIds.push(h.pickUpTimeId))
+
+        setHolidayPickUpTimes(holidayPickUpTimeIds)
+    }, [initialHolidayPickUpTimes]);
+
+    // <---------------------------------------------------------------------------->
+
+    useEffect(() => {
         getAllItems()
             .then(setItems)
     }, []);
+
+    useEffect(() => {
+        getHolidayItemsByHolidayId(id)
+            .then(setInitialHolidayItems)
+    }, []);
+
+    useEffect(() => {
+
+        let breadIds = initialHolidayItems.filter(item => item.item.categoryId === 1).map(i => {
+            return i.itemId
+        })
+
+        let pastryIds = initialHolidayItems.filter(item => item.item.categoryId === 2).map(i => {
+            return i.itemId
+        })
+
+        let otherIds = initialHolidayItems.filter(item => item.item.categoryId === 4).map(i => {
+            return i.itemId
+        })
+
+        let savoryIds = initialHolidayItems.filter(item => item.item.categoryId === 3).map(i => {
+            return i.itemId
+        })
+
+        setBread(breadIds);
+        setOther(otherIds);
+        setPastry(pastryIds);
+        setSavory(savoryIds);
+
+    }, [initialHolidayItems]);
+
+    // <---------------------------------------------------------------------------->
 
     const breadHolidayItems = (e) => {
         let breadList = Array.from(e.target.selectedOptions, option => option.value);
@@ -104,12 +189,13 @@ const HolidayForm = () => {
         } else if (holidayItems.length === 0) {
             window.alert("Please add items to the holiday list.")
         } else {
-            const holiday = {
-                name,
-                date
+            let holiday = {
+                id,
+                name: name,
+                date: date
             };
 
-            addHoliday(holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems).then(() => {
+            updateHoliday(holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems).then(() => {
                 history.push('/holidays');
             })
         }
@@ -117,21 +203,20 @@ const HolidayForm = () => {
 
     // For Select - https://stackoverflow.com/questions/28624763/retrieving-value-from-select-with-multiple-option-in-react
 
-    return categories && pickUpDays && pickUpTimes && items ? (
+    return holiday && categories && pickUpDays && pickUpTimes && items ? (
         <Form className="container col-md-8">
-            <h2>Add A New Holiday</h2>
+            <h2>Edit {holiday.name} {dateFormatter(holiday.date)}</h2>
             <FormGroup>
                 <Label for="name">Holiday Name</Label>
                 <Input
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Holiday Name"
+                    defaultValue={holiday.name}
                     autoComplete="off"
                     onChange={(e) => {
                         setName(e.target.value);
                     }}
-                    value={name}
                 />
             </FormGroup>
             <FormGroup>
@@ -140,10 +225,10 @@ const HolidayForm = () => {
                     type="date"
                     name="date"
                     id="date"
+                    defaultValue={dateFormatter(holiday.date)}
                     onChange={(e) => {
                         setDate(e.target.value);
                     }}
-                    value={date}
                 />
             </FormGroup>
             <FormGroup>
@@ -153,6 +238,7 @@ const HolidayForm = () => {
                     multiple
                     name="holidayPickUpDays"
                     id="holidayPickUpDays"
+                    value={holidayPickUpDays}
                     onChange={(e) => {
                         let holidayPickUpDays = Array.from(e.target.selectedOptions, o => o.value);
                         setHolidayPickUpDays(holidayPickUpDays);
@@ -174,6 +260,7 @@ const HolidayForm = () => {
                     multiple
                     name="holidayPickUpTimes"
                     id="holidayPickUpTimes"
+                    value={holidayPickUpTimes}
                     onChange={(e) => {
                         let holidayPickUpTimes = Array.from(e.target.selectedOptions, o => o.value);
                         setHolidayPickUpTimes(holidayPickUpTimes);
@@ -199,6 +286,7 @@ const HolidayForm = () => {
                                 multiple
                                 name="holidayItemsBread"
                                 id="holidayItemsBread"
+                                value={bread}
                                 onChange={breadHolidayItems}
                             >
                                 {items.filter(item => item.categoryId === 1).map(i => {
@@ -224,6 +312,7 @@ const HolidayForm = () => {
                                 multiple
                                 name="holidayItemsOther"
                                 id="holidayItemsOther"
+                                value={other}
                                 onChange={otherHolidayItems}
                             >
                                 {items.filter(item => item.categoryId === 4).map(i => {
@@ -249,6 +338,7 @@ const HolidayForm = () => {
                                 multiple
                                 name="holidayItemsPastry"
                                 id="holidayItemsPastry"
+                                value={pastry}
                                 onChange={pastryHolidayItems}
                             >
                                 {items.filter(item => item.categoryId === 2).map(i => {
@@ -274,6 +364,7 @@ const HolidayForm = () => {
                                 multiple
                                 name="holidayItemsSavory"
                                 id="holidayItemsSavory"
+                                value={savory}
                                 onChange={savoryHolidayItems}
                             >
 
@@ -306,40 +397,6 @@ const HolidayForm = () => {
 
 };
 
-export default HolidayForm;
-
-// This is to dynamically render the categories, but I can't get the selects to work properly - Come back to at some point.
-{/* <div>
-{
-    categories.map((c) => {
-        return <div key={c.id}>
-            <h4>{c.name}</h4>
-            <div>
-                {
-                    <FormGroup>
-                        <Input
-                            type="select"
-                            multiple
-                            name="holidayItems"
-                            id="holidayItems"
-                            selectedOptions={holidayItems}
-                            onChange={makeHolidayItemsList}
-                        >
-
-                            {items.filter(item => item.categoryId === c.id).map(i => {
-                                return (
-                                    <option key={i.id} value={i.id}>
-                                        {i.name}
-                                    </option>
-                                );
-                            })}
-                        </Input>
-                    </FormGroup>
-                }
-            </div>
-        </div>
-    })
-}
-</div> */}
+export default HolidayEditForm;
 
 

@@ -7,18 +7,26 @@ import { HolidayContext } from '../../providers/HolidayProvider';
 
 // To Do: Make it so the back button doesn't reset the select for the order view
 
-export const OrderDetails = () => {
+export const OrderDetails = ({ setSelect }) => {
 
     // This is the orderId
     const { id } = useParams();
     const history = useHistory();
 
-    const { getOrderById } = useContext(OrderContext);
+    const { getOrderById, cancelOrder } = useContext(OrderContext);
     const { getOrderItemsByOrderId } = useContext(OrderItemContext);
     const { holiday, getAllHolidays } = useContext(HolidayContext);
 
     const [order, setOrder] = useState();
     const [orderItems, setOrderItems] = useState([]);
+
+    const [holidayName, setHolidayName] = useState();
+    const [holidayDate, setHolidayDate] = useState();
+
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
 
     useEffect(() => {
         getOrderById(id)
@@ -33,32 +41,82 @@ export const OrderDetails = () => {
             .then(setOrderItems)
     }, []);
 
-    let currentHoliday = order ? holiday.find(h => h.id === order.holidayId) : null
+    let currentHoliday = order ? holiday.find(h => h.id === order.holidayId) : " "
+
+    useEffect(() => {
+        let currentHolidayName = currentHoliday ? currentHoliday.name : " "
+        let currentHolidayDate = currentHoliday ? currentHoliday.date : " "
+
+        setHolidayName({ currentHolidayName })
+        setHolidayDate({ currentHolidayDate })
+
+    }, [currentHoliday]);
+
+
+    const handleCancel = () => {
+        if (window.confirm('Are you sure you want to cancel this order? It will still be visible on your order list, but will not appear in production numbers.')) {
+            cancelOrder(id)
+                .then(() => {
+                    history.push("/orders")
+                })
+        }
+    }
 
     return order && currentHoliday ? (
         <>
             <div>
-                <h2>Order for {currentHoliday.name} {currentHoliday.date}</h2>
-                <h2>Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2>
+                <h2>Order for {currentHoliday.name} {dateFormatter(currentHoliday.date)}</h2>
+                {
+                    order.isCanceled === false ? <h2>Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2> : <h2>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2>
+                }
                 <h4>PickUp Details: {order.pickUpDateTime}</h4>
             </div>
             <div>
-                <List type="unstyled">
+                <Table bordered>
+                    <thead>
+                        <tr>
+                            <th>Quantity</th>
+                            <th>Item Name</th>
+                            <th>Item Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            orderItems.map((oi) => {
+                                return <tr key={oi.id}>
+                                    <td>x {oi.quantity}</td>
+                                    <td>{oi.item.name}</td>
+                                    <td>{oi.item.price}</td>
+                                    <td>{oi.quantity * oi.item.price}</td>
+                                </tr>
+                            })
+                        }
+                    </tbody>
+                </Table>
+                <h6>Order Subtotal: $
+
                     {
                         orderItems.map((oi) => {
-                            return <li key={oi.id}>x{oi.quantity} {oi.item.name} - ${oi.item.price} (each)</li>
-                        })
+                            let orderTotal = (oi.quantity * oi.item.price)
+                            return orderTotal
+                        }).reduce((a, b) => a + b, 0)
                     }
-                </List>
+
+                     + tax </h6>
             </div>
             <Button
-                onClick={() => {
+                onClick={handleCancel}>Cancel Order</Button>
 
-                }}>Cancel Order</Button>
             <Button
-                onClick={() => {
-                    history.push(`/orders`)
-                }}>Go Back</Button>
+                onClick={
+                    // setSelect(holidayName, holidayDate)
+                    () => {
+
+                        history.push(`/orders`)
+                    }
+                }>Go Back</Button>
+
             <Button
                 onClick={() => {
                     history.push(`/order/edit/${order.id}/${currentHoliday.id}`)

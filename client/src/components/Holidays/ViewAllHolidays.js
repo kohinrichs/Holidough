@@ -8,11 +8,20 @@ export const ViewAllHolidays = () => {
 
     const history = useHistory();
 
-    const { holiday, getAllHolidays } = useContext(HolidayContext);
+    const dateFormatter = (date) => {
+        const [yyyymmdd, time] = date.split('T');
+        return yyyymmdd;
+    };
+
+    const { holiday, getAllHolidays, updateCheckBox } = useContext(HolidayContext);
 
     useEffect(() => {
         getAllHolidays()
     }, []);
+
+    const checkBoxChange = (e) => {
+        updateCheckBox(e.target.id)
+    }
 
     return (
         <>
@@ -26,22 +35,35 @@ export const ViewAllHolidays = () => {
             <Table hover bordered>
                 <thead>
                     <tr>
+                        <th>Taking Orders</th>
                         <th>Holidays</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         holiday.map(h => {
                             return <tr key={h.id}>
-                                <td>{h.name} {h.date}
-                                    <Button
-                                        value={h.id}
-                                        onClick={() =>
-                                            history.push(
-                                                `/holiday/details/${h.id}`
-                                            )
-                                        }
-                                    >Details</Button>
+                                {
+                                    h.isAvailable === false ? <td>
+                                        <FormGroup check>
+                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange} />{' '}
+                                        </FormGroup>
+                                    </td> : <td>
+                                        <FormGroup check>
+                                            <Input type="checkbox" id={h.id} value={h.id} defaultChecked onChange={checkBoxChange} />{' '}
+                                        </FormGroup>
+                                    </td>
+                                }
+                                <td>{h.name} {dateFormatter(h.date)}</td>
+                                <td><Button
+                                    value={h.id}
+                                    onClick={() =>
+                                        history.push(
+                                            `/holiday/details/${h.id}`
+                                        )
+                                    }
+                                >Details</Button>
                                 </td>
                             </tr>
                         })

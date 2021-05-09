@@ -64,6 +64,41 @@ export const HolidayProvider = (props) => {
         );
     };
 
+    const updateHoliday = (holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems) => {
+        return getToken().then((token) =>
+            fetch('/api/holiday', {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems }),
+            })
+        );
+    };
+
+    const deleteHoliday = (id) => {
+        return getToken().then((token) =>
+            fetch(`/api/holiday/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
+    const updateCheckBox = (id) => {
+        return getToken().then((token) =>
+            fetch(`/api/holiday/${id}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
     return (
         <HolidayContext.Provider
             value={{
@@ -71,7 +106,10 @@ export const HolidayProvider = (props) => {
                 getAllHolidays,
                 getAllAvailableHolidays,
                 getHolidayById,
-                addHoliday
+                addHoliday,
+                updateHoliday,
+                deleteHoliday,
+                updateCheckBox
             }}
         >
             {props.children}

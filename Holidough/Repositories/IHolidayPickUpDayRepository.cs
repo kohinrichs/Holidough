@@ -9,6 +9,7 @@ namespace Holidough.Repositories
     public interface IHolidayPickUpDayRepository
     {
         void AddHolidayPickUpDay(int pickUpDayId, int holidayId);
+        void DeleteHolidayPickUpDay(int holidayId);
         List <HolidayPickUpDay> GetHolidayPickUpDaysByHolidayId(int holidayId);
     }
 }

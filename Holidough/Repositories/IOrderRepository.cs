@@ -9,6 +9,7 @@ namespace Holidough.Repositories
     public interface IOrderRepository
     {
         void AddOrder(Order order);
+        void CancelOrder(int id);
         List<Order> GetAllOrdersByHolidayId(int holidayId);
         Order GetOrderById(int id);
         List<Order> GetOrdersByUserProfileId(int userProfileId);

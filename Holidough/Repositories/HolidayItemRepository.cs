@@ -68,6 +68,24 @@ namespace Holidough.Repositories
             }
         }
 
+        public void SoftDeleteHolidayItem(int holidayId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [HolidayItem] 
+                            SET IsDeleted = 1
+                        WHERE holidayId = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", holidayId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         // To Make A HolidayItem
         private HolidayItem NewHolidayItemFromDb(SqlDataReader reader)
         {

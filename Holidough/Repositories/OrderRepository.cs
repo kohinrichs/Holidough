@@ -26,7 +26,7 @@ namespace Holidough.Repositories
                         up.Id as UpId, up.FirstName, up.LastName, up.PhoneNumber, up.Email
                         FROM [Order] o
                         LEFT JOIN UserProfile up on o.UserProfileId = up.Id
-                        WHERE o.HolidayId = @Id and o.IsCanceled = 0
+                        WHERE o.HolidayId = @Id
                         ORDER BY up.LastName ASC";
 
                     DbUtils.AddParameter(cmd, "@Id", holidayId);
@@ -147,6 +147,28 @@ namespace Holidough.Repositories
 
                     DbUtils.AddParameter(cmd, "@PickUpDateTime", order.PickUpDateTime);
                     DbUtils.AddParameter(cmd, "@Id", order.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void CancelOrder(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [ORDER] 
+                            SET IsCanceled = 1
+                        WHERE Id = @Id;
+                        UPDATE [OrderItem] 
+                            SET IsCanceled = 1
+                        WHERE orderId = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
 
                     cmd.ExecuteNonQuery();
                 }

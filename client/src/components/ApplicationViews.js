@@ -13,15 +13,52 @@ import OrderEditForm from "./OrderManagement/OrderEditForm";
 import { ViewAllHolidays } from "./Holidays/ViewAllHolidays";
 import { HolidayDetails } from "./Holidays/HolidayDetails";
 import HolidayForm from "./Holidays/HolidayForm";
+import HolidayEditForm from "./Holidays/HolidayEditForm";
 
 
 
 export default function ApplicationViews() {
-    const { isLoggedIn } = useContext(UserProfileContext);
+    const { isLoggedIn, isAdmin } = useContext(UserProfileContext);
 
     return (
         <main>
             <Switch>
+                <Route path="/orders" exact>
+                    {isLoggedIn && isAdmin ? <ViewAllOrders /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/order/details/:id" exact>
+                    {isLoggedIn && isAdmin ? <OrderDetails /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/order/edit/:id/:holidayId" exact>
+                    {isLoggedIn && isAdmin ? <OrderEditForm /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/customers" exact>
+                    {isLoggedIn && isAdmin ? <UserProfileList /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/items" exact>
+                    {isLoggedIn && isAdmin ? <ItemsList /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/holidays" exact>
+                    {isLoggedIn && isAdmin ? <ViewAllHolidays /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/holiday/details/:id" exact>
+                    {isLoggedIn && isAdmin ? <HolidayDetails /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/holiday/holidayform" exact>
+                    {isLoggedIn && isAdmin ? <HolidayForm /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/holiday/edit/:id" exact>
+                    {isLoggedIn && isAdmin ? <HolidayEditForm /> : <Redirect to="/login" />}
+                </Route>
+
                 <Route path="/" exact>
                     {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
                 </Route>
@@ -29,51 +66,6 @@ export default function ApplicationViews() {
                 <Route path="/orderform/:id" exact>
                     {isLoggedIn ? <HolidayOrderForm /> : <Redirect to="/login" />}
                 </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/orders" exact>
-                    {isLoggedIn ? <ViewAllOrders /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/order/details/:id" exact>
-                    {isLoggedIn ? <OrderDetails /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/order/edit/:id/:holidayId" exact>
-                    {isLoggedIn ? <OrderEditForm /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/customers" exact>
-                    {isLoggedIn ? <UserProfileList /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/items" exact>
-                    {isLoggedIn ? <ItemsList /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/holidays" exact>
-                    {isLoggedIn ? <ViewAllHolidays /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/holiday/details/:id" exact>
-                    {isLoggedIn ? <HolidayDetails /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin */}
-                <Route path="/holiday/holidayform" exact>
-                    {isLoggedIn ? <HolidayForm /> : <Redirect to="/login" />}
-                </Route>
-
-                {/* Need to add is logged in as Admin
-                <Route path="/holiday/edit/:id" exact>
-                    {isLoggedIn ? <HolidayEditForm /> : <Redirect to="/login" />}
-                </Route> */}
 
                 <Route path="/login">
                     <Login />
