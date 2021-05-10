@@ -187,12 +187,13 @@ namespace Holidough.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                      SELECT SUBQUERY.ItemId as ItemId, SUM(SUBQUERY.Quantity) as ItemQuantity FROM
-                            (SELECT oi.ItemId, oi.Quantity
+                      SELECT SUBQUERY.[Name] as ItemName, SUBQUERY.CategoryId as ItemCategoryId, SUBQUERY.ItemId as ItemId, SUM(SUBQUERY.Quantity) as ItemQuantity FROM
+                            (SELECT oi.ItemId, oi.Quantity, i.[Name], i.CategoryId
                             FROM OrderItem oi
                             LEFT JOIN [Order] o on oi.OrderId = o.Id
-                            WHERE HolidayId = @Id) AS SUBQUERY
-                            Group By SUBQUERY.ItemId;";
+                            LEFT JOIN Item i on oi.ItemId = i.Id
+                            WHERE HolidayId = @Id AND o.IsCanceled = 0) AS SUBQUERY
+                            Group By SUBQUERY.[Name], SUBQUERY.CategoryId, SUBQUERY.ItemId;";
 
                     DbUtils.AddParameter(cmd, "@Id", holidayId);
 
@@ -206,6 +207,12 @@ namespace Holidough.Repositories
                         {
                             ItemId = DbUtils.GetInt(reader, "ItemId"),
                             ItemQuantityNumber = DbUtils.GetInt(reader, "ItemQuantity"),
+                            Item = new Item()
+                            {
+                                Id = DbUtils.GetInt(reader, "ItemId"),
+                                Name = DbUtils.GetString(reader, "ItemName"),
+                                CategoryId = DbUtils.GetInt(reader, "ItemCategoryId"),
+                            }
                         });
                     }
 

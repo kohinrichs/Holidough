@@ -24,7 +24,6 @@ export function UserProfileProvider(props) {
         });
     }, []);
 
-
     const login = (email, pw) => {
         return firebase.auth().signInWithEmailAndPassword(email, pw)
             .then((signInResponse) => getUserProfile(signInResponse.user.uid))

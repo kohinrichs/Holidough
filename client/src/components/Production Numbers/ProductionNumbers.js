@@ -2,16 +2,24 @@ import React, { useState, useContext, useEffect } from 'react';
 import { FormGroup, Label, Input, Table, Button } from 'reactstrap';
 import { OrderContext } from "../../providers/OrderProvider";
 import { HolidayContext } from '../../providers/HolidayProvider';
+import { CategoryContext } from '../../providers/CategoryProvider';
 
 export const ProductionNumbers = () => {
 
     const { holiday, getAllHolidays } = useContext(HolidayContext);
-    const { getAllOrdersByHolidayId } = useContext(OrderContext);
+    const { getAllCategories } = useContext(CategoryContext);
+    const { getItemQuantitiesByHolidayId } = useContext(OrderContext);
 
-    const [orders, setOrders] = useState([]);
+    const [quantities, setQuantities] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         getAllHolidays()
+    }, []);
+
+    useEffect(() => {
+        getAllCategories()
+            .then(setCategories)
     }, []);
 
     const dateFormatter = (date) => {
@@ -29,10 +37,8 @@ export const ProductionNumbers = () => {
                     id="holiday"
                     value={holiday.name}
                     onChange={(e) => {
-                        getAllOrdersByHolidayId(parseInt(e.target.value))
-                            .then(setOrders)
-
-                        // in the controller, get all items => need to receive back a list of itemIds and quantities 
+                        getItemQuantitiesByHolidayId(parseInt(e.target.value))
+                            .then(setQuantities)
                     }}
                 >
                     <option value="0">Select A Holiday</option>
@@ -46,41 +52,39 @@ export const ProductionNumbers = () => {
                 </Input>
             </FormGroup>
 
-            {/* {
-                orders.length > 0 ? <Table hover bordered>
-                    <thead>
-                        <tr>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>PickUp Day + Time</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            orders.map(o => {
-                                return <tr key={o.id}>
-                                    {
-                                        o.isCanceled === false ? <td>{o.userProfile.lastName}</td> : < td >CANCELED {o.userProfile.lastName}</td>
-                                    }
-                                    <td>{o.userProfile.firstName}</td>
-                                    <td>{o.pickUpDateTime}</td>
-                                    <td>
-                                        <Button
-                                            value={o.id}
-                                            onClick={() =>
-                                                history.push(
-                                                    `/order/details/${o.id}`
-                                                )
+            <div>
+                {quantities.length > 0 ?
+                    (categories.map((c) => {
+                        return <div key={c.id}>
+                            <h4>{c.name}</h4>
+                            <div>
+                                {
+                                    quantities.length > 0 ? <Table hover bordered>
+                                        <thead>
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                quantities.filter(q => q.item.categoryId === c.id).map(q => {
+                                                    return <tr key={q.itemId}>
+                                                        <td>{q.item.name}</td>
+                                                        <td>{q.itemQuantityNumber}</td>
+                                                    </tr>
+                                                })
                                             }
-                                        >Details</Button>
-                                    </td>
-                                </tr>
-                            })
-                        }
-                    </tbody>
-                </Table> : "There are no orders for this holiday."
-            } */}
+
+                                        </tbody>
+                                    </Table> : "There are no orders for this category yet."
+                                }
+                            </div>
+                        </div>
+                    })) : "There are no orders for this holiday yet."
+                }
+            </div>
+
         </>
-    );
+    )
 }

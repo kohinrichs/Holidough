@@ -5,6 +5,7 @@ import { UserProfileContext } from './UserProfileProvider';
 export const OrderContext = React.createContext();
 
 export const OrderProvider = (props) => {
+
     const { getToken } = useContext(UserProfileContext); //every provider needs the token
     const [order, setOrder] = useState([]);
 
@@ -40,6 +41,19 @@ export const OrderProvider = (props) => {
         return getToken()
             .then((token) =>
                 fetch(`/api/order/userProfileId`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
+            .then((res) => res.json());
+    };
+
+    const getItemQuantitiesByHolidayId = (holidayId) => {
+        return getToken()
+            .then((token) =>
+                fetch(`/api/order/productionnumbers/${holidayId}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -93,6 +107,7 @@ export const OrderProvider = (props) => {
                 getAllOrdersByHolidayId,
                 getOrderById,
                 getOrdersByUserProfileId,
+                getItemQuantitiesByHolidayId,
                 addOrder,
                 updateOrder,
                 cancelOrder
