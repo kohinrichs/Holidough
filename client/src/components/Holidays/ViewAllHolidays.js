@@ -26,8 +26,11 @@ export const ViewAllHolidays = () => {
     const newdate = year + "/" + month + "/" + day;
 
     const checkBoxChange = (e) => {
-
-        updateCheckBox(e.target.id)
+        if (e.target.value < newdate) {
+            window.alert("It looks like this holiday already happened, so we can't take anymore orders.")
+        } else {
+            updateCheckBox(e.target.id)
+        }
     }
 
     return (
@@ -52,13 +55,14 @@ export const ViewAllHolidays = () => {
                         holiday.map(h => {
                             return <tr key={h.id}>
                                 {
+
                                     h.isAvailable === false ? <td>
                                         <FormGroup check>
-                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange(id)} />{' '}
+                                            <Input type="checkbox" id={h.id} value={dateFormatter(h.date)} onChange={checkBoxChange} />{' '}
                                         </FormGroup>
                                     </td> : <td>
                                         <FormGroup check>
-                                            <Input type="checkbox" id={h.id} value={h.id} defaultChecked onChange={checkBoxChange} />{' '}
+                                            <Input type="checkbox" id={h.id} value={dateFormatter(h.date)} defaultChecked onChange={checkBoxChange} />{' '}
                                         </FormGroup>
                                     </td>
                                 }
