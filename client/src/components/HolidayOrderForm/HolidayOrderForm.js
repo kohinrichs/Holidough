@@ -125,69 +125,7 @@ const HolidayOrderForm = () => {
     }
 
     return holiday ? (
-        <Form className="container col-md-8">
-            <h2>Order For: {holiday.name} {dateFormatter(holiday.date)}</h2>
-            <FormGroup>
-                <Label for="holidayPickUpDayId">PickUp Day</Label>
-                <Input
-                    type="select"
-                    name="holidayPickUpDayDay"
-                    id="holidayPickUpDayDay"
-                    value={holidayPickUpDayDay}
-                    onChange={(e) => {
-                        setHolidayPickUpDayDay(e.target.value);
-                    }}
-                >
-                    <option value="0">Select A PickUp Day</option>
-                    {holidayPickUpDay.map((hpd) => {
-                        return (
-                            <option key={hpd.id} value={hpd.pickUpDayName.day}>
-                                {hpd.pickUpDayName.day}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="holidayPickUpTimeId">PickUp Time</Label>
-                <Input
-                    type="select"
-                    name="holidayPickUpTimeTime"
-                    id="holidayPickUpTimeTime"
-                    value={holidayPickUpTimeTime}
-                    onChange={(e) => {
-                        setHolidayPickUpTimeTime(e.target.value);
-                    }}
-                >
-                    <option value="0">Select A PickUp Time</option>
-                    {holidayPickUpTime.map((hpt) => {
-                        return (
-                            <option key={hpt.id} value={hpt.pickUpTimeTime.time}>
-                                {hpt.pickUpTimeTime.time}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <div>
-                {
-                    categories.map((c) => {
-                        return <div key={c.id}>
-                            <h4>{c.name}</h4>
-                            <div>
-                                {
-                                    holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
-                                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
-                                    })
-                                }
-                            </div>
-                        </div>
-                    })
-                }
-            </div>
-            <Button onClick={handleClickSaveButton} color="success">
-                Submit
-            </Button>
+        <>
             <Button
                 onClick={(() => {
                     history.push('/')
@@ -195,9 +133,73 @@ const HolidayOrderForm = () => {
                 color="danger"
                 style={{ marginLeft: '10px' }}
             >
-                Cancel
+                Go Back
+    </Button>
+            <Form className="container col-md-8">
+                <h2>Order For: {holiday.name} {dateFormatter(holiday.date)}</h2>
+                <FormGroup>
+                    <Label for="holidayPickUpDayId">PickUp Day</Label>
+                    <Input
+                        type="select"
+                        name="holidayPickUpDayDay"
+                        id="holidayPickUpDayDay"
+                        value={holidayPickUpDayDay}
+                        onChange={(e) => {
+                            setHolidayPickUpDayDay(e.target.value);
+                        }}
+                    >
+                        <option value="0">Select A PickUp Day</option>
+                        {holidayPickUpDay.map((hpd) => {
+                            return (
+                                <option key={hpd.id} value={hpd.pickUpDayName.day}>
+                                    {hpd.pickUpDayName.day}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="holidayPickUpTimeId">PickUp Time</Label>
+                    <Input
+                        type="select"
+                        name="holidayPickUpTimeTime"
+                        id="holidayPickUpTimeTime"
+                        value={holidayPickUpTimeTime}
+                        onChange={(e) => {
+                            setHolidayPickUpTimeTime(e.target.value);
+                        }}
+                    >
+                        <option value="0">Select A PickUp Time</option>
+                        {holidayPickUpTime.map((hpt) => {
+                            return (
+                                <option key={hpt.id} value={hpt.pickUpTimeTime.time}>
+                                    {hpt.pickUpTimeTime.time}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <div>
+                    {
+                        categories.map((c) => {
+                            return <div key={c.id}>
+                                <h4>{c.name}</h4>
+                                <div>
+                                    {
+                                        holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
+                                            return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        })
+                    }
+                </div>
+                <Button onClick={handleClickSaveButton} color="success">
+                    Submit
             </Button>
-        </Form >
+            </Form >
+        </>
     ) : null;
 
 };

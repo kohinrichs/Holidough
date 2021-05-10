@@ -62,6 +62,13 @@ export const OrderDetails = () => {
 
     return order && currentHoliday ? (
         <>
+            <Button
+                onClick={
+                    () => {
+
+                        history.push(`/orders/${currentHoliday.id}`)
+                    }
+                }>Go Back</Button>
             <div>
                 <h2>Order for {currentHoliday.name} {dateFormatter(currentHoliday.date)}</h2>
                 {
@@ -105,14 +112,6 @@ export const OrderDetails = () => {
             </div>
             <Button
                 onClick={handleCancel}>Cancel Order</Button>
-
-            <Button
-                onClick={
-                    () => {
-
-                        history.push(`/orders/${currentHoliday.id}`)
-                    }
-                }>Go Back</Button>
 
             <Button
                 onClick={() => {

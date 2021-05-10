@@ -7,10 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Holidough.Repositories;
 using Holidough.Models;
+using System.Security.Claims;
 
 namespace Holidough.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class HolidayController : ControllerBase
@@ -19,13 +20,15 @@ namespace Holidough.Controllers
         private readonly IHolidayPickUpDayRepository _holidayPickUpDayRepository;
         private readonly IHolidayPickUpTimeRepository _holidayPickUpTimeRepository;
         private readonly IHolidayItemRepository _holidayItemRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public HolidayController(IHolidayRepository holidayRepository, IHolidayPickUpDayRepository holidayPickUpDayRepository, IHolidayPickUpTimeRepository holidayPickUpTimeRepository, IHolidayItemRepository holidayItemRepository)
+        public HolidayController(IHolidayRepository holidayRepository, IHolidayPickUpDayRepository holidayPickUpDayRepository, IHolidayPickUpTimeRepository holidayPickUpTimeRepository, IHolidayItemRepository holidayItemRepository, IUserProfileRepository userProfileRepository)
         {
             _holidayRepository = holidayRepository;
             _holidayPickUpDayRepository = holidayPickUpDayRepository;
             _holidayPickUpTimeRepository = holidayPickUpTimeRepository;
             _holidayItemRepository = holidayItemRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
@@ -49,6 +52,13 @@ namespace Holidough.Controllers
         [HttpPost]
         public IActionResult AddHoliday([FromBody] TotalHoliday totalHoliday)
         {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             var holiday = totalHoliday.Holiday;
             var holidayPickUpDays = totalHoliday.HolidayPickUpDays;
             var holidayPickUpTimes = totalHoliday.HolidayPickUpTimes;
@@ -76,14 +86,19 @@ namespace Holidough.Controllers
 
                 _holidayItemRepository.AddHolidayItem(itemId, holidayId, isDeleted);
             }
-           // return NoContent();
-
             return CreatedAtAction("GetHolidayById", new { id = holiday.Id }, holiday);
         }
 
         [HttpPut]
         public IActionResult UpdateOrder([FromBody] TotalHoliday totalHoliday)
         {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             var holiday = totalHoliday.Holiday;
             var holidayPickUpDays = totalHoliday.HolidayPickUpDays;
             var holidayPickUpTimes = totalHoliday.HolidayPickUpTimes;
@@ -110,6 +125,7 @@ namespace Holidough.Controllers
             //updateIsDeletedForOtherItems > change is deleted to true if not in the new array, add if not in the array
             // get currentHolidayItemsByHolidayId > check to see if the item Id already exists,
             // if the item is on the new list, but not in the database, the isDeleted needs to be changed to true
+
             _holidayItemRepository.SoftDeleteHolidayItem(holidayId);
 
             foreach (var itemId in items)
@@ -125,6 +141,13 @@ namespace Holidough.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCheckBox(int id)
         {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             _holidayRepository.UpdateCheckBox(id);
             return NoContent();
         }
@@ -132,8 +155,21 @@ namespace Holidough.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             _holidayRepository.DeleteHoliday(id);
             return NoContent();
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

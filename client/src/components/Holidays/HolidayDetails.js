@@ -76,6 +76,11 @@ export const HolidayDetails = () => {
 
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
+            <Button
+                onClick={() => {
+                    history.push(`/holidays`)
+                }}>Go Back</Button>
+
             <div>
                 <h2>{holiday.name} {dateFormatter(holiday.date)}</h2>
                 <h4>Holiday PickUp Days</h4>
@@ -116,11 +121,6 @@ export const HolidayDetails = () => {
                     })
                 }
             </div>
-            <Button
-                onClick={() => {
-                    history.push(`/holidays`)
-                }}>Go Back</Button>
-
             <Button
                 onClick={handleDelete}>Delete Holiday</Button>
 

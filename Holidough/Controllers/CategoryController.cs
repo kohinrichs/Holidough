@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Holidough.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

@@ -12,7 +12,7 @@ using static Holidough.Models.Order;
 
 namespace Holidough.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -91,6 +91,14 @@ namespace Holidough.Controllers
         [HttpPut]
         public IActionResult UpdateOrder([FromBody] TotalOrder totalOrder)
         {
+
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             var order = totalOrder.Order;
             var orderItems = totalOrder.OrderItems;
 
@@ -112,6 +120,13 @@ namespace Holidough.Controllers
         [HttpPut("{id}")]
         public IActionResult CancelOrder(int id)
         {
+            var currentUser = GetCurrentUserProfile();
+
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             _orderRepository.CancelOrder(id);
 
             return NoContent();

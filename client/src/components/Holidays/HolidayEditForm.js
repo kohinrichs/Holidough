@@ -200,185 +200,7 @@ const HolidayEditForm = () => {
     // For Select - https://stackoverflow.com/questions/28624763/retrieving-value-from-select-with-multiple-option-in-react
 
     return holiday && categories && pickUpDays && pickUpTimes && items ? (
-        <Form className="container col-md-8">
-            <h2>Edit {holiday.name} {dateFormatter(holiday.date)}</h2>
-            <FormGroup>
-                <Label for="name">Holiday Name</Label>
-                <Input
-                    type="text"
-                    name="name"
-                    id="name"
-                    defaultValue={holiday.name}
-                    autoComplete="off"
-                    onChange={(e) => {
-                        setName(e.target.value);
-                    }}
-                />
-            </FormGroup>
-            <FormGroup>
-                <Label for="date">Holiday Date</Label>
-                <Input
-                    type="date"
-                    name="date"
-                    id="date"
-                    defaultValue={dateFormatter(holiday.date)}
-                    onChange={(e) => {
-                        setDate(e.target.value);
-                    }}
-                />
-            </FormGroup>
-            <FormGroup>
-                <Label for="holidayPickUpDayIds">PickUp Days (Use ctrl or cmd to select multiple.)</Label>
-                <Input
-                    type="select"
-                    multiple
-                    name="holidayPickUpDays"
-                    id="holidayPickUpDays"
-                    value={holidayPickUpDays}
-                    onChange={(e) => {
-                        let holidayPickUpDays = Array.from(e.target.selectedOptions, o => o.value);
-                        setHolidayPickUpDays(holidayPickUpDays);
-                    }}
-                >
-                    {pickUpDays.map((pd) => {
-                        return (
-                            <option key={pd.id} value={pd.id}>
-                                {pd.day}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="holidayPickUpTimeIds">PickUp Times (Use ctrl or cmd to select multiple.)</Label>
-                <Input
-                    type="select"
-                    multiple
-                    name="holidayPickUpTimes"
-                    id="holidayPickUpTimes"
-                    value={holidayPickUpTimes}
-                    onChange={(e) => {
-                        let holidayPickUpTimes = Array.from(e.target.selectedOptions, o => o.value);
-                        setHolidayPickUpTimes(holidayPickUpTimes);
-                    }}
-                >
-                    {pickUpTimes.map((pt) => {
-                        return (
-                            <option key={pt.id} value={pt.id}>
-                                {pt.time}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <div>
-                <h4>Bread</h4>
-                <h6>(Use ctrl or cmd to select multiple.)</h6>
-                <div>
-                    {
-                        <FormGroup>
-                            <Input
-                                type="select"
-                                multiple
-                                name="holidayItemsBread"
-                                id="holidayItemsBread"
-                                value={bread}
-                                onChange={breadHolidayItems}
-                            >
-                                {items.filter(item => item.categoryId === 1).map(i => {
-                                    return (
-                                        <option key={i.id} value={i.id}>
-                                            {i.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
-                        </FormGroup>
-                    }
-                </div>
-            </div>
-            <div>
-                <h4>Other</h4>
-                <h6>(Use ctrl or cmd to select multiple.)</h6>
-                <div>
-                    {
-                        <FormGroup>
-                            <Input
-                                type="select"
-                                multiple
-                                name="holidayItemsOther"
-                                id="holidayItemsOther"
-                                value={other}
-                                onChange={otherHolidayItems}
-                            >
-                                {items.filter(item => item.categoryId === 4).map(i => {
-                                    return (
-                                        <option key={i.id} value={i.id}>
-                                            {i.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
-                        </FormGroup>
-                    }
-                </div>
-            </div>
-            <div>
-                <h4>Pastry</h4>
-                <h6>(Use ctrl or cmd to select multiple.)</h6>
-                <div>
-                    {
-                        <FormGroup>
-                            <Input
-                                type="select"
-                                multiple
-                                name="holidayItemsPastry"
-                                id="holidayItemsPastry"
-                                value={pastry}
-                                onChange={pastryHolidayItems}
-                            >
-                                {items.filter(item => item.categoryId === 2).map(i => {
-                                    return (
-                                        <option key={i.id} value={i.id}>
-                                            {i.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
-                        </FormGroup>
-                    }
-                </div>
-            </div>
-            <div>
-                <h4>Savory</h4>
-                <h6>(Use ctrl or cmd to select multiple.)</h6>
-                <div>
-                    {
-                        <FormGroup>
-                            <Input
-                                type="select"
-                                multiple
-                                name="holidayItemsSavory"
-                                id="holidayItemsSavory"
-                                value={savory}
-                                onChange={savoryHolidayItems}
-                            >
-
-                                {items.filter(item => item.categoryId === 3).map(i => {
-                                    return (
-                                        <option key={i.id} value={i.id}>
-                                            {i.name}
-                                        </option>
-                                    );
-                                })}
-                            </Input>
-                        </FormGroup>
-                    }
-                </div>
-            </div>
-            <Button onClick={handleClickSaveButton} color="success">
-                Submit
-            </Button>
+        <>
             <Button
                 color="danger"
                 style={{ marginLeft: '10px' }}
@@ -388,7 +210,188 @@ const HolidayEditForm = () => {
                     history.push(`/holidays`)
 
                 }}>Go Back</Button>
-        </Form >
+
+            <Form className="container col-md-8">
+                <h2>Edit {holiday.name} {dateFormatter(holiday.date)}</h2>
+                <FormGroup>
+                    <Label for="name">Holiday Name</Label>
+                    <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        defaultValue={holiday.name}
+                        autoComplete="off"
+                        onChange={(e) => {
+                            setName(e.target.value);
+                        }}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="date">Holiday Date</Label>
+                    <Input
+                        type="date"
+                        name="date"
+                        id="date"
+                        defaultValue={dateFormatter(holiday.date)}
+                        onChange={(e) => {
+                            setDate(e.target.value);
+                        }}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="holidayPickUpDayIds">PickUp Days (Use ctrl or cmd to select multiple.)</Label>
+                    <Input
+                        type="select"
+                        multiple
+                        name="holidayPickUpDays"
+                        id="holidayPickUpDays"
+                        value={holidayPickUpDays}
+                        onChange={(e) => {
+                            let holidayPickUpDays = Array.from(e.target.selectedOptions, o => o.value);
+                            setHolidayPickUpDays(holidayPickUpDays);
+                        }}
+                    >
+                        {pickUpDays.map((pd) => {
+                            return (
+                                <option key={pd.id} value={pd.id}>
+                                    {pd.day}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="holidayPickUpTimeIds">PickUp Times (Use ctrl or cmd to select multiple.)</Label>
+                    <Input
+                        type="select"
+                        multiple
+                        name="holidayPickUpTimes"
+                        id="holidayPickUpTimes"
+                        value={holidayPickUpTimes}
+                        onChange={(e) => {
+                            let holidayPickUpTimes = Array.from(e.target.selectedOptions, o => o.value);
+                            setHolidayPickUpTimes(holidayPickUpTimes);
+                        }}
+                    >
+                        {pickUpTimes.map((pt) => {
+                            return (
+                                <option key={pt.id} value={pt.id}>
+                                    {pt.time}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <div>
+                    <h4>Bread</h4>
+                    <h6>(Use ctrl or cmd to select multiple.)</h6>
+                    <div>
+                        {
+                            <FormGroup>
+                                <Input
+                                    type="select"
+                                    multiple
+                                    name="holidayItemsBread"
+                                    id="holidayItemsBread"
+                                    value={bread}
+                                    onChange={breadHolidayItems}
+                                >
+                                    {items.filter(item => item.categoryId === 1).map(i => {
+                                        return (
+                                            <option key={i.id} value={i.id}>
+                                                {i.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <h4>Other</h4>
+                    <h6>(Use ctrl or cmd to select multiple.)</h6>
+                    <div>
+                        {
+                            <FormGroup>
+                                <Input
+                                    type="select"
+                                    multiple
+                                    name="holidayItemsOther"
+                                    id="holidayItemsOther"
+                                    value={other}
+                                    onChange={otherHolidayItems}
+                                >
+                                    {items.filter(item => item.categoryId === 4).map(i => {
+                                        return (
+                                            <option key={i.id} value={i.id}>
+                                                {i.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <h4>Pastry</h4>
+                    <h6>(Use ctrl or cmd to select multiple.)</h6>
+                    <div>
+                        {
+                            <FormGroup>
+                                <Input
+                                    type="select"
+                                    multiple
+                                    name="holidayItemsPastry"
+                                    id="holidayItemsPastry"
+                                    value={pastry}
+                                    onChange={pastryHolidayItems}
+                                >
+                                    {items.filter(item => item.categoryId === 2).map(i => {
+                                        return (
+                                            <option key={i.id} value={i.id}>
+                                                {i.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <h4>Savory</h4>
+                    <h6>(Use ctrl or cmd to select multiple.)</h6>
+                    <div>
+                        {
+                            <FormGroup>
+                                <Input
+                                    type="select"
+                                    multiple
+                                    name="holidayItemsSavory"
+                                    id="holidayItemsSavory"
+                                    value={savory}
+                                    onChange={savoryHolidayItems}
+                                >
+
+                                    {items.filter(item => item.categoryId === 3).map(i => {
+                                        return (
+                                            <option key={i.id} value={i.id}>
+                                                {i.name}
+                                            </option>
+                                        );
+                                    })}
+                                </Input>
+                            </FormGroup>
+                        }
+                    </div>
+                </div>
+                <Button onClick={handleClickSaveButton} color="success">
+                    Submit
+            </Button>
+            </Form >
+        </>
     ) : null;
 
 };
