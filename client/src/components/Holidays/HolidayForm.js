@@ -89,11 +89,21 @@ const HolidayForm = () => {
 
         let holidayItems = [...bread, ...other, ...pastry, ...savory]
 
+        const dateObj = new Date();
+        const month = dateObj.getUTCMonth() + 1; //months from 1-12
+        const day = dateObj.getUTCDate();
+        const year = dateObj.getUTCFullYear();
+
+        const newdate = year + "/" + month + "/" + day;
+
+        debugger
         // need to prevent submission if no days / times are selected
         if (name === "" || date === "" || holidayPickUpDays === [], holidayPickUpTimes === []) {
             window.alert("Please name the holiday and select a date, pickUp Day(s), and pickUp Time(s)")
         } else if (holidayItems.length === 0) {
             window.alert("Please add items to the holiday list.")
+        } else if (date < newdate) {
+            window.alert("Please select a date in the future.")
         } else if (holiday.find(h => dateFormatter(h.date) === date)) {
             window.alert("It looks like you already have a holiday for this date. Please select another date.")
         } else {

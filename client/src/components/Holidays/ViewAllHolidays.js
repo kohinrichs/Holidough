@@ -18,7 +18,15 @@ export const ViewAllHolidays = () => {
         getAllHolidays()
     }, []);
 
+    const dateObj = new Date();
+    const month = dateObj.getUTCMonth() + 1; //months from 1-12
+    const day = dateObj.getUTCDate();
+    const year = dateObj.getUTCFullYear();
+
+    const newdate = year + "/" + month + "/" + day;
+
     const checkBoxChange = (e) => {
+
         updateCheckBox(e.target.id)
     }
 
@@ -46,7 +54,7 @@ export const ViewAllHolidays = () => {
                                 {
                                     h.isAvailable === false ? <td>
                                         <FormGroup check>
-                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange} />{' '}
+                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange(id)} />{' '}
                                         </FormGroup>
                                     </td> : <td>
                                         <FormGroup check>

@@ -9,8 +9,6 @@ export const OrderProvider = (props) => {
     const { getToken } = useContext(UserProfileContext); //every provider needs the token
     const [order, setOrder] = useState([]);
 
-    const history = useHistory();
-
     const getAllOrdersByHolidayId = (holidayId) => {
         return getToken()
             .then((token) =>
