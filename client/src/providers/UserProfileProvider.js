@@ -14,8 +14,6 @@ export function UserProfileProvider(props) {
 
     const [isAdmin, setIsAdmin] = useState();
 
-    console.log(isAdmin)
-
     const [userProfiles, setUserProfiles] = useState([]);
 
     const [isFirebaseReady, setIsFirebaseReady] = useState(false);

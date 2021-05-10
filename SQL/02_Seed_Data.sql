@@ -230,10 +230,6 @@ insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayI
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (3, 'koh112014', '2021-05-09', 4, 1, 'Saturday 7am - 10am');
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (4, 'koh112015', '2021-05-09', 5, 1, 'Saturday 7am - 10am');
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (5, 'koh112016', '2021-05-09', 6, 1, 'Saturday 7am - 10am');
-insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (6, 'koh112017', '2021-05-09', 7, 1, 'Saturday 7am - 10am');
-insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (7, 'koh112018', '2021-05-09', 8, 1, 'Saturday 7am - 10am');
-insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (8, 'koh112019', '2021-05-09', 2, 2, 'Saturday 10am - 12p');
-insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (9, 'koh1120110', '2021-05-09', 3, 2, 'Saturday 10am - 12p');
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (10, 'koh11201422', '2021-05-09', 4, 2, 'Saturday 10am - 12p');
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (11, 'koh11201512', '2021-05-09', 5, 2, 'Saturday 10am - 12p');
 insert into [Order] (Id, ConfirmationNumber, DatePlaced, UserProfileId, HolidayId, PickUpDateTime) values (12, 'koh11201313', '2021-05-09', 6, 2, 'Saturday 10am - 12p');
@@ -252,7 +248,6 @@ insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (7, 4, 12, 2);
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (8, 4, 1, 2);
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (9, 5, 12, 2);
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (10, 5, 1, 2);
-
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (11, 10, 16, 2);
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (12, 10, 2, 2);
 insert into [OrderItem] (Id, OrderId, ItemId, Quantity) values (13, 11, 16, 2);

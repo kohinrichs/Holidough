@@ -33,6 +33,12 @@ namespace Holidough.Controllers
             return Ok(_orderRepository.GetAllOrdersByHolidayId(holidayId));
         }
 
+        [HttpGet("productionnumbers/{holidayId}")]
+        public IActionResult GetItemQuantitiesByHolidayId(int holidayId)
+        {
+            return Ok(_orderRepository.GetItemQuantitiesByHolidayId(holidayId));
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetOrderById(int id)
         {

@@ -175,6 +175,47 @@ namespace Holidough.Repositories
             }
         }
 
+        // need to pass in a holiday id from the select > use that to get all the order with that HolidayId and the all the orderItems with that orderId > 
+        // need to send back to the client itemIds with the total quantity for that itemId
+
+        // once you've gathered up all the orderItems > sort them by ItemId > then need to add all those quantities together
+        public List<ItemQuantity> GetItemQuantitiesByHolidayId(int holidayId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                      SELECT SUBQUERY.ItemId as ItemId, SUM(SUBQUERY.Quantity) as ItemQuantity FROM
+                            (SELECT oi.ItemId, oi.Quantity
+                            FROM OrderItem oi
+                            LEFT JOIN [Order] o on oi.OrderId = o.Id
+                            WHERE HolidayId = @Id) AS SUBQUERY
+                            Group By SUBQUERY.ItemId;";
+
+                    DbUtils.AddParameter(cmd, "@Id", holidayId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var itemQuantities = new List<ItemQuantity>();
+
+                    while (reader.Read())
+                    {
+                        itemQuantities.Add(new ItemQuantity()
+                        {
+                            ItemId = DbUtils.GetInt(reader, "ItemId"),
+                            ItemQuantityNumber = DbUtils.GetInt(reader, "ItemQuantity"),
+                        });
+                    }
+
+                    reader.Close();
+
+                    return itemQuantities;
+                }
+            }
+        }
+
 
         // New Order Object From DB
         private Order NewOrderFromDb(SqlDataReader reader)
