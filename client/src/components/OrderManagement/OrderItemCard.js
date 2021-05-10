@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, CardBody, FormGroup, Label, Input } from 'reactstrap';
-
+import { Card, CardBody, FormGroup, Input } from 'reactstrap';
 
 export const OrderItemCard = ({ holidayItem, orderItems, handleSelect }) => {
 
@@ -13,7 +12,6 @@ export const OrderItemCard = ({ holidayItem, orderItems, handleSelect }) => {
                 <p>{holidayItem.item.description}</p>
                 <p>${holidayItem.item.price}</p>
                 <FormGroup>
-                    {/* <Label for="holidayItemQuantity"></Label> */}
                     <Input
                         type="select"
                         name="orderItemQuantity"

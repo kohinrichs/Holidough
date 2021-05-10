@@ -11,6 +11,7 @@ namespace Holidough.Repositories
         void AddOrder(Order order);
         void CancelOrder(int id);
         List<Order> GetAllOrdersByHolidayId(int holidayId);
+        List<ItemQuantity> GetItemQuantitiesByHolidayId(int holidayId);
         Order GetOrderById(int id);
         List<Order> GetOrdersByUserProfileId(int userProfileId);
         void UpdateOrder(Order order);

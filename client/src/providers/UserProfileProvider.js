@@ -9,12 +9,11 @@ export function UserProfileProvider(props) {
     const apiUrl = "/api/userprofile";
 
     const userProfile = sessionStorage.getItem("userProfile");
+    const userTypeId = sessionStorage.getItem("userTypeId")
 
     const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
 
-    const [isAdmin, setIsAdmin] = useState();
-
-    console.log(isAdmin)
+    const [isAdmin, setIsAdmin] = useState(userTypeId === "1");
 
     const [userProfiles, setUserProfiles] = useState([]);
 
@@ -26,12 +25,12 @@ export function UserProfileProvider(props) {
         });
     }, []);
 
-
     const login = (email, pw) => {
         return firebase.auth().signInWithEmailAndPassword(email, pw)
             .then((signInResponse) => getUserProfile(signInResponse.user.uid))
             .then((userProfile) => {
                 sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
+                sessionStorage.setItem("userTypeId", JSON.stringify(userProfile.userTypeId));
                 setIsLoggedIn(true)
 
                 if (userProfile.userTypeId === 1) {

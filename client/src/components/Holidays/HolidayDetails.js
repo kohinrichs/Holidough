@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { List, Label, Input, Table, Button } from 'reactstrap';
+import { List, Button } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { CategoryContext } from '../../providers/CategoryProvider';
@@ -28,10 +28,8 @@ export const HolidayDetails = () => {
     const [holidayItems, setHolidayItems] = useState([]);
     const [orders, setOrders] = useState([]);
 
-    // going to need HolidayPickUpDays, HolidayPickUpTimes, PickUpDays, and PickUpTimes
-
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
@@ -78,6 +76,11 @@ export const HolidayDetails = () => {
 
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
+            <Button
+                onClick={() => {
+                    history.push(`/holidays`)
+                }}>Go Back</Button>
+
             <div>
                 <h2>{holiday.name} {dateFormatter(holiday.date)}</h2>
                 <h4>Holiday PickUp Days</h4>
@@ -118,11 +121,6 @@ export const HolidayDetails = () => {
                     })
                 }
             </div>
-            <Button
-                onClick={() => {
-                    history.push(`/holidays`)
-                }}>Go Back</Button>
-
             <Button
                 onClick={handleDelete}>Delete Holiday</Button>
 

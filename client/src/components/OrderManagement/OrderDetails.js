@@ -1,13 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { List, Label, Input, Table, Button } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import { OrderContext } from '../../providers/OrderProvider';
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
 
-// To Do: Make it so the back button doesn't reset the select for the order view
-
-export const OrderDetails = ({ setSelect }) => {
+export const OrderDetails = () => {
 
     // This is the orderId
     const { id } = useParams();
@@ -24,7 +22,7 @@ export const OrderDetails = ({ setSelect }) => {
     const [holidayDate, setHolidayDate] = useState();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
@@ -64,6 +62,13 @@ export const OrderDetails = ({ setSelect }) => {
 
     return order && currentHoliday ? (
         <>
+            <Button
+                onClick={
+                    () => {
+
+                        history.push(`/orders/${currentHoliday.id}`)
+                    }
+                }>Go Back</Button>
             <div>
                 <h2>Order for {currentHoliday.name} {dateFormatter(currentHoliday.date)}</h2>
                 {
@@ -107,15 +112,6 @@ export const OrderDetails = ({ setSelect }) => {
             </div>
             <Button
                 onClick={handleCancel}>Cancel Order</Button>
-
-            <Button
-                onClick={
-                    // setSelect(holidayName, holidayDate)
-                    () => {
-
-                        history.push(`/orders`)
-                    }
-                }>Go Back</Button>
 
             <Button
                 onClick={() => {

@@ -9,7 +9,6 @@ import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
 import { CategoryContext } from '../../providers/CategoryProvider'
 
-
 const HolidayOrderForm = () => {
 
     const { id } = useParams();
@@ -19,7 +18,7 @@ const HolidayOrderForm = () => {
     const { getHolidayPickUpTimeByHolidayId } = useContext(HolidayPickUpTimeContext);
     const { getAllCategories } = useContext(CategoryContext);
     const { getHolidayItemsByHolidayId } = useContext(HolidayItemContext);
-    const { addOrder } = useContext(OrderContext);
+    const { getOrdersByUserProfileId, addOrder } = useContext(OrderContext);
 
 
     const [holiday, setHoliday] = useState();
@@ -31,9 +30,11 @@ const HolidayOrderForm = () => {
     const [holidayPickUpDayDay, setHolidayPickUpDayDay] = useState();
     const [holidayPickUpTimeTime, setHolidayPickUpTimeTime] = useState();
 
-    const [orderItem, setOrderItem] = useState();
+    const [orderItem] = useState();
 
     const [orderItems, setOrderItems] = useState([]);
+
+    const [customerOrders, setCustomerOrders] = useState([]);
 
     const history = useHistory();
 
@@ -62,14 +63,15 @@ const HolidayOrderForm = () => {
             .then(setHolidayItem)
     }, []);
 
-    const clearForm = () => {
-        // setTitle('');
-        // setImageLocation('');
-        // setContent('');
-        // setCategoryId(1);
-        // setPublishDateTime(dateFormatter(new Date().toISOString()));
-        // setCurrentPost();
-        history.push('/');
+    useEffect(() => {
+        getOrdersByUserProfileId()
+            .then(setCustomerOrders)
+    }, []);
+
+
+    const dateFormatter = (date) => {
+        const [yyyymmdd] = date.split('T');
+        return yyyymmdd;
     };
 
     let newUnfilteredOrderItems = [...orderItems]
@@ -85,8 +87,6 @@ const HolidayOrderForm = () => {
 
             setOrderItems(newUnfilteredOrderItems);
 
-            console.log(newUnfilteredOrderItems)
-
         } else {
             let newOrderItem = { ...orderItem }
 
@@ -97,7 +97,6 @@ const HolidayOrderForm = () => {
 
             setOrderItems(newUnfilteredOrderItems);
 
-            console.log(newUnfilteredOrderItems)
         }
     }
 
@@ -109,6 +108,8 @@ const HolidayOrderForm = () => {
             window.alert("Please select a pickup day and time.")
         } else if (newUnfilteredOrderItems.length === 0) {
             window.alert("Please add an item to your order.")
+        } else if (customerOrders.find(co => co.holidayId === parseInt(id))) {
+            window.alert("It looks like you already have an order for this holiday. If you'd like to make a change to your order, please give us a call or send an email to holidays@holidays.com. Thank you!")
         } else {
             const order = {
                 holidayId: parseInt(id),
@@ -124,77 +125,81 @@ const HolidayOrderForm = () => {
     }
 
     return holiday ? (
-        <Form className="container col-md-8">
-            <h2>Order For: {holiday.name} {holiday.date}</h2>
-            <FormGroup>
-                <Label for="holidayPickUpDayId">PickUp Day</Label>
-                <Input
-                    type="select"
-                    name="holidayPickUpDayDay"
-                    id="holidayPickUpDayDay"
-                    value={holidayPickUpDayDay}
-                    onChange={(e) => {
-                        setHolidayPickUpDayDay(e.target.value);
-                    }}
-                >
-                    <option value="0">Select A PickUp Day</option>
-                    {holidayPickUpDay.map((hpd) => {
-                        return (
-                            <option key={hpd.id} value={hpd.pickUpDayName.day}>
-                                {hpd.pickUpDayName.day}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <FormGroup>
-                <Label for="holidayPickUpTimeId">PickUp Time</Label>
-                <Input
-                    type="select"
-                    name="holidayPickUpTimeTime"
-                    id="holidayPickUpTimeTime"
-                    value={holidayPickUpTimeTime}
-                    onChange={(e) => {
-                        setHolidayPickUpTimeTime(e.target.value);
-                    }}
-                >
-                    <option value="0">Select A PickUp Time</option>
-                    {holidayPickUpTime.map((hpt) => {
-                        return (
-                            <option key={hpt.id} value={hpt.pickUpTimeTime.time}>
-                                {hpt.pickUpTimeTime.time}
-                            </option>
-                        );
-                    })}
-                </Input>
-            </FormGroup>
-            <div>
-                {
-                    categories.map((c) => {
-                        return <div key={c.id}>
-                            <h4>{c.name}</h4>
-                            <div>
-                                {
-                                    holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
-                                        return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
-                                    })
-                                }
-                            </div>
-                        </div>
-                    })
-                }
-            </div>
-            <Button onClick={handleClickSaveButton} color="success">
-                Submit
-            </Button>
+        <>
             <Button
-                onClick={clearForm}
+                onClick={(() => {
+                    history.push('/')
+                })}
                 color="danger"
                 style={{ marginLeft: '10px' }}
             >
-                Cancel
+                Go Back
+    </Button>
+            <Form className="container col-md-8">
+                <h2>Order For: {holiday.name} {dateFormatter(holiday.date)}</h2>
+                <FormGroup>
+                    <Label for="holidayPickUpDayId">PickUp Day</Label>
+                    <Input
+                        type="select"
+                        name="holidayPickUpDayDay"
+                        id="holidayPickUpDayDay"
+                        value={holidayPickUpDayDay}
+                        onChange={(e) => {
+                            setHolidayPickUpDayDay(e.target.value);
+                        }}
+                    >
+                        <option value="0">Select A PickUp Day</option>
+                        {holidayPickUpDay.map((hpd) => {
+                            return (
+                                <option key={hpd.id} value={hpd.pickUpDayName.day}>
+                                    {hpd.pickUpDayName.day}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="holidayPickUpTimeId">PickUp Time</Label>
+                    <Input
+                        type="select"
+                        name="holidayPickUpTimeTime"
+                        id="holidayPickUpTimeTime"
+                        value={holidayPickUpTimeTime}
+                        onChange={(e) => {
+                            setHolidayPickUpTimeTime(e.target.value);
+                        }}
+                    >
+                        <option value="0">Select A PickUp Time</option>
+                        {holidayPickUpTime.map((hpt) => {
+                            return (
+                                <option key={hpt.id} value={hpt.pickUpTimeTime.time}>
+                                    {hpt.pickUpTimeTime.time}
+                                </option>
+                            );
+                        })}
+                    </Input>
+                </FormGroup>
+                <div>
+                    {
+                        categories.map((c) => {
+                            return <div key={c.id}>
+                                <h4>{c.name}</h4>
+                                <div>
+                                    {
+                                        holidayItem.filter(item => item.item.categoryId === c.id).map(hi => {
+                                            return <HolidayItemCard key={hi.id} holidayItem={hi} handleSelect={quantityForOrderItem} />;
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        })
+                    }
+                </div>
+                <Button onClick={handleClickSaveButton} color="success">
+                    Submit
             </Button>
-        </Form >
+            </Form >
+        </>
     ) : null;
 
 };

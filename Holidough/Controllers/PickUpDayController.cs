@@ -9,7 +9,7 @@ using Holidough.Repositories;
 
 namespace Holidough.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PickUpDayController : ControllerBase

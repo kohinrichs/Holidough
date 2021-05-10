@@ -21,11 +21,6 @@ export const ItemsList = () => {
             .then(setItems)
     }, []);
 
-    console.log(items)
-    console.log(categories)
-
-    // map through categories and add item where the categoryId matches the id
-
     return (
         <>
             <div>

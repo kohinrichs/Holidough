@@ -8,7 +8,7 @@ export const HelloHolidayCard = ({ holiday }) => {
     const history = useHistory();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 

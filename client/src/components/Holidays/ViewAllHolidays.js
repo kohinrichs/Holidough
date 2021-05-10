@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Form, FormGroup, Label, Input, Table, Button } from 'reactstrap';
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { FormGroup, Input, Table, Button } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
-
 
 export const ViewAllHolidays = () => {
 
     const history = useHistory();
 
     const dateFormatter = (date) => {
-        const [yyyymmdd, time] = date.split('T');
+        const [yyyymmdd] = date.split('T');
         return yyyymmdd;
     };
 
@@ -19,7 +18,15 @@ export const ViewAllHolidays = () => {
         getAllHolidays()
     }, []);
 
+    const dateObj = new Date();
+    const month = dateObj.getUTCMonth() + 1; //months from 1-12
+    const day = dateObj.getUTCDate();
+    const year = dateObj.getUTCFullYear();
+
+    const newdate = year + "/" + month + "/" + day;
+
     const checkBoxChange = (e) => {
+
         updateCheckBox(e.target.id)
     }
 
@@ -47,7 +54,7 @@ export const ViewAllHolidays = () => {
                                 {
                                     h.isAvailable === false ? <td>
                                         <FormGroup check>
-                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange} />{' '}
+                                            <Input type="checkbox" id={h.id} value={h.id} onChange={checkBoxChange(id)} />{' '}
                                         </FormGroup>
                                     </td> : <td>
                                         <FormGroup check>

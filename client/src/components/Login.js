@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory, Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
@@ -11,10 +11,11 @@ export default function Login() {
     const [password, setPassword] = useState();
 
     const loginSubmit = (e) => {
-
         e.preventDefault();
         login(email, password)
-            .then(() => history.push("/"))
+            .then(() => {
+                history.push("/")
+            })
             .catch(() => alert("Invalid email or password"));
     };
 

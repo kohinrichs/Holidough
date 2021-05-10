@@ -1,17 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FormGroup, Label, Input, Table, Button } from 'reactstrap';
 import { OrderContext } from "../../providers/OrderProvider";
 import { HolidayContext } from '../../providers/HolidayProvider';
 
-export const ViewAllOrders = () => {
+export const ViewAllOrdersWithParam = () => {
 
     const history = useHistory();
+
+    // holidayId
+    const { holidayId } = useParams();
 
     const { holiday, getAllHolidays } = useContext(HolidayContext);
     const { getAllOrdersByHolidayId } = useContext(OrderContext);
 
     const [orders, setOrders] = useState([]);
+    const [currentHoliday, setCurrentHoliday] = useState();
 
     useEffect(() => {
         getAllHolidays()
@@ -22,6 +26,16 @@ export const ViewAllOrders = () => {
         return yyyymmdd;
     };
 
+    useEffect(() => {
+        setCurrentHoliday(parseInt(holidayId))
+
+    }, [holidayId]);
+
+    useEffect(() => {
+        getAllOrdersByHolidayId(parseInt(holidayId))
+            .then(setOrders)
+    }, [holidayId])
+
     return (
         <>
             <FormGroup>
@@ -30,8 +44,9 @@ export const ViewAllOrders = () => {
                     type="select"
                     name="holiday"
                     id="holiday"
-                    value={holiday.name}
+                    value={currentHoliday}
                     onChange={(e) => {
+                        setCurrentHoliday(parseInt(e.target.value))
                         getAllOrdersByHolidayId(parseInt(e.target.value))
                             .then(setOrders)
                     }}
@@ -83,5 +98,5 @@ export const ViewAllOrders = () => {
                 </Table> : "There are no orders for this holiday."
             }
         </>
-    );
+    )
 }
