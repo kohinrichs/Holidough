@@ -20,6 +20,7 @@ import { ProductionNumbers } from "./Production Numbers/ProductionNumbers";
 
 
 export default function ApplicationViews() {
+
     const { isLoggedIn, isAdmin } = useContext(UserProfileContext);
 
     return (

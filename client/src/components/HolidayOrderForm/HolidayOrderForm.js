@@ -87,8 +87,6 @@ const HolidayOrderForm = () => {
 
             setOrderItems(newUnfilteredOrderItems);
 
-            console.log(newUnfilteredOrderItems)
-
         } else {
             let newOrderItem = { ...orderItem }
 
@@ -99,7 +97,6 @@ const HolidayOrderForm = () => {
 
             setOrderItems(newUnfilteredOrderItems);
 
-            console.log(newUnfilteredOrderItems)
         }
     }
 

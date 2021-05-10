@@ -105,8 +105,6 @@ const OrderEditForm = () => {
 
             setOrderItems(newUnfilteredOrderItems);
 
-            console.log(newUnfilteredOrderItems)
-
         } else {
             let newOrderItem = { ...orderItem }
 
@@ -116,8 +114,6 @@ const OrderEditForm = () => {
             newUnfilteredOrderItems.push(newOrderItem);
 
             setOrderItems(newUnfilteredOrderItems);
-
-            console.log(newUnfilteredOrderItems)
         }
     }
 
