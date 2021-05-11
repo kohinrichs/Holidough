@@ -74,6 +74,8 @@ export const HolidayDetails = () => {
         }
     }
 
+    const newDate = new Date().toISOString().split('T')[0];
+
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
             <Button
@@ -121,13 +123,19 @@ export const HolidayDetails = () => {
                     })
                 }
             </div>
-            <Button
-                onClick={handleDelete}>Delete Holiday</Button>
+            {
+                dateFormatter(holiday.date) > newDate ?
 
-            <Button
-                onClick={() => {
-                    history.push(`/holiday/edit/${id}`)
-                }}>Edit Holiday</Button>
+                    <div>
+                        <Button
+                            onClick={handleDelete}>Delete Holiday</Button>
+
+                        <Button
+                            onClick={() => {
+                                history.push(`/holiday/edit/${id}`)
+                            }}>Edit Holiday</Button>
+                    </div> : " "
+            }
         </>
     ) : null
 }
