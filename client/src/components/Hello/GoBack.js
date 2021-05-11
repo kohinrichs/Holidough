@@ -8,10 +8,12 @@ export const GoBack = () => {
 
     return (
         <>
+            <i class="fas fa-angle-double-left ml-4"
+                onClick={() => {
+                    history.goBack();
+                }}></i>
+
             <div>Ope! It looks like you might be lost.</div>
-            <Button onClick={() => {
-                history.goBack();
-            }}>Go Back</Button>
 
         </>
     );
