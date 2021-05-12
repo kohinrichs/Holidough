@@ -55,7 +55,7 @@ export const OrderDetails = () => {
         if (window.confirm('Are you sure you want to cancel this order? It will still be visible on your order list, but will not appear in production numbers.')) {
             cancelOrder(id)
                 .then(() => {
-                    history.push("/orders")
+                    history.push(`/orders/${currentHoliday.id}`)
                 })
         }
     }
