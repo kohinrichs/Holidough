@@ -1,0 +1,47 @@
+/* View All Orders, View All Orders With Params*/
+.ordersHeader{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 3rem;
+}
+
+.detailsButton {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: center;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Order Details View */
+.detailsPage {
+    display: flex;
+    align-items: top;
+}
+
+.detailsContainer {
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+
+}
+
+.detailsContainer h2 {
+    padding-top: 1.5rem
+}
+
+.detailsContainer h3, .detailsContainer h4 {
+    padding-left: 1.5rem;
+}
+
+/* .table h6 {
+    text-align: right;
+} */
+

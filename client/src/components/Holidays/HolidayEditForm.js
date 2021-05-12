@@ -205,18 +205,16 @@ const HolidayEditForm = () => {
 
     return holiday && categories && pickUpDays && pickUpTimes && items ? (
         <>
-            <Button
-                color="danger"
-                style={{ marginLeft: '10px' }}
-                onClick={(e) => {
-                    e.preventDefault();
 
+            <i className="fas fa-angle-double-left ml-4"
+                onClick={() => {
                     history.push(`/holiday/details/${id}`)
-
-                }}>Go Back</Button>
+                }}></i>
 
             <Form className="container col-md-8">
-                <h2>Edit {holiday.name} {dateFormatter(holiday.date)}</h2>
+                <h2>Edit Holiday</h2>
+                <h2><strong>{holiday.name} {dateFormatter(holiday.date)}</strong></h2>
+
                 <FormGroup>
                     <Label for="name">Holiday Name</Label>
                     <Input
@@ -391,7 +389,7 @@ const HolidayEditForm = () => {
                         }
                     </div>
                 </div>
-                <Button onClick={handleClickSaveButton} color="success">
+                <Button onClick={handleClickSaveButton} color="outline-success">
                     Submit
             </Button>
             </Form >

@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, Container } from 'reactstrap';
 import { OrderContext } from '../../providers/OrderProvider';
 import { OrderItemContext } from '../../providers/OrderItemProvider';
 import { HolidayContext } from '../../providers/HolidayProvider';
+import "./OrderManagement.css"
 
 export const OrderDetails = () => {
 
@@ -62,61 +63,64 @@ export const OrderDetails = () => {
 
     return order && currentHoliday ? (
         <>
-            <Button
-                onClick={
-                    () => {
-
+            <Container className="detailsPage">
+                <i className="fas fa-angle-double-left ml-4 backButton"
+                    onClick={() => {
                         history.push(`/orders/${currentHoliday.id}`)
-                    }
-                }>Go Back</Button>
-            <div>
-                <h2>Order for {currentHoliday.name} {dateFormatter(currentHoliday.date)}</h2>
-                {
-                    order.isCanceled === false ? <h2>Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2> : <h2>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2>
-                }
-                <h4>PickUp Details: {order.pickUpDateTime}</h4>
-            </div>
-            <div>
-                <Table bordered>
-                    <thead>
-                        <tr>
-                            <th>Quantity</th>
-                            <th>Item Name</th>
-                            <th>Item Price</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    }}></i>
+
+                <Container className="detailsContainer col-sm-6 col-lg-10 justify-content-center">
+
+                    <div>
+                        <h2>{currentHoliday.name} | {dateFormatter(currentHoliday.date)}</h2>
                         {
-                            orderItems.map((oi) => {
-                                return <tr key={oi.id}>
-                                    <td>x {oi.quantity}</td>
-                                    <td>{oi.item.name}</td>
-                                    <td>{oi.item.price}</td>
-                                    <td>{oi.quantity * oi.item.price}</td>
-                                </tr>
-                            })
+                            order.isCanceled === false ? <h3><strong>{order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3> : <h3><strong>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3>
                         }
-                    </tbody>
-                </Table>
-                <h6>Order Subtotal: $
+                        <h4>PickUp Details: {order.pickUpDateTime}</h4>
+                    </div>
+                    <div>
+                        <Table bordered>
+                            <thead>
+                                <tr>
+                                    <th>Quantity</th>
+                                    <th>Item Name</th>
+                                    <th>Item Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    orderItems.map((oi) => {
+                                        return <tr key={oi.id}>
+                                            <td>x {oi.quantity}</td>
+                                            <td>{oi.item.name}</td>
+                                            <td>${oi.item.price}</td>
+                                            <td>${oi.quantity * oi.item.price}</td>
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </Table>
+                        <h6>Order Subtotal: $
 
                     {
-                        orderItems.map((oi) => {
-                            let orderTotal = (oi.quantity * oi.item.price)
-                            return orderTotal
-                        }).reduce((a, b) => a + b, 0)
-                    }
+                                orderItems.map((oi) => {
+                                    let orderTotal = (oi.quantity * oi.item.price)
+                                    return orderTotal
+                                }).reduce((a, b) => a + b, 0)
+                            }
 
-                     + tax </h6>
-            </div>
-            <Button
-                onClick={handleCancel}>Cancel Order</Button>
+                    + tax </h6>
+                    </div>
+                    <i className="far fa-trash-alt"
+                        onClick={handleCancel}></i>
 
-            <Button
-                onClick={() => {
-                    history.push(`/order/edit/${order.id}/${currentHoliday.id}`)
-                }}>Edit Order</Button>
+                    <i className="far fa-edit"
+                        onClick={() => {
+                            history.push(`/order/edit/${order.id}/${currentHoliday.id}`)
+                        }}></i>
+                </Container>
+            </Container>
         </>
     ) : null
 }

@@ -116,15 +116,11 @@ const HolidayForm = () => {
 
     return categories && pickUpDays && pickUpTimes && items ? (
         <>
-            <Button
-                color="danger"
-                style={{ marginLeft: '10px' }}
-                onClick={(e) => {
-                    e.preventDefault();
-
+            <i className="fas fa-angle-double-left ml-4"
+                onClick={() => {
                     history.push(`/holidays`)
+                }}></i>
 
-                }}>Go Back</Button>
             <Form className="container col-md-8">
                 <h2>Add A New Holiday</h2>
                 <FormGroup>
@@ -296,7 +292,7 @@ const HolidayForm = () => {
                         }
                     </div>
                 </div>
-                <Button onClick={handleClickSaveButton} color="success">
+                <Button onClick={handleClickSaveButton} color="outline-success">
                     Submit
             </Button>
             </Form >
