@@ -179,11 +179,15 @@ const HolidayEditForm = () => {
 
         let holidayItems = [...bread, ...other, ...pastry, ...savory]
 
+        const newDate = new Date().toISOString().split('T')[0];
+
         // need to prevent submission if no days / times are selected
         if (name === "" || date === "" || holidayPickUpDays === [], holidayPickUpTimes === []) {
             window.alert("Please name the holiday and select a date, pickUp Day(s), and pickUp Time(s)")
         } else if (holidayItems.length === 0) {
             window.alert("Please add items to the holiday list.")
+        } else if (date < newDate) {
+            window.alert("Please select a date in the future.")
         } else {
             let holiday = {
                 id,
@@ -192,7 +196,7 @@ const HolidayEditForm = () => {
             };
 
             updateHoliday(holiday, holidayPickUpDays, holidayPickUpTimes, holidayItems).then(() => {
-                history.push('/holidays');
+                history.push(`/holiday/details/${id}`);
             })
         }
     }
@@ -207,7 +211,7 @@ const HolidayEditForm = () => {
                 onClick={(e) => {
                     e.preventDefault();
 
-                    history.push(`/holidays`)
+                    history.push(`/holiday/details/${id}`)
 
                 }}>Go Back</Button>
 

@@ -24,7 +24,7 @@ namespace Holidough.Repositories
                     cmd.CommandText = @"
                         SELECT Id, [Name], [Date], IsAvailable
                         FROM Holiday
-                        ORDER BY Date ASC";
+                        ORDER BY Date DESC";
 
                     var reader = cmd.ExecuteReader();
                     var holidays = new List<Holiday>();

@@ -30,10 +30,6 @@ export default function ApplicationViews() {
                     {isLoggedIn && isAdmin ? <ViewAllOrders /> : <Redirect to="/goback" />}
                 </Route>
 
-                <Route path="/productionnumbers" exact>
-                    {isLoggedIn && isAdmin ? <ProductionNumbers /> : <Redirect to="/goback" />}
-                </Route>
-
                 <Route path="/orders/:holidayId" exact>
                     {isLoggedIn && isAdmin ? <ViewAllOrdersWithParam /> : <Redirect to="/goback" />}
                 </Route>
@@ -44,6 +40,10 @@ export default function ApplicationViews() {
 
                 <Route path="/order/edit/:id/:holidayId" exact>
                     {isLoggedIn && isAdmin ? <OrderEditForm /> : <Redirect to="/goback" />}
+                </Route>
+
+                <Route path="/productionnumbers" exact>
+                    {isLoggedIn && isAdmin ? <ProductionNumbers /> : <Redirect to="/goback" />}
                 </Route>
 
                 <Route path="/customers" exact>
