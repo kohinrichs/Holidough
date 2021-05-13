@@ -206,7 +206,7 @@ const HolidayEditForm = () => {
     return holiday && categories && pickUpDays && pickUpTimes && items ? (
         <>
 
-            <i className="fas fa-angle-double-left ml-4"
+            <i className="fas fa-angle-double-left ml-4 backButton"
                 onClick={() => {
                     history.push(`/holiday/details/${id}`)
                 }}></i>

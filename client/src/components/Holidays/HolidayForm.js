@@ -116,7 +116,7 @@ const HolidayForm = () => {
 
     return categories && pickUpDays && pickUpTimes && items ? (
         <>
-            <i className="fas fa-angle-double-left ml-4"
+            <i className="fas fa-angle-double-left ml-4 backButton"
                 onClick={() => {
                     history.push(`/holidays`)
                 }}></i>

@@ -6,6 +6,7 @@
     justify-content: space-between;
     align-items: baseline;
     margin-top: 3rem;
+    margin-bottom: 1.5rem;
 }
 
 .detailsButton {
@@ -30,16 +31,25 @@
     display: flex;
     flex-direction: column;
     align-content: space-around;
-
 }
 
-.detailsContainer h2 {
+.orderHeader{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+/* .detailsContainer h2 {
     padding-top: 1.5rem
 }
 
 .detailsContainer h3, .detailsContainer h4 {
     padding-left: 1.5rem;
-}
+} */
 
 /* .table h6 {
     text-align: right;

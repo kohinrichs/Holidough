@@ -3,6 +3,7 @@ import { Container } from 'reactstrap';
 import { ItemContext } from '../../providers/ItemProvider';
 import { CategoryContext } from '../../providers/CategoryProvider';
 import { ItemCard } from './ItemCard';
+import "./Item.css"
 
 export const ItemsList = () => {
 
@@ -26,12 +27,14 @@ export const ItemsList = () => {
         <>
             <Container className="col-sm-6 col-lg-10 justify-content-center">
                 <div>
-                    <h2>Items</h2>
+                    <div className="itemHeader">
+                        <h2>Items</h2>
+                    </div>
                     {
                         categories.map((c) => {
-                            return <div key={c.id}>
+                            return <div className="category" key={c.id}>
                                 <h4>{c.name}</h4>
-                                <div>
+                                <div className="itemCards">
                                     {
                                         items.filter(item => item.categoryId === c.id).map(i => {
                                             return <ItemCard key={i.id} item={i} />;

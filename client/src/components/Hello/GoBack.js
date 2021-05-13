@@ -8,7 +8,7 @@ export const GoBack = () => {
 
     return (
         <>
-            <i class="fas fa-angle-double-left ml-4"
+            <i class="fas fa-angle-double-left ml-4 backButton"
                 onClick={() => {
                     history.goBack();
                 }}></i>

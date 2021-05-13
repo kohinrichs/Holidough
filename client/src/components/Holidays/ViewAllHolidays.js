@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, FormGroup, Input, Table, Button } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
+import "./Holiday.css"
 
 export const ViewAllHolidays = () => {
 
@@ -27,13 +28,15 @@ export const ViewAllHolidays = () => {
     return (
         <>
             <Container className="col-sm-6 col-lg-10 justify-content-center">
-                <i class="fas fa-plus"
-                    onClick={() =>
-                        history.push(
-                            `/holiday/holidayform`
-                        )
-                    }></i>
-                <h2>Holidays</h2>
+                <div className="holidayHeader">
+                    <h2>Holidays</h2>
+                    <i class="fas fa-plus"
+                        onClick={() =>
+                            history.push(
+                                `/holiday/holidayform`
+                            )
+                        }></i>
+                </div>
                 <Table hover bordered>
                     <thead>
                         <tr>
@@ -63,7 +66,7 @@ export const ViewAllHolidays = () => {
 
                                     }
                                     <td>{h.name} {dateFormatter(h.date)}</td>
-                                    <td>
+                                    <td className="detailsButton">
                                         <i class="fas fa-info-circle"
                                             value={h.id}
                                             onClick={() =>

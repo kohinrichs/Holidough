@@ -92,3 +92,13 @@ address {
   font-size: 3rem;
   margin-top : 1rem;
 }
+
+.editButton{
+  font-size: 2rem;
+  margin : 1rem;
+}
+
+.deleteButton{
+  font-size: 2rem;
+  margin : 1rem;
+}

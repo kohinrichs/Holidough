@@ -1,0 +1,32 @@
+.userProfileHeader {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 3rem;
+}
+
+.userProfileCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* max-height: 40rem;
+    overflow: scroll; */
+    margin: 2rem 5rem 2rem 5rem;
+    /* border: 0.25rem solid #00587a */
+}
+
+.userProfileCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 1rem;
+    padding: 1rem;
+    height: 13rem;
+    width: 25rem;
+    border: .05em solid #008891
+  }

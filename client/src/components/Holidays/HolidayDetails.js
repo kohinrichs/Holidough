@@ -7,6 +7,7 @@ import { CategoryContext } from '../../providers/CategoryProvider';
 import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvider';
 import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
 import { OrderContext } from '../../providers/OrderProvider';
+import "./Holiday.css"
 
 export const HolidayDetails = () => {
 
@@ -78,44 +79,57 @@ export const HolidayDetails = () => {
 
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
+            <i className="fas fa-angle-double-left ml-4 backButton"
+                onClick={() => {
+                    history.push(`/holidays`)
+                }}></i>
+
             <Container className="col-sm-6 col-lg-10 justify-content-center">
-
-                <i className="fas fa-angle-double-left ml-4"
-                    onClick={() => {
-                        history.push(`/holidays`)
-                    }}></i>
-
-                <div>
+                <div className="holidayHeader">
                     <h2>{holiday.name} | {dateFormatter(holiday.date)}</h2>
-                    <h4>Holiday PickUp Days</h4>
-                    <List type="unstyled">
-                        {
-                            holidayPickUpDays.map((hpd => {
-                                return <li key={hpd.pickUpDayId}>{hpd.pickUpDayName.day}</li>
-                            }))
-                        }
-                    </List>
 
-                    <h4>Holiday PickUp Times</h4>
-                    <List type="unstyled">
-                        {
-                            holidayPickUpTimes.map((hpt => {
-                                return <li key={hpt.pickUpTimeId}>{hpt.pickUpTimeTime.time}</li>
-                            }))
-                        }
-                    </List>
+                    {
+                        dateFormatter(holiday.date) > newDate ?
+
+                            <div>
+                                <i class="far fa-edit editButton"
+                                    onClick={() => {
+                                        history.push(`/holiday/edit/${id}`)
+                                    }}></i>
+
+                                <i class="far fa-trash-alt deleteButton"
+                                    onClick={handleDelete} ></i>
+                            </div> : " "
+                    }
                 </div>
+                <h4 className="category">Holiday PickUp Days</h4>
+                <List type="unstyled">
+                    {
+                        holidayPickUpDays.map((hpd => {
+                            return <li className="holidayCard" key={hpd.pickUpDayId}>{hpd.pickUpDayName.day}</li>
+                        }))
+                    }
+                </List>
+
+                <h4 className="category">Holiday PickUp Times</h4>
+                <List type="unstyled">
+                    {
+                        holidayPickUpTimes.map((hpt => {
+                            return <li className="holidayCard" key={hpt.pickUpTimeId}>{hpt.pickUpTimeTime.time}</li>
+                        }))
+                    }
+                </List>
                 <div>
                     {
                         categories.map((c) => {
-                            return <div key={c.id}>
+                            return <div className="category" key={c.id}>
                                 <h4>{c.name}</h4>
 
-                                <List type="unstyled">
+                                <List className="holidayCards" type="unstyled">
                                     <div>
                                         {
                                             holidayItems.filter(item => item.item.categoryId === c.id).map(hi => {
-                                                return <li key={hi.id}>{hi.item.name}</li>
+                                                return <li className="holidayCard" key={hi.id}>{hi.item.name}</li>
                                             })
                                         }
                                     </div>
@@ -125,19 +139,6 @@ export const HolidayDetails = () => {
                         })
                     }
                 </div>
-                {
-                    dateFormatter(holiday.date) > newDate ?
-
-                        <div>
-                            <i class="far fa-trash-alt"
-                                onClick={handleDelete}></i>
-
-                            <i class="far fa-edit"
-                                onClick={() => {
-                                    history.push(`/holiday/edit/${id}`)
-                                }}></i>
-                        </div> : " "
-                }
             </Container>
         </>
     ) : null

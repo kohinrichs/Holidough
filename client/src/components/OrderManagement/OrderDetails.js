@@ -40,6 +40,8 @@ export const OrderDetails = () => {
             .then(setOrderItems)
     }, []);
 
+    const newDate = new Date().toISOString().split('T')[0];
+
     let currentHoliday = order ? holiday.find(h => h.id === order.holidayId) : " "
 
     useEffect(() => {
@@ -70,14 +72,32 @@ export const OrderDetails = () => {
                     }}></i>
 
                 <Container className="detailsContainer col-sm-6 col-lg-10 justify-content-center">
+                    <div className="orderHeader">
+                        <div>
+                            {
+                                order.isCanceled === false ? <h3><strong>{order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3> : <h3><strong>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3>
+                            }
 
-                    <div>
-                        <h2>{currentHoliday.name} | {dateFormatter(currentHoliday.date)}</h2>
+                            <h3>{currentHoliday.name} | {dateFormatter(currentHoliday.date)}</h3>
+
+                            <h4>PickUp Details: {order.pickUpDateTime}</h4>
+                        </div>
+
                         {
-                            order.isCanceled === false ? <h3><strong>{order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3> : <h3><strong>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</strong></h3>
+                            dateFormatter(currentHoliday.date) > newDate ?
+
+                                <div>
+                                    <i class="far fa-edit editButton"
+                                        onClick={() => {
+                                            history.push(`/order/edit/${order.id}/${currentHoliday.id}`)
+                                        }}></i>
+
+                                    <i class="far fa-trash-alt deleteButton"
+                                        onClick={handleCancel} ></i>
+                                </div> : " "
                         }
-                        <h4>PickUp Details: {order.pickUpDateTime}</h4>
                     </div>
+
                     <div>
                         <Table bordered>
                             <thead>
@@ -112,13 +132,6 @@ export const OrderDetails = () => {
 
                     + tax </h6>
                     </div>
-                    <i className="far fa-trash-alt"
-                        onClick={handleCancel}></i>
-
-                    <i className="far fa-edit"
-                        onClick={() => {
-                            history.push(`/order/edit/${order.id}/${currentHoliday.id}`)
-                        }}></i>
                 </Container>
             </Container>
         </>
