@@ -28,27 +28,31 @@ const Hello = () => {
 
     return availableHolidays ? (
         <>
-            <Jumbotron fluid>
-                <Container fluid>
-                    <h1 className="display-3">Thank you for your order!</h1>
-                    <p className="lead">Have a question or need to make a change? Email us at holidays@bakery.com or call the shop during store hours (123.456.6789) </p>
-                </Container>
-            </Jumbotron>
-            <div>
-                {
+            <Container className="col-sm-6 col-lg-10 justify-content-center mainContainer">
+                <Jumbotron fluid>
+                    <Container fluid>
+                        <h3 className="display-3">Hello!</h3>
+                        <p className="lead">Place an order or view your current/previous orders.</p>
+                        <p className="lead">Have a question or need to make a change? Email us at holidays@bakery.com or call the shop during store hours (123.456.6789) </p>
+                    </Container>
+                </Jumbotron>
+                <div className="helloHolidayCard">
+                    {
 
-                    availableHolidays.map(h => {
-                        return <HelloHolidayCard key={h.id} holiday={h} />;
-                    })
-                }
-            </div>
-            <div>
-                {
-                    order.map((o) => {
-                        return <OrderView key={o.id} order={o} />;
-                    })
-                }
-            </div>
+                        availableHolidays.map(h => {
+                            return <HelloHolidayCard key={h.id} holiday={h} />;
+                        })
+                    }
+                </div>
+                <div>
+                    <h2><strong>Orders</strong></h2>
+                    {
+                        order.map((o) => {
+                            return <OrderView key={o.id} order={o} />;
+                        })
+                    }
+                </div>
+            </Container>
         </>
     ) : null
 }

@@ -1,0 +1,39 @@
+.error {
+    text-align: center;
+}
+
+.mainContainer {
+    margin-top: 3rem;
+}
+
+.helloHolidayCard {
+    margin: 3rem 0 3rem 0;
+}
+
+/* Order Details View */
+/* .detailsPage {
+    display: flex;
+    align-items: top;
+} */
+
+/* .detailsContainer {
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+} */
+
+.orderHeader{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.orderSubtotal {
+    text-align: right;
+    padding-top: 0.5rem;
+}

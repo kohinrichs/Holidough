@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import "./Hello.css"
 
 
 export const GoBack = () => {
@@ -13,7 +13,7 @@ export const GoBack = () => {
                     history.goBack();
                 }}></i>
 
-            <div>Ope! It looks like you might be lost.</div>
+            <div className="error"><h1>Ope! It looks like you might be lost.</h1></div>
 
         </>
     );

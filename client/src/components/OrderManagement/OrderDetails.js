@@ -121,7 +121,7 @@ export const OrderDetails = () => {
                                 }
                             </tbody>
                         </Table>
-                        <h6>Order Subtotal: $
+                        <h6 className="orderSubtotal">Order Subtotal: $
 
                     {
                                 orderItems.map((oi) => {

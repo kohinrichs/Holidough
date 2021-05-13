@@ -9,6 +9,7 @@ import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
 import { CategoryContext } from '../../providers/CategoryProvider'
 
+
 const HolidayOrderForm = () => {
 
     const { id } = useParams();
@@ -178,7 +179,7 @@ const HolidayOrderForm = () => {
                 <div>
                     {
                         categories.map((c) => {
-                            return <div key={c.id}>
+                            return <div className="orderCards" key={c.id}>
                                 <h4>{c.name}</h4>
                                 <div>
                                     {

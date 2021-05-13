@@ -43,15 +43,7 @@
     margin-bottom: 1.5rem;
 }
 
-/* .detailsContainer h2 {
-    padding-top: 1.5rem
-}
-
-.detailsContainer h3, .detailsContainer h4 {
-    padding-left: 1.5rem;
-} */
-
-/* .table h6 {
+.orderSubtotal {
     text-align: right;
-} */
-
+    padding-top: 0.5rem;
+}
