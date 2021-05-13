@@ -100,7 +100,7 @@ export const ViewAllOrdersWithParam = () => {
                                 })
                             }
                         </tbody>
-                    </Table> : "There are no orders for this holiday."
+                    </Table> : <h4 className="noOrders">There are no orders for this holiday.</h4>
                 }
             </Container>
         </>
