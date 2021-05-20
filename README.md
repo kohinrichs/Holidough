@@ -18,11 +18,6 @@ When an admin user logs in, they...
 -  can set a holiday to "available" so customers can place orders for it when they login into their accounts
 -  can create and edit a new holiday and holiday order form using the bakery items
 
-### Built with
-
--   [React](https://reactjs.org/)
--   [.NET 5](https://dotnet.microsoft.com/)
-
 ## Technology used
 
 ### Front-end
