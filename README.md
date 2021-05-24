@@ -45,8 +45,21 @@ When an admin user logs in, they...
 
 ### Wireframe
 <img src="./client/src/components/Images/Holidough_Wireframe.png" alt="Holidough Wireframe" width="100%"></img>
+---
 
-## Developer Setup
+## Views
+### Customer Views
+Upon logging in, the customer can place an order for any available holidays that they have not previously placed an order for.
+<img src="./client/src/components/Images/Holidough_CustomerView1.png" alt="Customer View 1" width="90%"></img>
+
+Order Form for new hoiday order.
+<img src="./client/src/components/Images/Holidough_CustomerOrderForm.png" alt="Customer Order Form" width="90%"></img>
+
+Customers can view any orders they've previously placed.
+<img src="./client/src/components/Images/Holidough_CustomerView2.png" alt="Customer Order Form" width="90%"></img>
+
+
+## Try It Out
 
 Instructions for running Holidough to see it for yourself and/or aid in further development
 
