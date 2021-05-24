@@ -66,6 +66,38 @@ When an admin user logs in, they...
 
 <img src="./client/src/components/Images/Holidough_CustomerView2.png" alt="Customer Order Form" width="90%"></img>
 
+### Admin Views
+
+#### The bakery can view all orders by holiday.
+
+<img src="./client/src/components/Images/OrderDashboard.png" alt="Order Dashboard" width="90%"></img>
+
+---
+
+#### The bakery can view an indivdual order and make edits or cancel the order.
+
+<img src="./client/src/components/Images/IndividualOrder.png" alt="Individual Order" width="90%"></img>
+
+---
+
+#### The bakery can view production numbers by holiday.
+
+<img src="./client/src/components/Images/ProductionNumbers.png" alt="Production Numbers" width="90%"></img>
+
+---
+
+#### The bakery can view all their past, current, and upcoming holidays.
+
+<img src="./client/src/components/Images/ProductionNumbers.png" alt="Holidays" width="90%"></img>
+
+---
+
+#### The bakery can create a new holiday.
+
+<img src="./client/src/components/Images/HolidayForm.png" alt="Holiday Form" width="90%"></img>
+
+---
+
 
 ## Try It Out
 
