@@ -41,10 +41,10 @@ When an admin user logs in, they...
 ## Planning Documentation
 
 ### Entity Relationship Diagram
-<img src=".client/src/components/Images/Holidough_ERD.png" alt="Holidough Entity Relationship Diagram" width="100%"></img>
+<img src="./client/src/components/Images/Holidough_ERD.png" alt="Holidough Entity Relationship Diagram" width="100%"></img>
 
 ### Wireframe
-<img src=".client/src/components/Images/Holidough_Wireframe.png" alt="Holidough Wireframe" width="100%"></img>
+<img src="./client/src/components/Images/Holidough_Wireframe.png" alt="Holidough Wireframe" width="100%"></img>
 
 ## Developer Setup
 
