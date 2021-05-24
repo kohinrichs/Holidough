@@ -88,7 +88,7 @@ When an admin user logs in, they...
 
 #### The bakery can view all their past, current, and upcoming holidays.
 
-<img src="./client/src/components/Images/Holidough_ProductionNumbers.png" alt="Holidays" width="90%"></img>
+<img src="./client/src/components/Images/Holidough_HolidayDashboard.png" alt="Holidays" width="90%"></img>
 
 ---
 
