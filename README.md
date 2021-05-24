@@ -47,7 +47,7 @@ When an admin user logs in, they...
 <img src="./client/src/components/Images/Holidough_Wireframe.png" alt="Holidough Wireframe" width="100%"></img>
 ---
 
-## Views
+## Views Highlighting A Few Of The Main Features
 ### Customer Views
 
 #### Upon logging in, a customer can place an order for any available holidays that they have not previously placed an order for.
