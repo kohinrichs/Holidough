@@ -50,17 +50,19 @@ When an admin user logs in, they...
 ## Views
 ### Customer Views
 
-Upon logging in, a customer can place an order for any available holidays that they have not previously placed an order for.
+#### Upon logging in, a customer can place an order for any available holidays that they have not previously placed an order for.
 
 <img src="./client/src/components/Images/Holidough_CustomerView1.png" alt="Customer View 1" width="90%"></img>
 
+---
 
-Form for new holiday order.
+#### Form for a new holiday order.
 
 <img src="./client/src/components/Images/Holidough_CustomerOrderForm.png" alt="Customer Order Form" width="90%"></img>
 
+---
 
-Customers can view any previously placed orders.
+#### Customers can view any previously placed orders.
 
 <img src="./client/src/components/Images/Holidough_CustomerView2.png" alt="Customer Order Form" width="90%"></img>
 
