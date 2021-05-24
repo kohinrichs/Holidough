@@ -38,6 +38,14 @@ When an admin user logs in, they...
 -   DbDiagram.io
 ---
 
+## Planning Documentation
+
+### Entity Relationship Diagram
+<img src="./src/components/Images/Holidough_ERD.png" alt="Holidough Entity Relationship Diagram" width="100%"></img>
+
+### Wireframe
+<img src="./src/components/Images/Holidough_Wireframe.png" alt="Holidough Wireframe" width="100%"></img>
+
 ## Developer Setup
 
 Instructions for running Holidough to see it for yourself and/or aid in further development
