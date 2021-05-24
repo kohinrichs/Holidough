@@ -60,7 +60,7 @@ namespace Holidough.Controllers
         }
 
         [HttpPost]
-        // NEED TO Update CONFIRMATION NUMBER IN HERE
+        // NEED TO Update CONFIRMATION NUMBER HERE
         public IActionResult AddOrder([FromBody] TotalOrder totalOrder)
         {
             var order = totalOrder.Order;
@@ -79,8 +79,8 @@ namespace Holidough.Controllers
 
             foreach (var orderItem in orderItems)
                 {
-                orderItem.OrderId = order.Id;
-                orderItem.IsCanceled = false;
+                    orderItem.OrderId = order.Id;
+                    orderItem.IsCanceled = false;
 
                     _orderItemRepository.AddOrderItem(orderItem);
                 }

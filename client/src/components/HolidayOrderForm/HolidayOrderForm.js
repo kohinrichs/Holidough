@@ -9,6 +9,7 @@ import { HolidayItemCard } from "./HolidayItemCard";
 import { OrderContext } from '../../providers/OrderProvider';
 import { CategoryContext } from '../../providers/CategoryProvider'
 
+
 const HolidayOrderForm = () => {
 
     const { id } = useParams();
@@ -126,15 +127,11 @@ const HolidayOrderForm = () => {
 
     return holiday ? (
         <>
-            <Button
-                onClick={(() => {
+            <i className="fas fa-angle-double-left ml-4 backButton"
+                onClick={() => {
                     history.push('/')
-                })}
-                color="danger"
-                style={{ marginLeft: '10px' }}
-            >
-                Go Back
-    </Button>
+                }}></i>
+
             <Form className="container col-md-8">
                 <h2>Order For: {holiday.name} {dateFormatter(holiday.date)}</h2>
                 <FormGroup>
@@ -182,7 +179,7 @@ const HolidayOrderForm = () => {
                 <div>
                     {
                         categories.map((c) => {
-                            return <div key={c.id}>
+                            return <div className="orderCards" key={c.id}>
                                 <h4>{c.name}</h4>
                                 <div>
                                     {
@@ -195,7 +192,7 @@ const HolidayOrderForm = () => {
                         })
                     }
                 </div>
-                <Button onClick={handleClickSaveButton} color="success">
+                <Button onClick={handleClickSaveButton} color="outline-success">
                     Submit
             </Button>
             </Form >

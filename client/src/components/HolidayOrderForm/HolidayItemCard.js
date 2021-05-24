@@ -4,7 +4,7 @@ import { Card, CardBody, FormGroup, Input } from 'reactstrap';
 export const HolidayItemCard = ({ holidayItem, handleSelect }) => {
 
     return (
-        <Card>
+        <Card className="orderCard">
             <CardBody>
                 <strong>{holidayItem.item.name}</strong>
                 <p>{holidayItem.item.description}</p>

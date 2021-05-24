@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Container, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory, Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
@@ -20,23 +20,25 @@ export default function Login() {
     };
 
     return (
-        <Form onSubmit={loginSubmit}>
-            <fieldset>
-                <FormGroup>
-                    <Label for="email">Email</Label>
-                    <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="password">Password</Label>
-                    <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
-                </FormGroup>
-                <FormGroup>
-                    <Button>Login</Button>
-                </FormGroup>
-                <em>
-                    Not registered? <Link to="register">Register</Link>
-                </em>
-            </fieldset>
-        </Form>
+        <Container className="col-sm-6 col-lg-10 justify-content-center">
+            <Form onSubmit={loginSubmit}>
+                <fieldset>
+                    <FormGroup>
+                        <Label for="email">Email</Label>
+                        <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="password">Password</Label>
+                        <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button>Login</Button>
+                    </FormGroup>
+                    <em>
+                        Not registered? <Link to="register">Register</Link>
+                    </em>
+                </fieldset>
+            </Form>
+        </Container>
     );
 }

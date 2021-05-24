@@ -4,7 +4,7 @@ import { Card, CardBody } from 'reactstrap';
 
 export const ItemCard = ({ item }) => {
     return (
-        <Card>
+        <Card className="itemCard">
             <CardBody>
                 <strong>{item.name}</strong>
                 <p>{item.description}</p>

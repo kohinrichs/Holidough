@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { List, Button } from 'reactstrap';
+import { Container, List, Button } from 'reactstrap';
 import { HolidayContext } from '../../providers/HolidayProvider';
 import { HolidayItemContext } from '../../providers/HolidayItemProvider';
 import { CategoryContext } from '../../providers/CategoryProvider';
 import { HolidayPickUpDayContext } from '../../providers/HolidayPickUpDayProvider';
 import { HolidayPickUpTimeContext } from '../../providers/HolidayPickUpTimeProvider';
 import { OrderContext } from '../../providers/OrderProvider';
+import "./Holiday.css"
 
 export const HolidayDetails = () => {
 
@@ -78,64 +79,67 @@ export const HolidayDetails = () => {
 
     return holiday && categories && holidayPickUpDays && holidayPickUpTimes ? (
         <>
-            <Button
+            <i className="fas fa-angle-double-left ml-4 backButton"
                 onClick={() => {
                     history.push(`/holidays`)
-                }}>Go Back</Button>
+                }}></i>
 
-            <div>
-                <h2>{holiday.name} {dateFormatter(holiday.date)}</h2>
-                <h4>Holiday PickUp Days</h4>
+            <Container className="col-sm-6 col-lg-10 justify-content-center">
+                <div className="holidayHeader">
+                    <h2>{holiday.name} | {dateFormatter(holiday.date)}</h2>
+
+                    {
+                        dateFormatter(holiday.date) > newDate ?
+
+                            <div>
+                                <i class="far fa-edit editButton"
+                                    onClick={() => {
+                                        history.push(`/holiday/edit/${id}`)
+                                    }}></i>
+
+                                <i class="far fa-trash-alt deleteButton"
+                                    onClick={handleDelete} ></i>
+                            </div> : " "
+                    }
+                </div>
+                <h4 className="category">Holiday PickUp Days</h4>
                 <List type="unstyled">
                     {
                         holidayPickUpDays.map((hpd => {
-                            return <li key={hpd.pickUpDayId}>{hpd.pickUpDayName.day}</li>
+                            return <li className="holidayCard" key={hpd.pickUpDayId}>{hpd.pickUpDayName.day}</li>
                         }))
                     }
                 </List>
 
-                <h4>Holiday PickUp Times</h4>
+                <h4 className="category">Holiday PickUp Times</h4>
                 <List type="unstyled">
                     {
                         holidayPickUpTimes.map((hpt => {
-                            return <li key={hpt.pickUpTimeId}>{hpt.pickUpTimeTime.time}</li>
+                            return <li className="holidayCard" key={hpt.pickUpTimeId}>{hpt.pickUpTimeTime.time}</li>
                         }))
                     }
                 </List>
-            </div>
-            <div>
-                {
-                    categories.map((c) => {
-                        return <div key={c.id}>
-                            <h4>{c.name}</h4>
+                <div>
+                    {
+                        categories.map((c) => {
+                            return <div className="category" key={c.id}>
+                                <h4>{c.name}</h4>
 
-                            <List type="unstyled">
-                                <div>
-                                    {
-                                        holidayItems.filter(item => item.item.categoryId === c.id).map(hi => {
-                                            return <li key={hi.id}>{hi.item.name}</li>
-                                        })
-                                    }
-                                </div>
-                            </List>
+                                <List className="holidayCards" type="unstyled">
+                                    <div>
+                                        {
+                                            holidayItems.filter(item => item.item.categoryId === c.id).map(hi => {
+                                                return <li className="holidayCard" key={hi.id}>{hi.item.name}</li>
+                                            })
+                                        }
+                                    </div>
+                                </List>
 
-                        </div>
-                    })
-                }
-            </div>
-            {
-                dateFormatter(holiday.date) > newDate ?
-
-                    <div>
-                        <Button
-                            onClick={handleDelete}>Delete Holiday</Button>
-
-                        <Button
-                            onClick={() => {
-                                history.push(`/holiday/edit/${id}`)
-                            }}>Edit Holiday</Button>
-                    </div> : " "
-            }
+                            </div>
+                        })
+                    }
+                </div>
+            </Container>
         </>
     ) : null
 }

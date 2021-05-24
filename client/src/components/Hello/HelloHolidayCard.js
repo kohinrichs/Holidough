@@ -16,7 +16,7 @@ export const HelloHolidayCard = ({ holiday }) => {
 
         <Card>
             <CardBody>
-                <strong>{holiday.name} {dateFormatter(holiday.date)}</strong>
+                <h5>Place an order for <strong>{holiday.name} {dateFormatter(holiday.date)}</strong></h5>
 
                 <Button
                     onClick={
@@ -25,7 +25,7 @@ export const HelloHolidayCard = ({ holiday }) => {
                             history.push(`/orderform/${holiday.id}`)
                         }}>Place Order</Button>
             </CardBody>
-        </Card>
+        </Card >
 
     );
 };

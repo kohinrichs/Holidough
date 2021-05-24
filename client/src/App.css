@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 .App {
   text-align: center;
 }
@@ -20,6 +22,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: 'Poppins', sans-serif;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -35,4 +38,67 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/*Typography
+--------------------------------------------------------------*/
+body,
+button,
+input,
+select,
+textarea, 
+td,
+tr,
+option,
+label,
+input {
+  color: #0f3057;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 3px;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 1.5em;
+  color: #d6fcff;
+  color: darkslateblue;
+}
+
+strong {
+  font-weight: bold;
+}
+
+address {
+  margin: 0 0 1.5em;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.backButton{
+  font-size: 3rem;
+  margin-top : 1rem;
+}
+
+.editButton{
+  font-size: 2rem;
+  margin : 1rem;
+}
+
+.deleteButton{
+  font-size: 2rem;
+  margin : 1rem;
 }

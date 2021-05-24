@@ -31,12 +31,12 @@ export const OrderView = ({ order }) => {
 
     return holiday ? (
         <>
-            <div>
-                <h2>Order for {holiday.name} ({dateFormatter(holiday.date)})</h2>
+            <div className="orderHeader">
+                <h4>Order for {holiday.name} | {dateFormatter(holiday.date)}</h4>
                 {
-                    order.isCanceled === false ? <h2>Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2> : <h2>CANCELED - Name: {order.userProfile.lastName}, {order.userProfile.firstName}</h2>
+                    order.isCanceled === false ? <h4>{order.userProfile.lastName}, {order.userProfile.firstName}</h4> : <h4><strong>CANCELED</strong> - {order.userProfile.lastName}, {order.userProfile.firstName}</h4>
                 }
-                <h4>PickUp Details: {order.pickUpDateTime}</h4>
+                <h5>PickUp Details: {order.pickUpDateTime}</h5>
             </div>
             <div>
                 <Table bordered>
@@ -54,14 +54,14 @@ export const OrderView = ({ order }) => {
                                 return <tr key={oi.id}>
                                     <td>x {oi.quantity}</td>
                                     <td>{oi.item.name}</td>
-                                    <td>{oi.item.price}</td>
-                                    <td>{oi.quantity * oi.item.price}</td>
+                                    <td>${oi.item.price}</td>
+                                    <td>${oi.quantity * oi.item.price}</td>
                                 </tr>
                             })
                         }
                     </tbody>
                 </Table>
-                <h6>Order Subtotal: $
+                <h6 className="orderSubtotal">Order Subtotal: $
 
                     {
                         orderItems.map((oi) => {

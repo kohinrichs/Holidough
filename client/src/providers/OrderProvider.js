@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router';
 import { UserProfileContext } from './UserProfileProvider';
 
 export const OrderContext = React.createContext();
