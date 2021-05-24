@@ -175,10 +175,7 @@ namespace Holidough.Repositories
             }
         }
 
-        // need to pass in a holiday id from the select > use that to get all the order with that HolidayId and the all the orderItems with that orderId > 
-        // need to send back to the client itemIds with the total quantity for that itemId
 
-        // once you've gathered up all the orderItems > sort them by ItemId > then need to add all those quantities together
         public List<ItemQuantity> GetItemQuantitiesByHolidayId(int holidayId)
         {
             using (var conn = Connection)
