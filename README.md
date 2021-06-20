@@ -28,6 +28,7 @@ When an admin user logs in, they...
 
 ### Back-end
 
+-   C#
 -   .NET 5
 -   ASP.NET Core
 -   MS SQL Server
